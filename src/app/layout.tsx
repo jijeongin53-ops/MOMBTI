@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   ]
 };
 
+import { LanguageProvider } from '@/lib/i18n/LanguageContext';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,10 +46,12 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col antialiased selection:bg-tea-forest/20 selection:text-tea-forest">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <SnsBar />
-        <Footer />
+        <LanguageProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <SnsBar />
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

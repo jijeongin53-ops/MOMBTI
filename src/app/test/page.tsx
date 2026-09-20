@@ -4,14 +4,17 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sparkles, ArrowRight, ArrowLeft, CheckCircle2, Wand2, ShieldAlert } from 'lucide-react';
 import { MOM_BTI_QUESTIONS, TASTE_QUESTIONS, TODAY_CONDITION_QUESTION } from '@/data/questions';
+import { I18N_QUESTIONS } from '@/data/questionsI18n';
 import { MomBtiType, TasteSelection, ConditionResult } from '@/lib/types';
 import { calculateMomBtiScore, createSignatureBlend } from '@/lib/mbtiLogic';
 import { sendToGoogleSheets } from '@/lib/googleSheets';
 import TieBreakModal from '@/components/TieBreakModal';
 import FaceCamera from '@/components/FaceCamera';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function MomBtiTestPage() {
   const router = useRouter();
+  const { language, t } = useLanguage();
 
   // 단계 관리: 1: 체질 문항 (1~8번), 2: 취향 문항 (9~11번), 3: 얼굴 분석 (오늘의 컨디션 20%)
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
@@ -156,6 +159,8 @@ export default function MomBtiTestPage() {
     router.push('/result');
   };
 
+  const currentI18nQ = I18N_QUESTIONS[currentQuestionIdx];
+
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 max-w-3xl mx-auto">
       {/* 상단 프로그레스 및 안내 */}
@@ -166,9 +171,9 @@ export default function MomBtiTestPage() {
               STEP {currentStep} / 3
             </span>
             <span className="text-xs font-semibold text-tea-dark/70">
-              {currentStep === 1 && '01 MY BODY: 체질 진단 (Base 50%)'}
-              {currentStep === 2 && '02 MY TASTE: 차 취향 분석 (Taste 30%)'}
-              {currentStep === 3 && '03 TODAY: 얼굴 안색 분석 (Wellness 20%)'}
+              {currentStep === 1 && t('step1Title')}
+              {currentStep === 2 && t('step2Title')}
+              {currentStep === 3 && t('step3Title')}
             </span>
           </div>
 
@@ -180,7 +185,7 @@ export default function MomBtiTestPage() {
             title="사용자 요청 예시(WIND vs WARM 동점 시나리오)를 자동 입력합니다."
           >
             <Wand2 className="w-3.5 h-3.5" />
-            예시 데이터 채우기
+            {t('demoFill')}
           </button>
         </div>
 
@@ -206,27 +211,27 @@ export default function MomBtiTestPage() {
           <div className="mb-8">
             <div className="flex items-center justify-between text-xs text-tea-forest font-semibold mb-2">
               <span>
-                {MOM_BTI_QUESTIONS[currentQuestionIdx].category === 'BODY'
-                  ? '1) 몸으로 알아보는 나'
-                  : '2) 생활 속 나의 모습'}
+                {currentI18nQ.category === 'BODY'
+                  ? '1) MY BODY'
+                  : '2) LIFESTYLE'}
               </span>
               <span>
-                문항 {currentQuestionIdx + 1} / {MOM_BTI_QUESTIONS.length}
+                {currentQuestionIdx + 1} / {I18N_QUESTIONS.length}
               </span>
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-tea-dark mb-2">
-              {MOM_BTI_QUESTIONS[currentQuestionIdx].title}
+              {currentI18nQ.title[language] || currentI18nQ.title['ko']}
             </h2>
             <p className="text-xs sm:text-sm text-tea-dark/60">
-              {MOM_BTI_QUESTIONS[currentQuestionIdx].subtitle}
+              {currentI18nQ.subtitle[language] || currentI18nQ.subtitle['ko']}
             </p>
           </div>
 
           {/* 선택지 목록 */}
           <div className="space-y-3.5">
-            {MOM_BTI_QUESTIONS[currentQuestionIdx].options.map((opt) => {
+            {currentI18nQ.options.map((opt) => {
               const isSelected =
-                bodyAnswers[MOM_BTI_QUESTIONS[currentQuestionIdx].id] === opt.type;
+                bodyAnswers[currentI18nQ.id] === opt.type;
               return (
                 <button
                   key={opt.label}
@@ -249,7 +254,7 @@ export default function MomBtiTestPage() {
                   </div>
                   <div className="flex-1 pt-1">
                     <p className="text-xs sm:text-sm font-medium text-tea-dark leading-relaxed">
-                      {opt.text}
+                      {opt.text[language] || opt.text['ko']}
                     </p>
                   </div>
                   {isSelected && (
@@ -269,7 +274,7 @@ export default function MomBtiTestPage() {
               className="inline-flex items-center gap-1.5 text-xs text-tea-dark/60 hover:text-tea-dark disabled:opacity-30 disabled:pointer-events-none"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              이전 질문
+              {t('prevQuestion')}
             </button>
 
             {bodyAnswers[MOM_BTI_QUESTIONS[currentQuestionIdx].id] &&
@@ -279,7 +284,7 @@ export default function MomBtiTestPage() {
                   onClick={() => setCurrentQuestionIdx(currentQuestionIdx + 1)}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-tea-forest hover:text-tea-forest/80"
                 >
-                  다음 질문
+                  {t('nextQuestion')}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               )}
@@ -402,14 +407,14 @@ export default function MomBtiTestPage() {
               className="text-xs text-tea-dark/60 hover:text-tea-dark flex items-center gap-1"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              체질 문항 다시 확인
+              {t('prevQuestion')}
             </button>
             <button
               type="button"
               onClick={() => setCurrentStep(3)}
               className="bg-tea-forest hover:bg-tea-forest/90 text-white font-semibold text-xs py-3 px-6 rounded-2xl transition-all shadow-md flex items-center gap-2"
             >
-              <span>얼굴 안색 분석 (3단계) 이동</span>
+              <span>{t('goToStep3')}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

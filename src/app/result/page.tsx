@@ -22,8 +22,10 @@ import { MomBtiType, SignatureTeaBlend } from '@/lib/types';
 import BlendingVisualizer from '@/components/BlendingVisualizer';
 import TeaCard from '@/components/TeaCard';
 import ReservationModal from '@/components/ReservationModal';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function ResultPage() {
+  const { t } = useLanguage();
   const [blend, setBlend] = useState<SignatureTeaBlend | null>(null);
   const [bodyType, setBodyType] = useState<MomBtiType>('WIND');
   const [isReservationOpen, setIsReservationOpen] = useState(false);
@@ -109,14 +111,13 @@ export default function ResultPage() {
       <div className="text-center max-w-2xl mx-auto">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tea-forest/10 text-tea-forest text-xs font-bold mb-4">
           <Sparkles className="w-4 h-4 text-tea-forest" />
-          몸BTI 웰니스 티 솔루션 진단 결과 리포트
+          {t('resultReportBadge')}
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-tea-dark mb-3">
-          {blend.userName || '회원'} 님을 위한 세상에 단 하나뿐인 시그니처 티
+          {blend.userName || 'Member'} {t('resultTitleSuffix')}
         </h1>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
-          사상체질의 전통적 지혜와 나의 오감 취향, 그리고 오늘 얼굴 안색에서 읽어낸 활력 포인트가
-          완벽한 조화를 이루었습니다.
+          {blend.finalDescription}
         </p>
       </div>
 
@@ -215,11 +216,11 @@ export default function ResultPage() {
               className="w-full inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-lg text-xs sm:text-sm active:scale-95"
             >
               <ShoppingBag className="w-4 h-4" />
-              네이버 스마트스토어에서 바로 구매
+              {t('buyOnStore')}
               <ExternalLink className="w-4 h-4" />
             </a>
             <p className="text-[11px] text-emerald-200/50 text-center">
-              * 정기구독 신청 시 매달 15% 할인 및 시즌 한정 꽃차 블렌드 증정
+              * Official online order & recurring monthly delivery
             </p>
           </div>
         </div>
@@ -233,11 +234,10 @@ export default function ResultPage() {
               OFFLINE ATELIER CLASS
             </div>
             <h3 className="font-serif text-2xl font-bold mb-2">
-              오프라인 원데이 블렌딩 클래스 예약
+              Flunitea Tea Atelier Experience
             </h3>
             <p className="text-xs sm:text-sm text-amber-100/70 leading-relaxed mb-6">
-              플루니티 성수 아틀리에에서 전문 티 소믈리에와 함께 찻잎의 향기를 맡고
-              직접 나만의 시그니처 티를 조향하고 담아가는 프라이빗 클래스입니다.
+              Private 70-minute tea blending class with master sommelier in Seongsu atelier.
             </p>
           </div>
 
@@ -248,10 +248,10 @@ export default function ResultPage() {
               className="w-full inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-lg text-xs sm:text-sm active:scale-95"
             >
               <CalendarCheck className="w-4 h-4" />
-              원데이 클래스 사전 예약하기
+              {t('bookClass')}
             </button>
             <p className="text-[11px] text-amber-200/50 text-center">
-              * 프라이빗 소수 정예(1~4인) 예약제로 운영됩니다.
+              * Private small-group reservation
             </p>
           </div>
         </div>
@@ -266,7 +266,7 @@ export default function ResultPage() {
             className="inline-flex items-center gap-1.5 bg-white border border-tea-sand hover:bg-tea-sand/50 text-tea-dark font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
           >
             <Share2 className="w-3.5 h-3.5 text-tea-forest" />
-            {copied ? '링크 복사됨!' : '결과 공유하기'}
+            {copied ? 'Copied!' : t('shareResult')}
           </button>
           <button
             type="button"
@@ -274,7 +274,7 @@ export default function ResultPage() {
             className="inline-flex items-center gap-1.5 bg-white border border-tea-sand hover:bg-tea-sand/50 text-tea-dark font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
           >
             <Download className="w-3.5 h-3.5 text-tea-forest" />
-            레시피 카드 인쇄
+            {t('printRecipe')}
           </button>
         </div>
 
@@ -283,7 +283,7 @@ export default function ResultPage() {
           className="inline-flex items-center gap-1.5 text-xs font-semibold text-tea-dark/70 hover:text-tea-forest transition-colors"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          몸BTI 다시 진단하기
+          {t('retakeTest')}
         </Link>
       </div>
 

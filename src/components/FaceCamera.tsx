@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, RefreshCw, Upload, Sparkles, CheckCircle2, AlertCircle, Eye } from 'lucide-react';
 import { ConditionResult } from '@/lib/types';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface FaceCameraProps {
   onAnalyzed: (result: ConditionResult) => void;
@@ -10,6 +11,7 @@ interface FaceCameraProps {
 }
 
 export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraProps) {
+  const { t } = useLanguage();
   const [streamActive, setStreamActive] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
@@ -172,11 +174,10 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
           오늘의 컨디션 (Wellness Point 20% 반영)
         </div>
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-tea-dark mb-2">
-          얼굴 촬영 기반 컨디션 안색 분석
+          {t('cameraTitle')}
         </h3>
         <p className="text-xs sm:text-sm text-tea-dark/70">
-          카메라를 정면으로 응시해주세요. 표정, 안색, 눈가 긴장도를 스캔하여
-          오늘 당신에게 가장 필요한 치유 포인트(20%)를 찾아냅니다.
+          {t('cameraDesc')}
         </p>
       </div>
 
@@ -196,7 +197,7 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
             <div className="absolute inset-0 border-4 border-white/60 rounded-full scale-75 pointer-events-none animate-pulse-glow" />
             <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
               <span className="bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium">
-                타원 안에 얼굴을 맞춰주세요
+                Face Guide
               </span>
             </div>
           </>
@@ -234,10 +235,10 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
               <Eye className="w-8 h-8" />
             </div>
             <p className="text-sm font-semibold text-tea-dark mb-1">
-              카메라로 오늘의 얼굴을 비춰보세요
+              AI Face Wellness Scan
             </p>
             <p className="text-xs text-tea-dark/50 mb-5">
-              촬영된 이미지는 서버에 영구 보관되지 않고 즉시 분석됩니다.
+              Secure & Private (No permanent storage)
             </p>
             <div className="flex flex-col sm:flex-row gap-2.5 w-full">
               <button
@@ -246,7 +247,7 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
                 className="flex-1 inline-flex items-center justify-center gap-2 bg-tea-forest text-white text-xs font-semibold py-2.5 px-4 rounded-xl hover:bg-tea-forest/90 transition-all shadow-sm"
               >
                 <Camera className="w-4 h-4" />
-                웹캠 켜기
+                {t('turnOnCam')}
               </button>
               <button
                 type="button"
@@ -254,7 +255,7 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
                 className="flex-1 inline-flex items-center justify-center gap-2 bg-white border border-tea-sand text-tea-dark text-xs font-semibold py-2.5 px-4 rounded-xl hover:bg-tea-sand/50 transition-all shadow-sm"
               >
                 <Upload className="w-4 h-4 text-tea-forest" />
-                사진 업로드
+                {t('uploadPhoto')}
               </button>
             </div>
           </div>
@@ -288,14 +289,14 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
               className="flex-1 inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-2xl transition-all shadow-md active:scale-95"
             >
               <Camera className="w-5 h-5" />
-              컨디션 분석 촬영
+              {t('takePhoto')}
             </button>
             <button
               type="button"
               onClick={stopCamera}
               className="px-4 py-3 rounded-2xl border border-tea-sand text-xs text-tea-dark/70 hover:bg-tea-sand/40"
             >
-              취소
+              Cancel
             </button>
           </>
         )}
@@ -307,7 +308,7 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
             className="inline-flex items-center gap-2 text-xs font-semibold text-tea-forest bg-tea-forest/10 hover:bg-tea-forest/20 py-2.5 px-5 rounded-full transition-all"
           >
             <RefreshCw className="w-3.5 h-3.5" />
-            다시 촬영하기
+            {t('retake')}
           </button>
         )}
       </div>

@@ -4,7 +4,9 @@ import React from 'react';
 import { Sparkles, HelpCircle, Check } from 'lucide-react';
 import { MomBtiType } from '@/lib/types';
 import { TIE_BREAKER_QUESTIONS } from '@/data/questions';
+import { I18N_TIE_BREAKER } from '@/data/questionsI18n';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface TieBreakModalProps {
   isOpen: boolean;
@@ -17,10 +19,13 @@ export default function TieBreakModal({
   competingTypes,
   onSelectFinalType
 }: TieBreakModalProps) {
+  const { language, t } = useLanguage();
+
   if (!isOpen || competingTypes.length < 2) return null;
 
   // 동점 조합 키 판별 (예: WIND와 WARM이 동점인 경우)
   const isWindWarm = competingTypes.includes('WIND') && competingTypes.includes('WARM');
+  const i18nData = isWindWarm ? I18N_TIE_BREAKER['WIND_WARM'] : null;
   const questionData = isWindWarm
     ? TIE_BREAKER_QUESTIONS['WIND_WARM']
     : TIE_BREAKER_QUESTIONS['DEFAULT_TIE'];
@@ -36,27 +41,23 @@ export default function TieBreakModal({
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            동점 발생 · 정밀 보완 문항
+            {t('tieModalTitle')}
           </div>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-tea-dark mb-2">
-            나의 본연 체질을 결정짓는 한 가지 질문
+            {t('tieModalTitle')}
           </h3>
           <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
-            신체 성향 분석 결과{' '}
-            <strong className="text-tea-forest">
-              {competingTypes.map((t) => MOM_BTI_TYPES[t].name).join(', ')}
-            </strong>
-            의 성향이 균등하게 나타났습니다. 몸에 가장 편안한 본연의 상태를 선택해주세요.
+            {t('tieModalDesc')}
           </p>
         </div>
 
         {/* 보완 질문 제목 */}
         <div className="bg-tea-cream p-4 rounded-2xl border border-tea-sand mb-6">
           <p className="text-sm font-bold text-tea-dark text-center leading-snug">
-            {questionData.question}
+            {i18nData ? (i18nData.question[language] || i18nData.question['ko']) : questionData.question}
           </p>
           <p className="text-xs text-tea-dark/60 text-center mt-1">
-            {questionData.subtitle}
+            {i18nData ? (i18nData.subtitle[language] || i18nData.subtitle['ko']) : questionData.subtitle}
           </p>
         </div>
 
@@ -64,6 +65,10 @@ export default function TieBreakModal({
         <div className="space-y-3">
           {relevantOptions.map((opt) => {
             const typeInfo = MOM_BTI_TYPES[opt.type];
+            const i18nOpt = i18nData?.options.find((o) => o.type === opt.type);
+            const optText = i18nOpt ? (i18nOpt.text[language] || i18nOpt.text['ko']) : opt.text;
+            const optDetail = i18nOpt ? (i18nOpt.detail[language] || i18nOpt.detail['ko']) : opt.detail;
+
             return (
               <button
                 key={opt.type}
@@ -84,10 +89,10 @@ export default function TieBreakModal({
                     </span>
                   </div>
                   <p className="text-xs sm:text-sm text-tea-dark/80 leading-relaxed mb-1.5">
-                    {opt.text}
+                    {optText}
                   </p>
                   <p className="text-[11px] text-tea-forest/90 font-medium">
-                    → {opt.detail}
+                    → {optDetail}
                   </p>
                 </div>
               </button>

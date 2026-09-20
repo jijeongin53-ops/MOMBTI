@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation';
 import { User, Globe, Heart, Shield, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { COUNTRIES } from '@/data/countries';
 import { sendToGoogleSheets } from '@/lib/googleSheets';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function AuthPage() {
   const router = useRouter();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -48,7 +50,7 @@ export default function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.country) {
-      alert('국가를 반드시 선택해주세요.');
+      alert('Please select your country.');
       return;
     }
 
@@ -88,14 +90,13 @@ export default function AuthPage() {
       <div className="text-center mb-10">
         <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-tea-forest/10 text-tea-forest text-xs font-semibold mb-3">
           <Sparkles className="w-3.5 h-3.5" />
-          플루니티 웰니스 멤버십
+          Flunitea Wellness Membership
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-tea-dark mb-3">
-          나만의 꽃차 여정을 시작하세요
+          {t('authTitle')}
         </h1>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed max-w-md mx-auto">
-          회원 가입을 통해 체질 분석 결과를 영구 보관하고,
-          정기 구독 혜택과 시그니처 블렌딩 클래스 우선 예약 혜택을 누려보세요.
+          {t('authSubtitle')}
         </p>
       </div>
 
@@ -106,14 +107,13 @@ export default function AuthPage() {
               <Check className="w-8 h-8" />
             </div>
             <h3 className="font-serif text-2xl font-bold text-tea-dark mb-2">
-              환영합니다, {formData.name} 님!
+              Welcome, {formData.name}!
             </h3>
             <p className="text-xs sm:text-sm text-tea-dark/70 mb-4">
-              회원 정보가 구글 시트에 안전하게 등록되었습니다.<br />
-              곧 몸BTI 진단 테스트 화면으로 이동합니다.
+              Registered successfully to Google Sheets database.
             </p>
             <div className="inline-flex items-center gap-1 text-xs text-tea-forest font-semibold animate-pulse">
-              <span>테스트 화면으로 이동 중</span>
+              <span>Redirecting to MomBTI Diagnosis</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </div>
           </div>
@@ -123,12 +123,12 @@ export default function AuthPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1.5">
-                  이름 / 닉네임 *
+                  {t('nameLabel')}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="예: 김플루"
+                  placeholder="e.g. Alex"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none"
@@ -137,7 +137,7 @@ export default function AuthPage() {
 
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1.5">
-                  이메일 주소 *
+                  {t('emailLabel')}
                 </label>
                 <input
                   type="email"
@@ -154,7 +154,7 @@ export default function AuthPage() {
             <div>
               <label className="block text-xs font-bold text-tea-dark mb-1.5 flex items-center gap-1.5">
                 <Globe className="w-4 h-4 text-tea-forest" />
-                거주 국가 선택 (Country) * <span className="text-[11px] text-tea-forest font-normal">(필수 항목)</span>
+                {t('countryLabel')}
               </label>
               <select
                 required
@@ -253,10 +253,10 @@ export default function AuthPage() {
               className="w-full bg-tea-forest hover:bg-tea-forest/90 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-sm active:scale-[0.99]"
             >
               {loading ? (
-                <span>등록 중...</span>
+                <span>Submitting...</span>
               ) : (
                 <>
-                  <span>회원가입 완료하고 몸BTI 진단 시작하기</span>
+                  <span>{t('authSubmit')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}

@@ -17,8 +17,10 @@ import {
   Wind
 } from 'lucide-react';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const types = Object.values(MOM_BTI_TYPES);
 
   return (
@@ -28,19 +30,18 @@ export default function HomePage() {
         {/* 은은한 배경 그라데이션 블러 */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-tea-forest/10 via-amber-200/20 to-rose-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-tea-sand shadow-sm text-xs font-semibold text-tea-forest mb-6 animate-in fade-in slide-in-from-top-3 duration-500">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-tea-sand shadow-sm text-xs font-semibold text-tea-forest mb-6 animate-in fade-in slide-from-top-3 duration-500">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-          <span>사상체질과 현대 라이프스타일의 만남 · 플루니티</span>
+          <span>{t('heroBadge')}</span>
         </div>
 
         <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-tea-dark tracking-tight leading-[1.2] mb-6">
-          내 몸의 기운과 취향을 닮은<br />
-          <span className="text-tea-forest">세상에 단 하나뿐인 꽃차 블렌딩</span>
+          {t('heroTitle1')}<br />
+          <span className="text-tea-forest">{t('heroTitle2')}</span>
         </h1>
 
         <p className="max-w-2xl mx-auto text-sm sm:text-base text-tea-dark/70 leading-relaxed mb-10 font-normal">
-          사상체질의 전통적 관점에 영감을 받아 현대인의 일상, 신체 상태, 라이프스타일 및 차 취향을 결합한 웰니스 티 솔루션.<br className="hidden sm:inline" />
-          나의 체질 유형(50%) + 차 취향(30%) + 오늘의 얼굴 안색 컨디션(20%)으로 완성하는 나만의 시그니처 티를 지금 만나보세요.
+          {t('heroSubtitle')}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
@@ -49,7 +50,7 @@ export default function HomePage() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-tea-forest hover:bg-tea-forest/90 text-white font-bold text-sm px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 group"
           >
             <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>나의 몸BTI 진단 시작하기</span>
+            <span>{t('heroCtaTest')}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
 
@@ -57,7 +58,7 @@ export default function HomePage() {
             href="/types"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/80 hover:bg-white text-tea-dark font-semibold text-sm px-7 py-4 rounded-full border border-tea-sand shadow-sm transition-all"
           >
-            <span>4대 체질 및 꽃차 도감 보기</span>
+            <span>{t('heroCtaTypes')}</span>
           </Link>
         </div>
 
@@ -65,18 +66,18 @@ export default function HomePage() {
         <div className="mt-14 max-w-3xl mx-auto p-4 sm:p-5 rounded-3xl bg-white/70 backdrop-blur-md border border-tea-sand/80 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
           <div className="p-3 rounded-2xl bg-tea-cream/60 border border-tea-sand/40">
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tea-forest text-white">50% BASE</span>
-            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">나의 사상체질</h4>
-            <p className="text-[11px] text-tea-dark/60 mt-0.5">1~8번 문항 + 동점 보완 질문으로 확정</p>
+            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioBase')}</h4>
+            <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioBaseDesc')}</p>
           </div>
           <div className="p-3 rounded-2xl bg-pink-50/50 border border-pink-200/40">
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-pink-500 text-white">30% TASTE</span>
-            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">나의 차 취향</h4>
-            <p className="text-[11px] text-tea-dark/60 mt-0.5">선호하는 꽃향, 산뜻한 맛과 아로마</p>
+            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioTaste')}</h4>
+            <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioTasteDesc')}</p>
           </div>
           <div className="p-3 rounded-2xl bg-amber-50/50 border border-amber-200/40">
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-600 text-white">20% TODAY</span>
-            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">오늘의 안색 컨디션</h4>
-            <p className="text-[11px] text-tea-dark/60 mt-0.5">카메라 얼굴 스캔 기반 웰니스 키워드</p>
+            <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioCondition')}</h4>
+            <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioConditionDesc')}</p>
           </div>
         </div>
       </section>

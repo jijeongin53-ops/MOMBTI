@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { Flower2, ShoppingBag, MessageCircle, ExternalLink, ShieldAlert } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-[#1C1A18] text-tea-sand/80 pt-16 pb-12 border-t border-tea-dark/20 text-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -99,9 +101,7 @@ export default function Footer() {
         <div className="mt-8 pt-6 flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/10 text-xs text-tea-sand/60">
           <ShieldAlert className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
           <p className="leading-relaxed">
-            <strong className="text-tea-sand/90">안내 사항:</strong> 본 몸BTI 진단 및 맞춤 차 추천 프로그램은
-            사상체질의 전통적 관점에 영감을 받은 웰니스 티 체험 및 개인 기호 향유를 목적으로 하며,
-            의학적 진단이나 질병 치료를 목적으로 하지 않습니다. 특이 체질이나 질환이 있으신 분은 전문의와 상의하시기 바랍니다.
+            {t('disclaimer')}
           </p>
         </div>
 
