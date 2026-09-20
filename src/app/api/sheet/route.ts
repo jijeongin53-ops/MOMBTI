@@ -4,6 +4,7 @@ import { google } from 'googleapis';
 // 기본 설정값 (사용자가 지정한 구글 시트 ID 및 서비스 계정)
 const DEFAULT_SHEET_ID = '1BbfqlozdhjBIlPGzTGTqlf6LoRLVegT0yzVszV2k6QM';
 const DEFAULT_CLIENT_EMAIL = 'sheet-bot@peo-schedule.iam.gserviceaccount.com';
+const DEFAULT_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxy5U8hur2tqD5WyGLjE9e3RT_BgAr1ZaqSK7oAo8u2RvG0mdV4ybEWX5dq-_Zm303K/exec';
 
 // 각 액션별 구글 시트 탭 이름 및 고정 컬럼 명세 정의
 const TAB_SCHEMAS: Record<string, { tabName: string; columns: { key: string; header: string }[] }> = {
@@ -203,20 +204,26 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Google Apps Script Web App URL 연동 (대체 방식)
-    const webAppUrl = process.env.GOOGLE_SHEET_WEBAPP_URL;
+    // 2. Google Apps Script Web App URL 연동
+    const webAppUrl = process.env.GOOGLE_SHEET_WEBAPP_URL || DEFAULT_WEBAPP_URL;
     if (webAppUrl) {
-      const response = await fetch(webAppUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action, tabName: sheetTab, headers, rowValues, data }),
-      });
-      const resText = await response.text();
-      return NextResponse.json({
-        success: true,
-        message: `Google Apps Script 웹앱을 통해 [${sheetTab}] 탭에 기록되었습니다.`,
-        raw: resText
-      });
+      try {
+        const response = await fetch(webAppUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, tabName: sheetTab, headers, rowValues, data }),
+          redirect: 'follow'
+        });
+        const resText = await response.text();
+        return NextResponse.json({
+          success: true,
+          message: `Google Apps Script 웹앱을 통해 [${sheetTab}] 탭에 성공적으로 기록되었습니다.`,
+          tabName: sheetTab,
+          raw: resText
+        });
+      } catch (appScriptErr: any) {
+        console.error('[Google Apps Script Call Error]:', appScriptErr);
+      }
     }
 
     // 3. 서비스 계정 private_key가 아직 등록되지 않은 경우 (가이드 및 정상 세션 보장)
