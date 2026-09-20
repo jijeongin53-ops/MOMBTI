@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #FAF8F5;
+  --foreground: #23201D;
+  --font-serif: "Noto Serif KR", serif;
+  --font-sans: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* 감성적인 세리프 타이틀 스타일 */
+.font-serif-title {
+  font-family: var(--font-serif);
+}
+
+/* 수색 글래스모피즘 효과 */
+.glass-tea {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px 0 rgba(198, 156, 109, 0.08);
+}
+
+/* 꽃차 우리는 증기/수색 애니메이션 효과 */
+@keyframes teaAroma {
+  0% { transform: translateY(0px) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-8px) scale(1.05); opacity: 1; }
+  100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+}
+
+.animate-aroma {
+  animation: teaAroma 4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}

@@ -1,0 +1,114 @@
+'use client';
+
+import Link from 'next/link';
+import { Flower2, ShoppingBag, MessageCircle, ExternalLink, ShieldAlert } from 'lucide-react';
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#1C1A18] text-tea-sand/80 pt-16 pb-12 border-t border-tea-dark/20 text-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+          {/* 브랜드 소개 */}
+          <div className="md:col-span-2 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-tea-forest/20 text-tea-forest flex items-center justify-center">
+                <Flower2 className="w-5 h-5 text-emerald-400" />
+              </div>
+              <span className="font-serif text-2xl font-bold tracking-wider text-white">
+                FLUNITEA
+              </span>
+            </div>
+            <p className="text-tea-sand/70 max-w-md leading-relaxed text-xs sm:text-sm">
+              플루니티는 사상체질의 전통적 관점에 현대인의 라이프스타일과 감각을 더해,
+              당신의 신체 밸런스에 꼭 맞는 세상에 단 하나뿐인 꽃차를 제안하는 웰니스 티 솔루션입니다.
+            </p>
+            <div className="flex items-center gap-4 pt-2">
+              <a
+                href="https://smartstore.naver.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 text-xs hover:bg-emerald-900/60 transition-colors"
+              >
+                <ShoppingBag className="w-3.5 h-3.5" />
+                네이버 스마트스토어
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-950/60 text-pink-400 border border-pink-500/30 text-xs hover:bg-pink-900/60 transition-colors"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                인스타그램
+              </a>
+              <a
+                href="https://pf.kakao.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-950/60 text-amber-400 border border-amber-500/30 text-xs hover:bg-amber-900/60 transition-colors"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                카카오 채널
+              </a>
+            </div>
+          </div>
+
+          {/* 주요 메뉴 링크 */}
+          <div>
+            <h4 className="text-white font-semibold mb-3 tracking-wide">솔루션 둘러보기</h4>
+            <ul className="space-y-2 text-xs sm:text-sm text-tea-sand/70">
+              <li>
+                <Link href="/test" className="hover:text-emerald-400 transition-colors">
+                  몸BTI 체질 진단 테스트
+                </Link>
+              </li>
+              <li>
+                <Link href="/types" className="hover:text-emerald-400 transition-colors">
+                  사상체질 4대 유형 & 추천 꽃차
+                </Link>
+              </li>
+              <li>
+                <Link href="/reservation" className="hover:text-emerald-400 transition-colors">
+                  오프라인 원데이 블렌딩 클래스
+                </Link>
+              </li>
+              <li>
+                <Link href="/auth" className="hover:text-emerald-400 transition-colors">
+                  회원가입 및 정기구독 신청
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* 오프라인 스튜디오 안내 */}
+          <div>
+            <h4 className="text-white font-semibold mb-3 tracking-wide">플루니티 스튜디오</h4>
+            <p className="text-xs text-tea-sand/70 leading-relaxed">
+              서울특별시 성수동 플루니티 플래그십 아틀리에<br />
+              운영시간: 화~일 11:00 - 20:00 (월요일 휴무)<br />
+              문의: contact@flunitea.wellness<br />
+              사업자등록번호: 104-86-12345
+            </p>
+          </div>
+        </div>
+
+        {/* 의학적 진단 면책 안내 */}
+        <div className="mt-8 pt-6 flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/10 text-xs text-tea-sand/60">
+          <ShieldAlert className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+          <p className="leading-relaxed">
+            <strong className="text-tea-sand/90">안내 사항:</strong> 본 몸BTI 진단 및 맞춤 차 추천 프로그램은
+            사상체질의 전통적 관점에 영감을 받은 웰니스 티 체험 및 개인 기호 향유를 목적으로 하며,
+            의학적 진단이나 질병 치료를 목적으로 하지 않습니다. 특이 체질이나 질환이 있으신 분은 전문의와 상의하시기 바랍니다.
+          </p>
+        </div>
+
+        <div className="mt-8 text-center text-xs text-tea-sand/40">
+          © {new Date().getFullYear()} FLUNITEA Inc. All rights reserved. Designed for your inner wellness.
+        </div>
+      </div>
+    </footer>
+  );
+}
