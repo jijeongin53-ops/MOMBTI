@@ -65,7 +65,7 @@ export default function ReservationModal({
               클래스 사전 예약이 완료되었습니다!
             </h3>
             <p className="text-sm text-tea-dark/70 max-w-sm mx-auto mb-6 leading-relaxed">
-              플루니티 성수 아틀리에 티 마스터가 안내 메시지를 발송해 드립니다.
+              플루니티 부산 아틀리에 티 마스터가 안내 메시지를 발송해 드립니다.
               나만의 몸BTI 시그니처 티를 직접 손으로 덖고 블렌딩해보세요.
             </p>
             <button

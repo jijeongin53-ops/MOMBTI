@@ -210,7 +210,7 @@ export default function ResultPage() {
 
           <div className="space-y-2.5">
             <a
-              href="https://smartstore.naver.com"
+              href="https://smartstore.naver.com/fl88"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-lg text-xs sm:text-sm active:scale-95"
@@ -237,7 +237,7 @@ export default function ResultPage() {
               Flunitea Tea Atelier Experience
             </h3>
             <p className="text-xs sm:text-sm text-amber-100/70 leading-relaxed mb-6">
-              Private 70-minute tea blending class with master sommelier in Seongsu atelier.
+              Private 70-minute tea blending class with master sommelier in Busan Yeongdo atelier.
             </p>
           </div>
 

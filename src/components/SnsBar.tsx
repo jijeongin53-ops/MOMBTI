@@ -35,7 +35,7 @@ export default function SnsBar() {
 
         {/* 네이버 스마트스토어 바로가기 */}
         <a
-          href="https://smartstore.naver.com"
+          href="https://smartstore.naver.com/fl88"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100/80 transition-colors text-xs font-medium group"
@@ -51,7 +51,7 @@ export default function SnsBar() {
 
         {/* 인스타그램 바로가기 */}
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/flunitea/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-pink-50 text-pink-800 hover:bg-pink-100/80 transition-colors text-xs font-medium"
@@ -63,13 +63,13 @@ export default function SnsBar() {
           </div>
           <div className="flex flex-col">
             <span className="font-semibold text-pink-950">공식 인스타그램</span>
-            <span className="text-[10px] text-pink-700/80">@flunitea_wellness</span>
+            <span className="text-[10px] text-pink-700/80">@flunitea</span>
           </div>
         </a>
 
         {/* 카카오톡 상담 채널 */}
         <a
-          href="https://pf.kakao.com"
+          href="https://open.kakao.com/o/sP3AeIUe"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-amber-50 text-amber-900 hover:bg-amber-100/80 transition-colors text-xs font-medium"

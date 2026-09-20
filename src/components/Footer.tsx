@@ -26,7 +26,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4 pt-2">
               <a
-                href="https://smartstore.naver.com"
+                href="https://smartstore.naver.com/fl88"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 text-xs hover:bg-emerald-900/60 transition-colors"
@@ -36,7 +36,7 @@ export default function Footer() {
                 <ExternalLink className="w-3 h-3" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/flunitea/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-950/60 text-pink-400 border border-pink-500/30 text-xs hover:bg-pink-900/60 transition-colors"
@@ -47,7 +47,7 @@ export default function Footer() {
                 인스타그램
               </a>
               <a
-                href="https://pf.kakao.com"
+                href="https://open.kakao.com/o/sP3AeIUe"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-950/60 text-amber-400 border border-amber-500/30 text-xs hover:bg-amber-900/60 transition-colors"
@@ -89,7 +89,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3 tracking-wide">플루니티 스튜디오</h4>
             <p className="text-xs text-tea-sand/70 leading-relaxed">
-              서울특별시 성수동 플루니티 플래그십 아틀리에<br />
+              부산시 영도구 번영길8, 2층 (플루니티), Busan, South Korea<br />
               운영시간: 화~일 11:00 - 20:00 (월요일 휴무)<br />
               문의: contact@flunitea.wellness<br />
               사업자등록번호: 104-86-12345

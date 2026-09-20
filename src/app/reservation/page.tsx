@@ -91,7 +91,7 @@ export default function ReservationPage() {
             <div className="pt-4 border-t border-tea-sand/60 space-y-2 text-xs text-tea-dark/70">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-tea-forest flex-shrink-0" />
-                <span>서울 성동구 성수이로 플루니티 아틀리에 2층</span>
+                <span>부산시 영도구 번영길8, 2층 (플루니티), Busan, South Korea</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-blue-600 flex-shrink-0" />

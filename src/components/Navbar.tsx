@@ -84,7 +84,7 @@ export default function Navbar() {
             {t('navReservation')}
           </Link>
           <a
-            href="https://smartstore.naver.com"
+            href="https://smartstore.naver.com/fl88"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-tea-warm hover:text-amber-700 transition-colors font-semibold"
