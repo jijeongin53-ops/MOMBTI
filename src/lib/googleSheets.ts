@@ -56,28 +56,32 @@ function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet();
     var postData = JSON.parse(e.postData.contents);
-    var action = postData.action;
+    var tabName = postData.tabName || postData.action || "데이터기록";
+    var headers = postData.headers;
+    var rowValues = postData.rowValues;
     var data = postData.data;
     
-    var targetSheet = sheet.getSheetByName(action) || sheet.insertSheet(action);
+    var targetSheet = sheet.getSheetByName(tabName) || sheet.insertSheet(tabName);
     
     // 첫 행이 비어있으면 헤더 작성
-    if (targetSheet.getLastRow() === 0) {
-      var headers = Object.keys(data);
-      headers.unshift("등록일시");
+    if (targetSheet.getLastRow() === 0 && headers && headers.length > 0) {
       targetSheet.appendRow(headers);
     }
     
-    var row = [new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })];
-    for (var key in data) {
-      var val = data[key];
-      if (typeof val === 'object') val = JSON.stringify(val);
-      row.push(val);
+    // 전달받은 정렬된 행 데이터 추가
+    if (rowValues && rowValues.length > 0) {
+      targetSheet.appendRow(rowValues);
+    } else if (data) {
+      var row = [new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })];
+      for (var key in data) {
+        var val = data[key];
+        if (typeof val === 'object') val = JSON.stringify(val);
+        row.push(val);
+      }
+      targetSheet.appendRow(row);
     }
     
-    targetSheet.appendRow(row);
-    
-    return ContentService.createTextOutput(JSON.stringify({ result: "success", row: row }))
+    return ContentService.createTextOutput(JSON.stringify({ result: "success", tab: tabName }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ result: "error", error: err.toString() }))

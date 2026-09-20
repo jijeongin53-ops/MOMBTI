@@ -11,7 +11,7 @@ import { useLanguage } from '@/lib/i18n/LanguageContext';
 interface TieBreakModalProps {
   isOpen: boolean;
   competingTypes: MomBtiType[];
-  onSelectFinalType: (type: MomBtiType) => void;
+  onSelectFinalType: (type: MomBtiType, detail?: { question: string; selectedOption: string }) => void;
 }
 
 export default function TieBreakModal({
@@ -68,12 +68,16 @@ export default function TieBreakModal({
             const i18nOpt = i18nData?.options.find((o) => o.type === opt.type);
             const optText = i18nOpt ? (i18nOpt.text[language] || i18nOpt.text['ko']) : opt.text;
             const optDetail = i18nOpt ? (i18nOpt.detail[language] || i18nOpt.detail['ko']) : opt.detail;
+            const questionText = i18nData ? (i18nData.question[language] || i18nData.question['ko']) : questionData.question;
 
             return (
               <button
                 key={opt.type}
                 type="button"
-                onClick={() => onSelectFinalType(opt.type)}
+                onClick={() => onSelectFinalType(opt.type, {
+                  question: questionText,
+                  selectedOption: `[${opt.label}] ${optText} (${optDetail})`
+                })}
                 className="w-full text-left p-4 sm:p-5 rounded-2xl border-2 border-tea-sand hover:border-tea-forest hover:bg-tea-forest/5 transition-all group flex items-start gap-3.5 shadow-sm"
               >
                 <div className="w-8 h-8 rounded-full bg-tea-sand/70 text-tea-dark font-bold text-sm flex items-center justify-center flex-shrink-0 group-hover:bg-tea-forest group-hover:text-white transition-colors">

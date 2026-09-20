@@ -21,12 +21,25 @@ export default function MomBtiTestPage() {
 
   // 1~8번 체질 문항 답변 (key: questionId, value: MomBtiType)
   const [bodyAnswers, setBodyAnswers] = useState<Record<number, MomBtiType>>({});
+  // 1~8번 각 문항의 질문 및 사용자가 선택한 라벨/텍스트 상세 기록
+  const [bodyAnswerDetails, setBodyAnswerDetails] = useState<Record<number, { title: string; label: string; text: string; type: MomBtiType }>>({});
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
 
   // 동점 처리 상태
   const [isTieModalOpen, setIsTieModalOpen] = useState(false);
   const [competingTypes, setCompetingTypes] = useState<MomBtiType[]>([]);
   const [resolvedType, setResolvedType] = useState<MomBtiType | null>(null);
+  const [tieBreakRecord, setTieBreakRecord] = useState<{
+    occurred: boolean;
+    competing: string;
+    question: string;
+    selectedOption: string;
+  }>({
+    occurred: false,
+    competing: '',
+    question: '',
+    selectedOption: ''
+  });
 
   // 9~11번 취향 답변
   const [tasteAnswers, setTasteAnswers] = useState<TasteSelection>({
@@ -46,6 +59,7 @@ export default function MomBtiTestPage() {
 
   // 회원 정보 확인
   const [userName, setUserName] = useState<string>('회원');
+  const [userEmail, setUserEmail] = useState<string>('');
 
   useEffect(() => {
     try {
@@ -53,6 +67,7 @@ export default function MomBtiTestPage() {
       if (savedUser) {
         const u = JSON.parse(savedUser);
         if (u.name) setUserName(u.name);
+        if (u.email) setUserEmail(u.email);
       }
     } catch (e) {
       // 로컬스토리지 미지원 환경 무시
@@ -74,6 +89,21 @@ export default function MomBtiTestPage() {
       8: 'WIND'  // C (긴장이 풀리고 편안해지는 것)
     };
     setBodyAnswers(exampleAnswers);
+
+    const exampleDetails: Record<number, { title: string; label: string; text: string; type: MomBtiType }> = {};
+    MOM_BTI_QUESTIONS.forEach((q) => {
+      const chosenType = exampleAnswers[q.id];
+      const opt = q.options.find((o) => o.type === chosenType);
+      if (opt) {
+        exampleDetails[q.id] = {
+          title: q.title,
+          label: opt.label,
+          text: opt.text,
+          type: opt.type
+        };
+      }
+    });
+    setBodyAnswerDetails(exampleDetails);
     setCurrentQuestionIdx(7); // 마지막 문항 위치로
 
     // 취향 기본 설정
@@ -85,10 +115,23 @@ export default function MomBtiTestPage() {
   };
 
   // 1~8번 문항 옵션 선택 시
-  const handleSelectBodyOption = (type: MomBtiType) => {
-    const qId = MOM_BTI_QUESTIONS[currentQuestionIdx].id;
+  const handleSelectBodyOption = (type: MomBtiType, label: string, text: string) => {
+    const currentQ = MOM_BTI_QUESTIONS[currentQuestionIdx];
+    const qId = currentQ.id;
+
     const newAnswers = { ...bodyAnswers, [qId]: type };
     setBodyAnswers(newAnswers);
+
+    const newDetails = {
+      ...bodyAnswerDetails,
+      [qId]: {
+        title: currentQ.title,
+        label,
+        text,
+        type
+      }
+    };
+    setBodyAnswerDetails(newDetails);
 
     if (currentQuestionIdx < MOM_BTI_QUESTIONS.length - 1) {
       setCurrentQuestionIdx(currentQuestionIdx + 1);
@@ -105,17 +148,35 @@ export default function MomBtiTestPage() {
     if (result.isTie) {
       // 동점 발생: 보완 질문 팝업 오픈
       setCompetingTypes(result.competingTypes);
+      setTieBreakRecord((prev) => ({
+        ...prev,
+        occurred: true,
+        competing: result.competingTypes.join(' vs ')
+      }));
       setIsTieModalOpen(true);
     } else {
       // 단독 1위 확정
       setResolvedType(result.topType);
+      setTieBreakRecord({
+        occurred: false,
+        competing: 'None',
+        question: '-',
+        selectedOption: '-'
+      });
       setCurrentStep(2); // 2단계 취향 문항으로 이동
     }
   };
 
   // 보완 질문에서 최종 유형 선택 시
-  const handleFinalTypeSelected = (type: MomBtiType) => {
+  const handleFinalTypeSelected = (type: MomBtiType, detail?: { question: string; selectedOption: string }) => {
     setResolvedType(type);
+    if (detail) {
+      setTieBreakRecord((prev) => ({
+        ...prev,
+        question: detail.question,
+        selectedOption: detail.selectedOption
+      }));
+    }
     setIsTieModalOpen(false);
     setCurrentStep(2); // 2단계 취향 문항으로 이동
   };
@@ -142,16 +203,84 @@ export default function MomBtiTestPage() {
       localStorage.setItem('flunitea_body_type', finalBodyType);
     } catch (e) {}
 
-    // 구글 시트에 검사 및 블렌딩 결과 기록
+    // 점수 집계 결과 계산
+    const scoreSummary = calculateMomBtiScore(bodyAnswers);
+
+    // 9~11번 취향 설문 라벨 및 텍스트 매핑
+    const chosenScent = TASTE_QUESTIONS.scent.options.find((o) => o.value === tasteAnswers.scent);
+    const chosenFlavor = TASTE_QUESTIONS.flavor.options.find((o) => o.value === tasteAnswers.flavor);
+    const chosenPriority = TASTE_QUESTIONS.priority.options.find((o) => o.value === tasteAnswers.priority);
+
+    // 체질 정보
+    const momBtiNames: Record<MomBtiType, { name: string; title: string }> = {
+      SUN: { name: '해온형', title: 'SUN (태양인)' },
+      FOREST: { name: '숲온형', title: 'FOREST (태음인)' },
+      WIND: { name: '바람형', title: 'WIND (소양인)' },
+      WARM: { name: '온담형', title: 'WARM (소음인)' }
+    };
+
+    // 구글 시트에 1~8번 개별 문항 + 취향 + 얼굴 분석 + 50:30:20 블렌딩 결과 전송
     await sendToGoogleSheets({
       action: 'saveBlendResult',
       data: {
         userName,
-        bodyType: finalBodyType,
-        tasteScent: tasteAnswers.scent,
-        tasteFlavor: tasteAnswers.flavor,
+        userEmail: userEmail || '비회원',
+        language: language.toUpperCase(),
+        finalMomBtiName: momBtiNames[finalBodyType].name,
+        finalSasangCode: momBtiNames[finalBodyType].title,
+        
+        // 사상체질 점수 득표 현황
+        scoreA_SUN: scoreSummary.scores.SUN,
+        scoreB_FOREST: scoreSummary.scores.FOREST,
+        scoreC_WIND: scoreSummary.scores.WIND,
+        scoreD_WARM: scoreSummary.scores.WARM,
+
+        // 동점 처리 내역
+        isTie: tieBreakRecord.occurred ? 'Y' : 'N',
+        competingTypes: tieBreakRecord.competing || 'None',
+        tieQuestion: tieBreakRecord.question || '-',
+        tieAnswer: tieBreakRecord.selectedOption || '-',
+
+        // 1~8번 개별 문항 질문 및 응답
+        q1_question: MOM_BTI_QUESTIONS[0].title,
+        q1_answer: bodyAnswerDetails[1] ? `[${bodyAnswerDetails[1].label}] ${bodyAnswerDetails[1].text}` : '-',
+        q2_question: MOM_BTI_QUESTIONS[1].title,
+        q2_answer: bodyAnswerDetails[2] ? `[${bodyAnswerDetails[2].label}] ${bodyAnswerDetails[2].text}` : '-',
+        q3_question: MOM_BTI_QUESTIONS[2].title,
+        q3_answer: bodyAnswerDetails[3] ? `[${bodyAnswerDetails[3].label}] ${bodyAnswerDetails[3].text}` : '-',
+        q4_question: MOM_BTI_QUESTIONS[3].title,
+        q4_answer: bodyAnswerDetails[4] ? `[${bodyAnswerDetails[4].label}] ${bodyAnswerDetails[4].text}` : '-',
+        q5_question: MOM_BTI_QUESTIONS[4].title,
+        q5_answer: bodyAnswerDetails[5] ? `[${bodyAnswerDetails[5].label}] ${bodyAnswerDetails[5].text}` : '-',
+        q6_question: MOM_BTI_QUESTIONS[5].title,
+        q6_answer: bodyAnswerDetails[6] ? `[${bodyAnswerDetails[6].label}] ${bodyAnswerDetails[6].text}` : '-',
+        q7_question: MOM_BTI_QUESTIONS[6].title,
+        q7_answer: bodyAnswerDetails[7] ? `[${bodyAnswerDetails[7].label}] ${bodyAnswerDetails[7].text}` : '-',
+        q8_question: MOM_BTI_QUESTIONS[7].title,
+        q8_answer: bodyAnswerDetails[8] ? `[${bodyAnswerDetails[8].label}] ${bodyAnswerDetails[8].text}` : '-',
+
+        // 9~11번 취향 문항 질문 및 응답
+        q9_scent_question: TASTE_QUESTIONS.scent.title,
+        q9_scent_answer: chosenScent ? `[${chosenScent.label}] ${chosenScent.description}` : tasteAnswers.scent,
+        q10_flavor_question: TASTE_QUESTIONS.flavor.title,
+        q10_flavor_answer: chosenFlavor ? `[${chosenFlavor.label}] ${chosenFlavor.description}` : tasteAnswers.flavor,
+        q11_priority_question: TASTE_QUESTIONS.priority.title,
+        q11_priority_answer: chosenPriority ? `[${chosenPriority.label}] ${chosenPriority.description}` : tasteAnswers.priority,
+
+        // 얼굴 안색 AI 분석 결과
         conditionKeyword: finalCondition.keyword,
+        faceEnergy: finalCondition.score.energy,
+        faceStress: finalCondition.score.stress,
+        faceVitality: finalCondition.score.vitality,
+
+        // 최종 50:30:20 시그니처 블렌딩 결과
         signatureTeaName: blendResult.finalTeaName,
+        baseTea50: `${blendResult.baseTea} (50%)`,
+        tasteTea30: `${blendResult.tasteTea} (30%)`,
+        conditionTea20: `${blendResult.conditionTea} (20%)`,
+        teaSteepColor: blendResult.finalColor,
+        teaBenefits: blendResult.finalDescription,
+
         completedAt: new Date().toISOString()
       }
     });
@@ -236,7 +365,7 @@ export default function MomBtiTestPage() {
                 <button
                   key={opt.label}
                   type="button"
-                  onClick={() => handleSelectBodyOption(opt.type)}
+                  onClick={() => handleSelectBodyOption(opt.type, opt.label, opt.text[language] || opt.text['ko'])}
                   className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-start gap-4 group ${
                     isSelected
                       ? 'border-tea-forest bg-tea-forest/5 shadow-sm'

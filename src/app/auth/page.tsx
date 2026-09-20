@@ -56,19 +56,28 @@ export default function AuthPage() {
 
     setLoading(true);
 
+    const foundCountry = COUNTRIES.find((c) => c.code === formData.country);
+    const countryDisplay = foundCountry
+      ? `${foundCountry.flag} ${foundCountry.name} (${foundCountry.nativeName})`
+      : formData.country;
+
     const userProfile = {
       id: 'USER-' + Date.now(),
       name: formData.name,
       email: formData.email,
-      country: formData.country,
+      country: countryDisplay,
       ageGroup: formData.ageGroup,
       gender: formData.gender,
-      healthConcerns: formData.healthConcerns,
+      healthConcerns: formData.healthConcerns.join(', '),
       createdAt: new Date().toISOString()
     };
 
     // 로컬 스토리지에 회원 정보 저장
-    localStorage.setItem('flunitea_user', JSON.stringify(userProfile));
+    localStorage.setItem('flunitea_user', JSON.stringify({
+      ...userProfile,
+      rawCountry: formData.country,
+      healthConcerns: formData.healthConcerns
+    }));
 
     // 구글 시트로 회원 데이터 전송
     await sendToGoogleSheets({
