@@ -802,16 +802,16 @@ export const DICTIONARY: Translations = {
     ja: 'クラスの事前予約が完了しました！'
   },
   resSuccessDesc: {
-    ko: '플루니티 부산 아틀리에 티 마스터가 안내 메시지를 발송해 드립니다. 나만의 몸BTI 시그니처 티를 직접 손으로 덖고 블렌딩해보세요.',
-    en: 'Our Flunitea Busan master will send confirmation details shortly. Look forward to handcrafting your signature tea.',
-    zh: 'Flunitea 釜山工坊茶艺师将尽快向您发送确认信息。期待与您相聚品茗。',
-    ja: '釜山アトリエのティーマスターより確認のご案内をお送りいたします。自分だけの花茶作りをお楽しみに。'
+    ko: '플루니티 부산 아틀리에 티 마스터(sho0051@naver.com, jguy12@hanmail.net)에게 예약 내역이 안전하게 접수되었습니다. 확인 후 안내 메시지를 발송해 드립니다.',
+    en: 'Your reservation has been received by Flunitea atelier masters (sho0051@naver.com, jguy12@hanmail.net). Confirmation details will be sent shortly.',
+    zh: '您的预约信息已成功提交至 Flunitea 釜山工坊专属管理团队 (sho0051@naver.com, jguy12@hanmail.net)。我们将尽快向您发送确认信息。',
+    ja: '釜山アトリエの担当マスター (sho0051@naver.com, jguy12@hanmail.net) に予約が安全に受付されました。まもなく確認案内をお送りいたします。'
   },
   resSchedule: {
-    ko: '화~일 / 11:00, 14:00, 16:30, 19:00',
-    en: 'Tue-Sun / 11:00, 14:00, 16:30, 19:00',
-    zh: '周二~周日 / 11:00, 14:00, 16:30, 19:00',
-    ja: '火~日 / 11:00, 14:00, 16:30, 19:00'
+    ko: '월~토 / 10:30, 13:30, 15:30, 17:00 (일요일 휴무)',
+    en: 'Mon-Sat / 10:30, 13:30, 15:30, 17:00 (Closed on Sundays)',
+    zh: '周一~周六 / 10:30, 13:30, 15:30, 17:00 (周日休息)',
+    ja: '月~土 / 10:30, 13:30, 15:30, 17:00 (日曜定休)'
   },
   resMaxGuests: {
     ko: '타임당 최대 4인 프라이빗 진행',
@@ -870,22 +870,28 @@ export const DICTIONARY: Translations = {
     ja: 'Flunitea アトリエ'
   },
   footerAddress: {
-    ko: '부산시 영도구 번영길8, 2층 (플루니티), Busan, South Korea',
+    ko: '부산시 영도구 번영길8, 2층 (플루니티)',
     en: '2F, 8, Beon-yeong-gil, Yeongdo-gu, Busan, South Korea',
     zh: '韩国釜山广域市影岛区繁荣路8号 2楼 (Flunitea)',
     ja: '釜山広域市影島区繁栄路8, 2階 (Flunitea), 韓国'
   },
   footerHours: {
-    ko: '운영시간: 화~일 11:00 - 20:00 (월요일 휴무)',
-    en: 'Hours: Tue-Sun 11:00 - 20:00 (Closed on Mondays)',
-    zh: '营业时间: 周二~周日 11:00 - 20:00 (周一休息)',
-    ja: '営業時間: 火~日 11:00 - 20:00 (月曜定休)'
+    ko: '운영시간: 월~토 10:00 - 18:00 (일요일 휴무)',
+    en: 'Hours: Mon-Sat 10:00 - 18:00 (Closed on Sundays)',
+    zh: '营业时间: 周一~周六 10:00 - 18:00 (周日休息)',
+    ja: '営業時間: 月~土 10:00 - 18:00 (日曜定休)'
   },
   footerContact: {
-    ko: '문의: contact@flunitea.wellness',
-    en: 'Contact: contact@flunitea.wellness',
-    zh: '联系方式: contact@flunitea.wellness',
-    ja: 'お問い合わせ: contact@flunitea.wellness'
+    ko: '문의: sho0051@naver.com | 010.4632.0051',
+    en: 'Contact: sho0051@naver.com | +82 10-4632-0051',
+    zh: '联系方式: sho0051@naver.com | 010.4632.0051',
+    ja: 'お問い合わせ: sho0051@naver.com | 010.4632.0051'
+  },
+  footerBusinessNo: {
+    ko: '사업자등록번호: 292-81-02945',
+    en: 'Business Reg: 292-81-02945',
+    zh: '商业登记号: 292-81-02945',
+    ja: '事業者登録番号: 292-81-02945'
   },
   snsConnectTitle: {
     ko: 'FLUNITEA CONNECT',

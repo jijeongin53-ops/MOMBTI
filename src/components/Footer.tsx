@@ -91,7 +91,7 @@ export default function Footer() {
               {t('footerAddress')}<br />
               {t('footerHours')}<br />
               {t('footerContact')}<br />
-              사업자등록번호: 104-86-12345
+              {t('footerBusinessNo')}
             </p>
           </div>
         </div>

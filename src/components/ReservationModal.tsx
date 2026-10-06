@@ -21,7 +21,7 @@ export default function ReservationModal({
     email: '',
     partySize: 1,
     preferredDate: '',
-    preferredTime: '14:00',
+    preferredTime: '13:30',
     momBtiType: defaultMomBti,
     specialRequests: ''
   });
@@ -38,6 +38,8 @@ export default function ReservationModal({
       action: 'saveReservation',
       data: {
         ...formData,
+        adminNotificationEmails: 'sho0051@naver.com, jguy12@hanmail.net',
+        recipientEmails: ['sho0051@naver.com', 'jguy12@hanmail.net'],
         submittedAt: new Date().toISOString()
       }
     });
@@ -65,8 +67,8 @@ export default function ReservationModal({
               클래스 사전 예약이 완료되었습니다!
             </h3>
             <p className="text-sm text-tea-dark/70 max-w-sm mx-auto mb-6 leading-relaxed">
-              플루니티 부산 아틀리에 티 마스터가 안내 메시지를 발송해 드립니다.
-              나만의 몸BTI 시그니처 티를 직접 손으로 덖고 블렌딩해보세요.
+              플루니티 부산 아틀리에 티 마스터(sho0051@naver.com, jguy12@hanmail.net)에게 예약 내역이 안전하게 접수되었습니다.
+              확인 후 안내 메시지를 발송해 드립니다.
             </p>
             <button
               onClick={() => {
@@ -154,17 +156,17 @@ export default function ReservationModal({
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-tea-dark mb-1">
-                    희망 시간
+                    희망 시간 (운영: 월~토 10:00~18:00)
                   </label>
                   <select
                     value={formData.preferredTime}
                     onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
                     className="w-full px-3.5 py-2 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/40 focus:outline-none bg-white"
                   >
-                    <option value="11:00">오전 11:00 타임</option>
-                    <option value="14:00">오후 02:00 타임</option>
-                    <option value="16:30">오후 04:30 타임</option>
-                    <option value="19:00">저녁 07:00 타임</option>
+                    <option value="10:30">오전 10:30 타임</option>
+                    <option value="13:30">오후 01:30 타임</option>
+                    <option value="15:30">오후 03:30 타임</option>
+                    <option value="17:00">오후 05:00 타임</option>
                   </select>
                 </div>
               </div>

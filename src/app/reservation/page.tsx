@@ -13,7 +13,7 @@ export default function ReservationPage() {
     email: '',
     partySize: 1,
     preferredDate: '',
-    preferredTime: '14:00',
+    preferredTime: '13:30',
     momBtiType: '바람형 (WIND)',
     specialRequests: ''
   });
@@ -28,6 +28,8 @@ export default function ReservationPage() {
       action: 'saveReservation',
       data: {
         ...formData,
+        adminNotificationEmails: 'sho0051@naver.com, jguy12@hanmail.net',
+        recipientEmails: ['sho0051@naver.com', 'jguy12@hanmail.net'],
         submittedAt: new Date().toISOString()
       }
     });
@@ -205,10 +207,10 @@ export default function ReservationPage() {
                     onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none bg-white"
                   >
-                    <option value="11:00">11:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="16:30">16:30</option>
-                    <option value="19:00">19:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="13:30">13:30</option>
+                    <option value="15:30">15:30</option>
+                    <option value="17:00">17:00</option>
                   </select>
                 </div>
               </div>
