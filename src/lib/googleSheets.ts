@@ -56,11 +56,13 @@ function doPost(e) {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet();
     var postData = JSON.parse(e.postData.contents);
-    var tabName = postData.tabName || postData.action || "데이터기록";
+    var action = postData.action || "general";
+    var tabName = postData.tabName || action || "데이터기록";
     var headers = postData.headers;
     var rowValues = postData.rowValues;
-    var data = postData.data;
+    var data = postData.data || {};
     
+    // 1. 해당 탭에 시트 행 추가
     var targetSheet = sheet.getSheetByName(tabName) || sheet.insertSheet(tabName);
     
     // 첫 행이 비어있으면 헤더 작성
@@ -79,6 +81,49 @@ function doPost(e) {
         row.push(val);
       }
       targetSheet.appendRow(row);
+    }
+
+    // 2. 클래스 예약(saveReservation)인 경우 관리자 2명에게 즉시 이메일 발송
+    if (action === "saveReservation") {
+      var adminEmails = "sho0051@naver.com, jguy12@hanmail.net";
+      var subject = "[플루니티] 새로운 원데이 클래스 예약이 접수되었습니다! (" + (data.userName || "고객") + " 님)";
+      
+      var htmlBody = ""
+        + "<div style='font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; padding: 24px; border: 1px solid #e0d7c7; border-radius: 16px; background-color: #faf8f5;'>"
+        + "  <h2 style='color: #2F6B55; margin-top: 0;'>🌿 플루니티(Flunitea) 클래스 신규 예약 알림</h2>"
+        + "  <p style='color: #555; font-size: 14px;'>홈페이지에서 새로운 원데이 블렌딩 클래스 사전 예약이 접수되었습니다.</p>"
+        + "  <hr style='border: none; border-top: 1px solid #e5dfd3; margin: 16px 0;' />"
+        + "  <table style='width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.8;'>"
+        + "    <tr><td style='padding: 6px 0; color: #888; width: 110px;'><b>예약자 성함</b></td><td style='color: #222;'><b>" + (data.userName || "-") + "</b></td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>연락처</b></td><td style='color: #222;'>" + (data.phone || "-") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>이메일</b></td><td style='color: #222;'>" + (data.email || "-") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>참가 인원</b></td><td style='color: #222;'>" + (data.partySize || "1") + "인</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>희망 일자</b></td><td style='color: #2F6B55; font-weight: bold; font-size: 15px;'>" + (data.preferredDate || "-") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>희망 시간대</b></td><td style='color: #2F6B55; font-weight: bold; font-size: 15px;'>" + (data.preferredTime || "-") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>몸BTI 체질</b></td><td style='color: #222;'>" + (data.momBtiType || "-") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>특별 요청사항</b></td><td style='color: #555;'>" + (data.specialRequests || "없음") + "</td></tr>"
+        + "    <tr><td style='padding: 6px 0; color: #888;'><b>접수 일시</b></td><td style='color: #888;'>" + new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }) + "</td></tr>"
+        + "  </table>"
+        + "  <hr style='border: none; border-top: 1px solid #e5dfd3; margin: 16px 0;' />"
+        + "  <p style='font-size: 12px; color: #999; margin-bottom: 0;'>본 메일은 플루니티(Flunitea) 예약 관리 시스템에서 자동 발송되었습니다.</p>"
+        + "</div>";
+
+      MailApp.sendEmail({
+        to: adminEmails,
+        subject: subject,
+        htmlBody: htmlBody
+      });
+
+      // 예약 신청 고객에게도 확인 메일 발송
+      if (data.email && data.email.indexOf("@") > -1) {
+        try {
+          MailApp.sendEmail({
+            to: data.email,
+            subject: "[플루니티] " + data.userName + " 님의 원데이 클래스 예약이 접수되었습니다.",
+            htmlBody: htmlBody
+          });
+        } catch (clientMailErr) {}
+      }
     }
     
     return ContentService.createTextOutput(JSON.stringify({ result: "success", tab: tabName }))
