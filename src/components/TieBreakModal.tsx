@@ -6,6 +6,7 @@ import { MomBtiType } from '@/lib/types';
 import { TIE_BREAKER_QUESTIONS } from '@/data/questions';
 import { I18N_TIE_BREAKER } from '@/data/questionsI18n';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface TieBreakModalProps {
@@ -86,7 +87,7 @@ export default function TieBreakModal({
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-serif font-bold text-sm sm:text-base text-tea-dark group-hover:text-tea-forest transition-colors">
-                      {typeInfo.name} ({typeInfo.title})
+                      {I18N_MOM_BTI_TYPES[opt.type]?.name[language] || typeInfo.name} ({I18N_MOM_BTI_TYPES[opt.type]?.title[language] || typeInfo.title})
                     </span>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-tea-sand/50 text-tea-dark/70 font-medium">
                       {opt.type}
@@ -105,7 +106,7 @@ export default function TieBreakModal({
         </div>
 
         <p className="text-center text-[11px] text-tea-dark/40 mt-5">
-          * 보완 질문 응답 시 나의 50% 베이스 체질 유형이 최종 확정됩니다.
+          {t('tieModalNote')}
         </p>
       </div>
     </div>

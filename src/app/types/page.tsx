@@ -4,14 +4,24 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, Flower2, ArrowRight } from 'lucide-react';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
 import { MomBtiType } from '@/lib/types';
 import TeaCard from '@/components/TeaCard';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function TypesGuidePage() {
+  const { language, t } = useLanguage();
   const [activeType, setActiveType] = useState<MomBtiType>('WIND');
   const typeKeys: MomBtiType[] = ['SUN', 'FOREST', 'WIND', 'WARM'];
 
-  const currentInfo = MOM_BTI_TYPES[activeType];
+  const baseInfo = MOM_BTI_TYPES[activeType];
+  const i18nInfo = I18N_MOM_BTI_TYPES[activeType];
+
+  const currentName = i18nInfo?.name[language] || baseInfo.name;
+  const currentTitle = i18nInfo?.title[language] || baseInfo.title;
+  const currentTagline = i18nInfo?.tagline[language] || baseInfo.tagline;
+  const currentDesc = i18nInfo?.description[language] || baseInfo.description;
+  const currentTeas = i18nInfo?.recommendedTeas || baseInfo.recommendedTeas;
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
@@ -19,14 +29,13 @@ export default function TypesGuidePage() {
       <div className="text-center max-w-2xl mx-auto">
         <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-tea-forest/10 text-tea-forest text-xs font-semibold mb-3">
           <Flower2 className="w-3.5 h-3.5" />
-          사상체질 4대 유형 & 추천 꽃차 도감
+          {t('typesBadge')}
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-tea-dark mb-3">
-          나를 닮은 자연의 한 잔, 4대 몸BTI
+          {t('typesTitle')}
         </h1>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
-          자연의 네 가지 계절과 기운에 빗대어 풀어낸 사상체질의 현대적 재해석.
-          각 체질이 가진 고유한 매력과 에너지를 조화롭게 북돋워 주는 꽃차들을 만나보세요.
+          {t('typesSubtitle')}
         </p>
       </div>
 
@@ -34,7 +43,11 @@ export default function TypesGuidePage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
         {typeKeys.map((typeKey) => {
           const item = MOM_BTI_TYPES[typeKey];
+          const itemI18n = I18N_MOM_BTI_TYPES[typeKey];
+          const itemName = itemI18n?.name[language] || item.name;
+          const itemTitle = itemI18n?.title[language] || item.title;
           const isSelected = activeType === typeKey;
+
           return (
             <button
               key={typeKey}
@@ -50,10 +63,10 @@ export default function TypesGuidePage() {
                 style={{ backgroundColor: item.color }}
               />
               <span className="font-serif font-bold text-sm sm:text-base text-tea-dark block leading-none mb-1">
-                {item.name}
+                {itemName}
               </span>
               <span className="text-[11px] text-tea-dark/60 font-medium">
-                {item.title}
+                {itemTitle}
               </span>
             </button>
           );
@@ -67,19 +80,19 @@ export default function TypesGuidePage() {
             <div className="flex items-center gap-3 mb-2">
               <span
                 className="w-4 h-4 rounded-full"
-                style={{ backgroundColor: currentInfo.color }}
+                style={{ backgroundColor: baseInfo.color }}
               />
               <h2 className="font-serif text-2xl sm:text-3xl font-bold text-tea-dark">
-                {currentInfo.name} ({currentInfo.title})
+                {currentName} ({currentTitle})
               </h2>
             </div>
             <p className="text-sm font-semibold text-tea-forest">
-              &quot;{currentInfo.tagline}&quot;
+              &quot;{currentTagline}&quot;
             </p>
           </div>
 
           <div className="flex gap-1.5 flex-wrap">
-            {currentInfo.keywords.map((kw) => (
+            {baseInfo.keywords.map((kw) => (
               <span
                 key={kw}
                 className="text-xs font-bold px-3 py-1 rounded-full bg-tea-sand/60 text-tea-dark"
@@ -92,7 +105,7 @@ export default function TypesGuidePage() {
 
         <div className="py-6">
           <p className="text-xs sm:text-sm text-tea-dark/80 leading-relaxed font-medium">
-            {currentInfo.description}
+            {currentDesc}
           </p>
         </div>
 
@@ -100,11 +113,11 @@ export default function TypesGuidePage() {
         <div className="pt-4">
           <h3 className="font-serif text-lg font-bold text-tea-dark mb-4 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-amber-500" />
-            {currentInfo.name} 맞춤 추천 꽃차 도감
+            {currentName} {t('recommendedTeasTitle')}
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {currentInfo.recommendedTeas.map((tea, idx) => (
+            {currentTeas.map((tea: any, idx: number) => (
               <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
             ))}
           </div>
@@ -114,17 +127,17 @@ export default function TypesGuidePage() {
       {/* 하단 진단 유도 배너 */}
       <div className="bg-tea-cream/80 border border-tea-sand rounded-3xl p-8 text-center max-w-xl mx-auto space-y-4">
         <h3 className="font-serif text-xl font-bold text-tea-dark">
-          나는 4가지 중 어떤 유형에 속할까요?
+          {t('ctaBannerTitle')}
         </h3>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
-          8가지 몸BTI 문항과 얼굴 안색 분석을 통해 나만의 50:30:20 시그니처 블렌딩을 지금 확인해보세요.
+          {t('ctaBannerSubtitle')}
         </p>
         <Link
           href="/test"
           className="inline-flex items-center gap-2 bg-tea-forest text-white font-semibold text-xs py-3 px-6 rounded-full hover:bg-tea-forest/90 transition-all shadow-sm"
         >
           <Sparkles className="w-4 h-4" />
-          몸BTI 무료 진단 시작하기
+          {t('heroCtaTest')}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

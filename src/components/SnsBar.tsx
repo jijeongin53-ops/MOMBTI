@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { ShoppingBag, MessageCircle, Share2, X } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function SnsBar() {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(true);
 
   if (!isOpen) {
@@ -23,7 +25,7 @@ export default function SnsBar() {
       <div className="bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-2xl border border-tea-sand/80 flex flex-col gap-2 min-w-[200px] animate-in fade-in slide-in-from-bottom-3 duration-300">
         <div className="flex items-center justify-between pb-2 border-b border-tea-sand/60">
           <span className="text-[11px] font-bold text-tea-dark/70 tracking-wider">
-            FLUNITEA CONNECT
+            {t('snsConnectTitle')}
           </span>
           <button
             onClick={() => setIsOpen(false)}
@@ -37,15 +39,15 @@ export default function SnsBar() {
         <a
           href="https://smartstore.naver.com/fl88"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100/80 transition-colors text-xs font-medium group"
         >
           <div className="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center flex-shrink-0">
             <ShoppingBag className="w-3.5 h-3.5" />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-emerald-950">스마트스토어 구매</span>
-            <span className="text-[10px] text-emerald-700/80">정기구독 및 꽃차 구매</span>
+            <span className="font-semibold text-emerald-950">{t('snsStoreTitle')}</span>
+            <span className="text-[10px] text-emerald-700/80">{t('snsStoreDesc')}</span>
           </div>
         </a>
 
@@ -53,7 +55,7 @@ export default function SnsBar() {
         <a
           href="https://www.instagram.com/flunitea/"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-pink-50 text-pink-800 hover:bg-pink-100/80 transition-colors text-xs font-medium"
         >
           <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white flex items-center justify-center flex-shrink-0">
@@ -62,8 +64,8 @@ export default function SnsBar() {
             </svg>
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-pink-950">공식 인스타그램</span>
-            <span className="text-[10px] text-pink-700/80">@flunitea</span>
+            <span className="font-semibold text-pink-950">{t('snsInstaTitle')}</span>
+            <span className="text-[10px] text-pink-700/80">{t('snsInstaDesc')}</span>
           </div>
         </a>
 
@@ -71,15 +73,15 @@ export default function SnsBar() {
         <a
           href="https://open.kakao.com/o/sP3AeIUe"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener"
           className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-amber-50 text-amber-900 hover:bg-amber-100/80 transition-colors text-xs font-medium"
         >
           <div className="w-6 h-6 rounded-lg bg-[#FEE500] text-[#3C1E1E] flex items-center justify-center flex-shrink-0 font-bold text-xs">
             <MessageCircle className="w-3.5 h-3.5" />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-amber-950">카카오 1:1 상담</span>
-            <span className="text-[10px] text-amber-800/80">클래스 및 단체 문의</span>
+            <span className="font-semibold text-amber-950">{t('snsKakaoTitle')}</span>
+            <span className="text-[10px] text-amber-800/80">{t('snsKakaoDesc')}</span>
           </div>
         </a>
       </div>

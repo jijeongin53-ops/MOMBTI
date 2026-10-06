@@ -4,13 +4,20 @@ import React from 'react';
 import { Sparkles, Droplets, Flame, Clock, Heart, Award } from 'lucide-react';
 import { SignatureTeaBlend } from '@/lib/types';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 interface BlendingVisualizerProps {
   blend: SignatureTeaBlend;
 }
 
 export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
+  const { language, t } = useLanguage();
   const bodyInfo = MOM_BTI_TYPES[blend.baseType];
+  const i18nBody = I18N_MOM_BTI_TYPES[blend.baseType];
+  const currentBodyName = i18nBody?.name[language] || bodyInfo.name;
+  const currentBodyTitle = i18nBody?.title[language] || bodyInfo.title;
+  const currentBodyDesc = i18nBody?.description[language] || bodyInfo.description;
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-lg border border-tea-sand/80 relative overflow-hidden">
@@ -25,14 +32,14 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
             {blend.finalTeaName}
           </h2>
           <p className="text-xs sm:text-sm text-tea-dark/70 mt-1">
-            체질 균형(50%) + 개인 취향(30%) + 오늘의 안색 웰니스(20%)의 황금 비율
+            {t('visualizerGoldenRatio')}
           </p>
         </div>
 
         <div className="flex items-center gap-2 bg-tea-cream px-4 py-2 rounded-2xl border border-tea-sand">
           <Award className="w-5 h-5 text-amber-600" />
           <div className="text-right">
-            <span className="text-[10px] text-tea-dark/60 block leading-none">플루니티 마스터 블렌드</span>
+            <span className="text-[10px] text-tea-dark/60 block leading-none">{t('visualizerMasterBlend')}</span>
             <span className="text-xs font-bold text-tea-dark">No. FL-{(Math.random() * 8999 + 1000).toFixed(0)}</span>
           </div>
         </div>
@@ -61,7 +68,7 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 <div
                   className="w-full h-10 flex items-center justify-center text-[10px] font-bold text-white shadow-inner transition-all hover:brightness-110"
                   style={{ backgroundColor: '#F59E0B' }}
-                  title={`컨디션 포인트: ${blend.conditionKeyword} (20%)`}
+                  title={`20% ${blend.conditionKeyword}`}
                 >
                   <span className="drop-shadow">20% {blend.conditionKeyword}</span>
                 </div>
@@ -70,7 +77,7 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 <div
                   className="w-full h-14 flex items-center justify-center text-[10px] font-bold text-white shadow-inner transition-all hover:brightness-110"
                   style={{ backgroundColor: blend.tasteScent === 'FLORAL' ? '#EC4899' : '#3B82F6' }}
-                  title={`취향: ${blend.tasteScent} (30%)`}
+                  title={`30% ${blend.tasteScent}`}
                 >
                   <span className="drop-shadow">30% {blend.tasteScent}</span>
                 </div>
@@ -79,10 +86,10 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 <div
                   className="w-full h-24 flex flex-col items-center justify-center text-xs font-bold text-white shadow-inner transition-all hover:brightness-110"
                   style={{ backgroundColor: bodyInfo.color }}
-                  title={`체질 베이스: ${bodyInfo.name} (50%)`}
+                  title={`50% ${currentBodyName}`}
                 >
                   <span className="drop-shadow text-[11px]">50% BASE</span>
-                  <span className="drop-shadow text-[9px] opacity-90">{bodyInfo.name}</span>
+                  <span className="drop-shadow text-[9px] opacity-90">{currentBodyName}</span>
                 </div>
               </div>
 
@@ -93,7 +100,7 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
 
           <p className="text-xs text-tea-dark/60 text-center mt-2 flex items-center gap-1">
             <Droplets className="w-3.5 h-3.5 text-tea-forest" />
-            천연 꽃차의 투명하고 우아한 수색(Color) 그라데이션
+            {t('visualizerColorGradation')}
           </p>
         </div>
 
@@ -111,15 +118,15 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <h4 className="font-serif font-bold text-sm text-tea-dark">
-                  01 MY BODY: {bodyInfo.name} ({bodyInfo.title})
+                  01 MY BODY: {currentBodyName} ({currentBodyTitle})
                 </h4>
-                <span className="text-[11px] font-semibold text-tea-forest">체질 중심 바탕</span>
+                <span className="text-[11px] font-semibold text-tea-forest">{t('visualizerBaseLabel')}</span>
               </div>
               <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                주원료: <strong className="text-tea-dark">{blend.baseTea}</strong>
+                {t('ratioBaseDesc')}: <strong className="text-tea-dark">{blend.baseTea}</strong>
               </p>
               <p className="text-[11px] text-tea-dark/60 mt-0.5">
-                {bodyInfo.description.slice(0, 75)}...
+                {currentBodyDesc.slice(0, 75)}...
               </p>
             </div>
           </div>
@@ -135,13 +142,10 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 <h4 className="font-serif font-bold text-sm text-tea-dark">
                   02 MY TASTE: {blend.tasteScent} ({blend.tasteFlavor})
                 </h4>
-                <span className="text-[11px] font-semibold text-rose-600">아로마 & 플레이버</span>
+                <span className="text-[11px] font-semibold text-rose-600">{t('visualizerTasteLabel')}</span>
               </div>
               <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                부원료: <strong className="text-tea-dark">{blend.tasteTea}</strong>
-              </p>
-              <p className="text-[11px] text-tea-dark/60 mt-0.5">
-                찻잔을 입에 가져가는 순간 기분을 화사하게 채워주는 나만의 선호 향미 조합입니다.
+                {t('ratioTasteDesc')}: <strong className="text-tea-dark">{blend.tasteTea}</strong>
               </p>
             </div>
           </div>
@@ -155,15 +159,12 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <h4 className="font-serif font-bold text-sm text-tea-dark">
-                  03 TODAY: {blend.conditionKeyword} (오늘의 안색 컨디션)
+                  03 TODAY: {blend.conditionKeyword}
                 </h4>
-                <span className="text-[11px] font-semibold text-amber-700">스마트 안색 케어</span>
+                <span className="text-[11px] font-semibold text-amber-700">{t('visualizerConditionLabel')}</span>
               </div>
               <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                포인트 원료: <strong className="text-tea-dark">{blend.conditionTea}</strong>
-              </p>
-              <p className="text-[11px] text-tea-dark/60 mt-0.5">
-                웹캠 안색 스캔 결과 포착된 피로와 긴장을 상쾌하게 깨워주는 오늘의 치유 킥입니다.
+                {t('ratioConditionDesc')}: <strong className="text-tea-dark">{blend.conditionTea}</strong>
               </p>
             </div>
           </div>
@@ -174,23 +175,23 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
       <div className="mt-4 pt-6 border-t border-tea-sand grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Flame className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-          <span className="text-[11px] text-tea-dark/60 block">최적 추출 온도</span>
+          <span className="text-[11px] text-tea-dark/60 block">{t('visualizerBrewTemp')}</span>
           <span className="text-xs font-bold text-tea-dark">90℃ ~ 95℃</span>
         </div>
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Clock className="w-4 h-4 text-blue-600 mx-auto mb-1" />
-          <span className="text-[11px] text-tea-dark/60 block">우리는 시간</span>
+          <span className="text-[11px] text-tea-dark/60 block">{t('visualizerBrewTime')}</span>
           <span className="text-xs font-bold text-tea-dark">3분 ~ 3분 30초</span>
         </div>
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Droplets className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-          <span className="text-[11px] text-tea-dark/60 block">권장 음용량</span>
-          <span className="text-xs font-bold text-tea-dark">온수 250~300ml</span>
+          <span className="text-[11px] text-tea-dark/60 block">{t('visualizerBrewAmount')}</span>
+          <span className="text-xs font-bold text-tea-dark">250~300ml</span>
         </div>
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Heart className="w-4 h-4 text-rose-600 mx-auto mb-1" />
-          <span className="text-[11px] text-tea-dark/60 block">추천 음용 시간</span>
-          <span className="text-xs font-bold text-tea-dark">오후 3시 또는 취침 1시간 전</span>
+          <span className="text-[11px] text-tea-dark/60 block">{t('visualizerBrewTiming')}</span>
+          <span className="text-xs font-bold text-tea-dark">{t('visualizerTimingVal')}</span>
         </div>
       </div>
     </div>

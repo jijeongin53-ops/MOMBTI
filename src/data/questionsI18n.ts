@@ -543,3 +543,178 @@ export const I18N_TIE_BREAKER: Record<string, {
     ]
   }
 };
+
+// 3) 차 취향으로 알아보는 나 (9~11번) 다국어 데이터
+export const I18N_TASTE_QUESTIONS = {
+  scent: {
+    id: 9,
+    title: {
+      ko: '가장 끌리는 향은 무엇인가요?',
+      en: 'Which aroma attracts you the most?',
+      zh: '哪种香气最吸引您？',
+      ja: '最も惹かれる香りはどれですか？'
+    },
+    subtitle: {
+      ko: '찻잔을 코끝에 가져갔을 때 기분을 좋게 만드는 향기입니다.',
+      en: 'The scent that uplifts your mood the moment you bring the cup close.',
+      zh: '当茶杯凑近鼻尖时，最能令您心情舒畅的香气。',
+      ja: '茶杯を鼻に近づけたとき、心を弾ませる香りです。'
+    },
+    options: [
+      {
+        value: 'FLORAL',
+        label: { ko: '꽃향', en: 'Floral', zh: '花香', ja: '花の香り' },
+        description: {
+          ko: '화사하고 매혹적인 만개한 생화의 향기',
+          en: 'Vibrant, enchanting aroma of blooming fresh flowers',
+          zh: '明媚迷人的盛开鲜花芬芳',
+          ja: '華やかで魅惑的な咲き誇る生花の香り'
+        }
+      },
+      {
+        value: 'HERBAL',
+        label: { ko: '허브 & 풀향', en: 'Herbal & Green', zh: '草本与清草香', ja: 'ハーブ＆草の香り' },
+        description: {
+          ko: '푸르른 숲과 싱그러운 허브의 청량한 향기',
+          en: 'Refreshing scent of lush green forests and brisk herbs',
+          zh: '茂密森林与新鲜草本的清爽气息',
+          ja: '青々とした森と瑞々しいハーブの爽やかな香り'
+        }
+      },
+      {
+        value: 'CITRUS',
+        label: { ko: '시트러스 & 과일향', en: 'Citrus & Fruity', zh: '柑橘果香', ja: 'シトラス＆果実香' },
+        description: {
+          ko: '톡 쏘는 상큼함과 달콤한 과즙의 향기',
+          en: 'Tangy zest and sweet floral-fruit juice essence',
+          zh: '沁爽酸甜的明快鲜果气息',
+          ja: '弾ける爽快感と甘い果汁の香り'
+        }
+      },
+      {
+        value: 'GRAIN',
+        label: { ko: '구수한 곡물 & 우디향', en: 'Toasted Grain & Woody', zh: '浓香谷物与木质香', ja: '香ばしい穀物＆ウッディ' },
+        description: {
+          ko: '마음을 편안하게 감싸는 깊은 덖음 향기',
+          en: 'Deeply roasted notes that warmly ground and comfort the mind',
+          zh: '抚慰心神的深邃焙烤与大地木质清香',
+          ja: '心を穏やかに包み込む深い焙煎の香り'
+        }
+      }
+    ]
+  },
+  flavor: {
+    id: 10,
+    title: {
+      ko: '좋아하는 차의 맛은 어떤가요?',
+      en: 'What flavor profile do you prefer most in tea?',
+      zh: '您最喜欢怎样的茶饮口感？',
+      ja: '好みの味の傾向はどのようなものですか？'
+    },
+    subtitle: {
+      ko: '입안에 머금었을 때 가장 만족스러운 미각 프로필입니다.',
+      en: 'The taste profile you find most pleasurable on your palate.',
+      zh: '含入口中时最令您身心满足的味觉体验。',
+      ja: '口に含んだときに最も心地よい味覚プロファイルです。'
+    },
+    options: [
+      {
+        value: 'CLEAR',
+        label: { ko: '깔끔하고 청량한 맛', en: 'Crisp & Clean', zh: '清爽通透', ja: '爽快ですっきりした味' },
+        description: {
+          ko: '텁텁함 없이 시원하고 맑게 넘어가는 맛',
+          en: 'Smooth, light, and wonderfully crisp with no lingering dryness',
+          zh: '毫不滞涩，入口清润纯净、回甘透澈',
+          ja: '渋みがなく、清らかで喉越しのよい爽やかな味わい'
+        }
+      },
+      {
+        value: 'SWEET',
+        label: { ko: '은은하고 부드러운 단맛', en: 'Subtle Sweetness', zh: '温润微甜', ja: 'ほんのり優しい甘み' },
+        description: {
+          ko: '자연스러운 꿀과 꽃의 부드러운 감미',
+          en: 'Gentle, natural honey and delicate floral sweetness',
+          zh: '天然花蜜般绵长柔和的甘甜滋味',
+          ja: '自然な蜂蜜や花がもたらす柔らかな甘み'
+        }
+      },
+      {
+        value: 'DEEP',
+        label: { ko: '깊고 묵직한 구수한 맛', en: 'Deep & Savory', zh: '醇厚回甘', ja: '深みのある香ばしさ' },
+        description: {
+          ko: '속을 든든하게 받쳐주는 풍부한 바디감',
+          en: 'Rich, comforting body that grounds and satisfies deeply',
+          zh: '饱满温厚，为身体带来踏实的充盈感',
+          ja: '胃腸を穏やかに支える豊かなコクとボディ感'
+        }
+      },
+      {
+        value: 'SPICY',
+        label: { ko: '알싸하고 따뜻한 풍미', en: 'Warm & Zesty', zh: '辛香温热', ja: 'スパイシーな温かみ' },
+        description: {
+          ko: '스파이시한 진저 노트와 은은한 활력',
+          en: 'Gentle spicy ginger notes infusing restorative warmth',
+          zh: '微辛姜香与温煦草本带来的内在活力',
+          ja: 'ほのかな生姜の刺激と心地よい活力のニュアンス'
+        }
+      }
+    ]
+  },
+  priority: {
+    id: 11,
+    title: {
+      ko: '차 한 잔에서 가장 중요하게 생각하는 것은 무엇인가요?',
+      en: 'What matters most to you in a cup of tea?',
+      zh: '在一杯好茶中，您最看重的是什么？',
+      ja: '一杯のお茶で最も大切にしたいことは何ですか？'
+    },
+    subtitle: {
+      ko: '플루니티 티 타임에서 당신이 추구하는 핵심 가치입니다.',
+      en: 'The core sensory value you cherish most during tea time.',
+      zh: '在 Flunitea 品茗时光中您追求的核心美学与价值。',
+      ja: 'Fluniteaのティータイムであなたが求める大切な価値です。'
+    },
+    options: [
+      {
+        value: 'SCENT',
+        label: { ko: '향 (Aroma)', en: 'Aroma', zh: '香气 (Aroma)', ja: '香り (Aroma)' },
+        description: {
+          ko: '기분을 단숨에 전환해주는 매력적인 아로마',
+          en: 'Captivating fragrance that instantly resets mood and mind',
+          zh: '瞬间转换心境的迷人馥郁香气',
+          ja: '瞬時に気分を切り替えてくれる魅力的なアロマ'
+        }
+      },
+      {
+        value: 'COLOR',
+        label: { ko: '수색 (Color)', en: 'Tea Color', zh: '茶汤水色 (Color)', ja: '水色 (Color)' },
+        description: {
+          ko: '투명한 유리잔에 번지는 영롱하고 맑은 색채',
+          en: 'Luminous, clear visual hues blooming in transparent glass',
+          zh: '透明玻璃杯中流转晕染的明澈色彩',
+          ja: '透明なガラスに広がる澄んだ美しい色合い'
+        }
+      },
+      {
+        value: 'TASTE',
+        label: { ko: '맛과 목넘김 (Taste)', en: 'Taste & Finish', zh: '口感与余韵 (Taste)', ja: '味わいとのど越し (Taste)' },
+        description: {
+          ko: '입안 가득 번지는 섬세하고 조화로운 밸런스',
+          en: 'Delicate harmony and smooth balance spreading on the palate',
+          zh: '充盈口中、回味悠长的细腻平衡感',
+          ja: '口いっぱいに広がる繊細で調和のとれたバランス'
+        }
+      },
+      {
+        value: 'BENEFIT',
+        label: { ko: '웰니스 효능 (Wellness)', en: 'Wellness Benefit', zh: '养生功效 (Wellness)', ja: 'ウェルネス効能 (Wellness)' },
+        description: {
+          ko: '내 몸의 컨디션을 회복시켜주는 건강한 변화',
+          en: 'Wholesome restoration that actively balances physical energy',
+          zh: '调养身心状态、重塑身体机能的健康助力',
+          ja: '心身のコンディションを整える健康的な好変化'
+        }
+      }
+    ]
+  }
+};

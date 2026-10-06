@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
+import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
 import { MomBtiType, SignatureTeaBlend } from '@/lib/types';
 import BlendingVisualizer from '@/components/BlendingVisualizer';
 import TeaCard from '@/components/TeaCard';
@@ -25,7 +26,7 @@ import ReservationModal from '@/components/ReservationModal';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function ResultPage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   const [blend, setBlend] = useState<SignatureTeaBlend | null>(null);
   const [bodyType, setBodyType] = useState<MomBtiType>('WIND');
   const [isReservationOpen, setIsReservationOpen] = useState(false);
@@ -84,13 +85,19 @@ export default function ResultPage() {
   if (!blend) return null;
 
   const currentTypeInfo = MOM_BTI_TYPES[bodyType];
+  const i18nType = I18N_MOM_BTI_TYPES[bodyType];
+  const typeName = i18nType?.name[language] || currentTypeInfo.name;
+  const typeTitle = i18nType?.title[language] || currentTypeInfo.title;
+  const typeTagline = i18nType?.tagline[language] || currentTypeInfo.tagline;
+  const typeDesc = i18nType?.description[language] || currentTypeInfo.description;
+  const typeTeas = i18nType?.recommendedTeas || currentTypeInfo.recommendedTeas;
 
   const handleShare = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: `플루니티 [몸BTI] ${blend.finalTeaName}`,
-          text: `나에게 가장 잘 맞는 맞춤 꽃차 블렌딩을 확인해보세요!`,
+          title: `FLUNITEA [MomBTI] ${blend.finalTeaName}`,
+          text: `Flunitea Bespoke Signature Blend`,
           url: window.location.href
         })
         .catch(() => {});
@@ -133,7 +140,7 @@ export default function ResultPage() {
             </span>
             <div className="flex items-center gap-3">
               <h3 className="font-serif text-2xl sm:text-3xl font-bold text-tea-dark">
-                {currentTypeInfo.name} ({currentTypeInfo.title})
+                {typeName} ({typeTitle})
               </h3>
               <div className="flex gap-1">
                 {currentTypeInfo.keywords.map((kw) => (
@@ -147,7 +154,7 @@ export default function ResultPage() {
               </div>
             </div>
             <p className="text-xs sm:text-sm text-tea-forest font-semibold mt-1">
-              &quot;{currentTypeInfo.tagline}&quot;
+              &quot;{typeTagline}&quot;
             </p>
           </div>
 
@@ -156,17 +163,17 @@ export default function ResultPage() {
             <FileText className="w-4 h-4 text-amber-700 flex-shrink-0" />
             <div className="text-xs">
               <span className="font-serif font-bold text-amber-900 block leading-tight">
-                티 마스터 수기 메모
+                {t('resultMasterNote')}
               </span>
               <span className="text-amber-800 text-[11px]">
-                &quot;{currentTypeInfo.name}이 나한테 맞다&quot;
+                &quot;{typeName} {t('resultSuitsMe')}&quot;
               </span>
             </div>
           </div>
         </div>
 
         <p className="text-xs sm:text-sm text-tea-dark/80 leading-relaxed my-6 font-medium">
-          {currentTypeInfo.description}
+          {typeDesc}
         </p>
 
         {/* 체질 맞춤 추천 꽃차 도감 그리드 */}
@@ -174,15 +181,15 @@ export default function ResultPage() {
           <div className="flex items-center justify-between mb-4">
             <h4 className="font-serif text-base sm:text-lg font-bold text-tea-dark flex items-center gap-2">
               <Droplets className="w-4 h-4 text-tea-forest" />
-              {currentTypeInfo.name} 체질을 위한 플루니티 추천 꽃차 라인업
+              {typeName} {t('resultLineupTitle')}
             </h4>
             <span className="text-xs text-tea-dark/50">
-              총 {currentTypeInfo.recommendedTeas.length}종 수록
+              {typeTeas.length} items
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentTypeInfo.recommendedTeas.map((tea, idx) => (
+            {typeTeas.map((tea, idx) => (
               <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
             ))}
           </div>
@@ -200,11 +207,10 @@ export default function ResultPage() {
               ONLINE STORE & SUBSCRIPTION
             </div>
             <h3 className="font-serif text-2xl font-bold mb-2">
-              나만의 시그니처 티 구매 & 정기구독
+              {t('resultBuyTitle')}
             </h3>
             <p className="text-xs sm:text-sm text-emerald-100/70 leading-relaxed mb-6">
-              오늘 진단된 맞춤 비율(50:30:20)로 정성껏 블렌딩된 차를 바로 구매하거나,
-              매달 신선하게 집으로 배송받는 정기구독을 시작해보세요.
+              {t('resultBuyDesc')}
             </p>
           </div>
 
@@ -212,7 +218,7 @@ export default function ResultPage() {
             <a
               href="https://smartstore.naver.com/fl88"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="w-full inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 px-6 rounded-2xl transition-all shadow-lg text-xs sm:text-sm active:scale-95"
             >
               <ShoppingBag className="w-4 h-4" />
@@ -234,10 +240,10 @@ export default function ResultPage() {
               OFFLINE ATELIER CLASS
             </div>
             <h3 className="font-serif text-2xl font-bold mb-2">
-              Flunitea Tea Atelier Experience
+              {t('resultAtelierTitle')}
             </h3>
             <p className="text-xs sm:text-sm text-amber-100/70 leading-relaxed mb-6">
-              Private 70-minute tea blending class with master sommelier in Busan Yeongdo atelier.
+              {t('resultAtelierDesc')}
             </p>
           </div>
 

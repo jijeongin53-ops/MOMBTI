@@ -86,7 +86,7 @@ export default function Navbar() {
           <a
             href="https://smartstore.naver.com/fl88"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener"
             className="flex items-center gap-1 text-tea-warm hover:text-amber-700 transition-colors font-semibold"
           >
             <ShoppingBag className="w-4 h-4" />
@@ -121,7 +121,7 @@ export default function Navbar() {
               <button
                 onClick={handleLogout}
                 className="text-xs text-tea-dark/60 hover:text-tea-dark p-1.5"
-                title="로그아웃"
+                title={t('navLogout')}
               >
                 <LogOut className="w-3.5 h-3.5" />
               </button>

@@ -171,7 +171,7 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
       <div className="text-center max-w-md mx-auto mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-tea-forest text-xs font-semibold mb-2">
           <Sparkles className="w-3.5 h-3.5 text-tea-forest" />
-          오늘의 컨디션 (Wellness Point 20% 반영)
+          {t('ratioCondition')}
         </div>
         <h3 className="font-serif text-xl sm:text-2xl font-bold text-tea-dark mb-2">
           {t('cameraTitle')}

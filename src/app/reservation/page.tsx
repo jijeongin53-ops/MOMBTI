@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { CalendarCheck, MapPin, Clock, Users, Sparkles, Send, CheckCircle2 } from 'lucide-react';
 import { sendToGoogleSheets } from '@/lib/googleSheets';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function ReservationPage() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     userName: '',
     phone: '',
@@ -40,14 +42,13 @@ export default function ReservationPage() {
       <div className="text-center max-w-2xl mx-auto">
         <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-semibold mb-3">
           <CalendarCheck className="w-3.5 h-3.5 text-amber-700" />
-          플루니티 오프라인 아틀리에 체험 예약
+          {t('resBadge')}
         </span>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-tea-dark mb-3">
-          나만의 시그니처 꽃차 원데이 블렌딩 클래스
+          {t('resTitle')}
         </h1>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
-          향기로운 꽃잎을 직접 덖고 조향하는 프라이빗 웰니스 티 타임.
-          사상체질 티 마스터와 함께 세상에 하나뿐인 나만의 블렌딩 티를 완성해 보세요.
+          {t('resSubtitle')}
         </p>
       </div>
 
@@ -56,7 +57,7 @@ export default function ReservationPage() {
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-tea-sand/80 space-y-4">
             <h3 className="font-serif text-lg font-bold text-tea-dark">
-              클래스 커리큘럼 (총 70분)
+              {t('resCurriculumTitle')}
             </h3>
             <ul className="space-y-3 text-xs text-tea-dark/80">
               <li className="flex items-start gap-2.5">
@@ -64,8 +65,8 @@ export default function ReservationPage() {
                   1
                 </div>
                 <div>
-                  <strong className="block text-tea-dark">웰컴 티 & 몸BTI 정밀 상담 (15분)</strong>
-                  체질별 체감 온도와 소화 기운을 점검하고 웰컴 티를 음용합니다.
+                  <strong className="block text-tea-dark">{t('resStep1Title')}</strong>
+                  {t('resStep1Desc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
@@ -73,8 +74,8 @@ export default function ReservationPage() {
                   2
                 </div>
                 <div>
-                  <strong className="block text-tea-dark">사계절 유기농 꽃차 테이스팅 (25분)</strong>
-                  맨드라미, 목련, 국화, 연잎, 캐모마일, 장미 등 12종의 수색과 향을 감상합니다.
+                  <strong className="block text-tea-dark">{t('resStep2Title')}</strong>
+                  {t('resStep2Desc')}
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
@@ -82,8 +83,8 @@ export default function ReservationPage() {
                   3
                 </div>
                 <div>
-                  <strong className="block text-tea-dark">50:30:20 시그니처 티 조향 & 패키징 (30분)</strong>
-                  나의 체질과 취향에 맞춘 황금 배합으로 유리 티 캐니스터에 직접 담아갑니다.
+                  <strong className="block text-tea-dark">{t('resStep3Title')}</strong>
+                  {t('resStep3Desc')}
                 </div>
               </li>
             </ul>
@@ -91,15 +92,15 @@ export default function ReservationPage() {
             <div className="pt-4 border-t border-tea-sand/60 space-y-2 text-xs text-tea-dark/70">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-tea-forest flex-shrink-0" />
-                <span>부산시 영도구 번영길8, 2층 (플루니티), Busan, South Korea</span>
+                <span>{t('footerAddress')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                <span>화~일 / 11:00, 14:00, 16:30, 19:00</span>
+                <span>{t('resSchedule')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="w-4 h-4 text-amber-600 flex-shrink-0" />
-                <span>타임당 최대 4인 프라이빗 진행</span>
+                <span>{t('resMaxGuests')}</span>
               </div>
             </div>
           </div>
@@ -113,39 +114,38 @@ export default function ReservationPage() {
                 <CheckCircle2 className="w-8 h-8" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-tea-dark mb-2">
-                클래스 예약이 정상 접수되었습니다!
+                {t('resSuccessTitle')}
               </h3>
               <p className="text-xs sm:text-sm text-tea-dark/70 max-w-sm mx-auto mb-6 leading-relaxed">
-                접수 내역이 구글 시트에 안전하게 전송되었습니다. 티 마스터가 24시간 이내에
-                안내 문자와 이메일을 보내드립니다.
+                {t('resSuccessDesc')}
               </p>
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
                 className="bg-tea-forest text-white px-6 py-2.5 rounded-full text-xs font-semibold hover:bg-tea-forest/90 transition-all"
               >
-                다른 날짜 추가 예약하기
+                {t('resConfirmBtn')}
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="border-b border-tea-sand pb-4">
                 <h3 className="font-serif text-xl font-bold text-tea-dark">
-                  클래스 예약 신청서
+                  {t('resFormTitle')}
                 </h3>
                 <p className="text-xs text-tea-dark/60 mt-0.5">
-                  입력하신 예약 정보는 구글 시트 데이터베이스에 실시간으로 기록됩니다.
+                  {t('resFormSubtitle')}
                 </p>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1">
-                  예약자 성함 *
+                  {t('resNameLabel')}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="예: 홍길동"
+                  placeholder={t('resNamePlaceholder')}
                   value={formData.userName}
                   onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none"
@@ -155,7 +155,7 @@ export default function ReservationPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-tea-dark mb-1">
-                    연락처 (휴대폰) *
+                    {t('resPhoneLabel')}
                   </label>
                   <input
                     type="tel"
@@ -168,17 +168,17 @@ export default function ReservationPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-tea-dark mb-1">
-                    인원수 *
+                    {t('resPartySizeLabel')}
                   </label>
                   <select
                     value={formData.partySize}
                     onChange={(e) => setFormData({ ...formData, partySize: Number(e.target.value) })}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none bg-white"
                   >
-                    <option value={1}>1인 (나를 위한 힐링 티타임)</option>
-                    <option value={2}>2인 (연인 / 친구 페어링)</option>
-                    <option value={3}>3인</option>
-                    <option value={4}>4인 (프라이빗 대관)</option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
                   </select>
                 </div>
               </div>
@@ -186,7 +186,7 @@ export default function ReservationPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-tea-dark mb-1">
-                    희망 예약 날짜 *
+                    {t('resDateLabel')}
                   </label>
                   <input
                     type="date"
@@ -198,24 +198,24 @@ export default function ReservationPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-tea-dark mb-1">
-                    희망 클래스 시간 *
+                    {t('resTimeLabel')}
                   </label>
                   <select
                     value={formData.preferredTime}
                     onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none bg-white"
                   >
-                    <option value="11:00">오전 11:00 타임 (모닝 웰니스)</option>
-                    <option value="14:00">오후 02:00 타임 (애프터눈 티)</option>
-                    <option value="16:30">오후 04:30 타임 (선셋 블렌딩)</option>
-                    <option value="19:00">저녁 07:00 타임 (나이트 릴렉스)</option>
+                    <option value="11:00">11:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="16:30">16:30</option>
+                    <option value="19:00">19:00</option>
                   </select>
                 </div>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1">
-                  이메일 주소 *
+                  {t('resEmailLabel')}
                 </label>
                 <input
                   type="email"
@@ -229,7 +229,7 @@ export default function ReservationPage() {
 
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1">
-                  진단받은 나의 몸BTI 유형
+                  {t('resBtiLabel')}
                 </label>
                 <select
                   value={formData.momBtiType}
@@ -240,17 +240,17 @@ export default function ReservationPage() {
                   <option value="숲온형 (FOREST 태음인)">숲온형 (FOREST 태음인)</option>
                   <option value="바람형 (WIND 소양인)">바람형 (WIND 소양인)</option>
                   <option value="온담형 (WARM 소음인)">온담형 (WARM 소음인)</option>
-                  <option value="미진단 (현장에서 진단 희망)">미진단 (현장에서 진단 희망)</option>
+                  <option value="미진단 (현장에서 진단 희망)">{t('resUnsureBti')}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-tea-dark mb-1">
-                  요청 사항 및 특별히 피하고 싶은 원료
+                  {t('resSpecialLabel')}
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="특정 꽃 알레르기나 선호하시는 취향을 남겨주시면 수업에 미리 반영해 드립니다."
+                  placeholder={t('resSpecialPlaceholder')}
                   value={formData.specialRequests}
                   onChange={(e) => setFormData({ ...formData, specialRequests: e.target.value })}
                   className="w-full px-3.5 py-2 rounded-xl border border-tea-sand text-xs focus:ring-2 focus:ring-tea-forest/30 focus:outline-none"
@@ -263,7 +263,7 @@ export default function ReservationPage() {
                 className="w-full bg-tea-forest hover:bg-tea-forest/90 text-white font-semibold py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-xs active:scale-[0.99]"
               >
                 <Send className="w-4 h-4" />
-                {loading ? '구글 시트 전송 중...' : '원데이 클래스 사전 예약 신청하기'}
+                {loading ? '...' : t('resSubmitBtn')}
               </button>
             </form>
           )}

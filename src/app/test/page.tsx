@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Sparkles, ArrowRight, ArrowLeft, CheckCircle2, Wand2, ShieldAlert } from 'lucide-react';
 import { MOM_BTI_QUESTIONS, TASTE_QUESTIONS, TODAY_CONDITION_QUESTION } from '@/data/questions';
-import { I18N_QUESTIONS } from '@/data/questionsI18n';
+import { I18N_QUESTIONS, I18N_TASTE_QUESTIONS } from '@/data/questionsI18n';
 import { MomBtiType, TasteSelection, ConditionResult } from '@/lib/types';
 import { calculateMomBtiScore, createSignatureBlend } from '@/lib/mbtiLogic';
 import { sendToGoogleSheets } from '@/lib/googleSheets';
@@ -426,29 +426,31 @@ export default function MomBtiTestPage() {
         <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-tea-sand/80 animate-in fade-in duration-300 space-y-8">
           <div>
             <span className="text-xs text-tea-forest font-semibold block mb-1">
-              3) 차 취향으로 알아보는 나 (Taste 30%)
+              {t('step2Title')}
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl font-bold text-tea-dark mb-2">
-              나의 오감을 사로잡는 차의 매력
+              {t('step2Subtitle')}
             </h2>
             <p className="text-xs sm:text-sm text-tea-dark/60">
-              확정된 체질 베이스(50%)에 조화롭게 녹아들 나만의 아로마와 맛을 선택해주세요.
+              {t('step2Guide')}
             </p>
           </div>
 
           {/* 09. 가장 끌리는 향 */}
           <div className="space-y-3">
             <label className="block text-xs font-bold text-tea-dark">
-              09 {TASTE_QUESTIONS.scent.title}
+              09 {I18N_TASTE_QUESTIONS.scent.title[language] || I18N_TASTE_QUESTIONS.scent.title['ko']}
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {TASTE_QUESTIONS.scent.options.map((opt) => {
+              {I18N_TASTE_QUESTIONS.scent.options.map((opt) => {
                 const isSelected = tasteAnswers.scent === opt.value;
+                const optLabel = opt.label[language] || opt.label['ko'];
+                const optDesc = opt.description[language] || opt.description['ko'];
                 return (
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setTasteAnswers({ ...tasteAnswers, scent: opt.value })}
+                    onClick={() => setTasteAnswers({ ...tasteAnswers, scent: opt.value as any })}
                     className={`p-3.5 rounded-2xl border-2 text-left transition-all ${
                       isSelected
                         ? 'border-pink-500 bg-pink-50/50 shadow-sm'
@@ -456,10 +458,10 @@ export default function MomBtiTestPage() {
                     }`}
                   >
                     <span className="font-serif font-bold text-xs sm:text-sm text-tea-dark block">
-                      {opt.label}
+                      {optLabel}
                     </span>
                     <span className="text-[11px] text-tea-dark/60 mt-0.5 block">
-                      {opt.description}
+                      {optDesc}
                     </span>
                   </button>
                 );
@@ -470,16 +472,18 @@ export default function MomBtiTestPage() {
           {/* 10. 좋아하는 차의 맛 */}
           <div className="space-y-3">
             <label className="block text-xs font-bold text-tea-dark">
-              10 {TASTE_QUESTIONS.flavor.title}
+              10 {I18N_TASTE_QUESTIONS.flavor.title[language] || I18N_TASTE_QUESTIONS.flavor.title['ko']}
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {TASTE_QUESTIONS.flavor.options.map((opt) => {
+              {I18N_TASTE_QUESTIONS.flavor.options.map((opt) => {
                 const isSelected = tasteAnswers.flavor === opt.value;
+                const optLabel = opt.label[language] || opt.label['ko'];
+                const optDesc = opt.description[language] || opt.description['ko'];
                 return (
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setTasteAnswers({ ...tasteAnswers, flavor: opt.value })}
+                    onClick={() => setTasteAnswers({ ...tasteAnswers, flavor: opt.value as any })}
                     className={`p-3.5 rounded-2xl border-2 text-left transition-all ${
                       isSelected
                         ? 'border-tea-forest bg-tea-forest/5 shadow-sm'
@@ -487,10 +491,10 @@ export default function MomBtiTestPage() {
                     }`}
                   >
                     <span className="font-serif font-bold text-xs sm:text-sm text-tea-dark block">
-                      {opt.label}
+                      {optLabel}
                     </span>
                     <span className="text-[11px] text-tea-dark/60 mt-0.5 block">
-                      {opt.description}
+                      {optDesc}
                     </span>
                   </button>
                 );
@@ -501,16 +505,18 @@ export default function MomBtiTestPage() {
           {/* 11. 가장 중요하게 생각하는 것 */}
           <div className="space-y-3">
             <label className="block text-xs font-bold text-tea-dark">
-              11 {TASTE_QUESTIONS.priority.title}
+              11 {I18N_TASTE_QUESTIONS.priority.title[language] || I18N_TASTE_QUESTIONS.priority.title['ko']}
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              {TASTE_QUESTIONS.priority.options.map((opt) => {
+              {I18N_TASTE_QUESTIONS.priority.options.map((opt) => {
                 const isSelected = tasteAnswers.priority === opt.value;
+                const optLabel = opt.label[language] || opt.label['ko'];
+                const optDesc = opt.description[language] || opt.description['ko'];
                 return (
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setTasteAnswers({ ...tasteAnswers, priority: opt.value })}
+                    onClick={() => setTasteAnswers({ ...tasteAnswers, priority: opt.value as any })}
                     className={`p-3 rounded-2xl border-2 text-center transition-all ${
                       isSelected
                         ? 'border-amber-500 bg-amber-50/50 shadow-sm'
@@ -518,10 +524,10 @@ export default function MomBtiTestPage() {
                     }`}
                   >
                     <span className="font-serif font-bold text-xs text-tea-dark block">
-                      {opt.label}
+                      {optLabel}
                     </span>
                     <span className="text-[10px] text-tea-dark/60 mt-1 block leading-tight">
-                      {opt.description}
+                      {optDesc}
                     </span>
                   </button>
                 );
