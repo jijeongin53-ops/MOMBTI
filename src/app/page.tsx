@@ -33,15 +33,13 @@ export default function HomePage() {
         {/* 은은한 배경 그라데이션 블러 */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-tea-forest/10 via-amber-200/20 to-rose-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        {/* 회사 로고 배지 */}
+        {/* 회사 로고 배지 (투명 배경 PNG) */}
         <div className="flex justify-center mb-4">
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white border border-tea-sand shadow-sm">
-            <img
-              src="/logo.jpg"
-              alt="FLUNITEA 회사 로고"
-              className="h-10 sm:h-12 w-auto object-contain"
-            />
-          </div>
+          <img
+            src="/logo.png"
+            alt="FLUNITEA 회사 로고"
+            className="h-20 sm:h-24 w-auto object-contain drop-shadow-sm"
+          />
         </div>
 
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-tea-sand shadow-sm text-xs font-semibold text-tea-forest mb-4 animate-in fade-in slide-from-top-3 duration-500">

@@ -13,11 +13,11 @@ export default function Footer() {
           {/* 브랜드 소개 */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-11 px-3 rounded-xl bg-white flex items-center justify-center shadow-sm">
+              <div className="h-12 flex items-center justify-center">
                 <img
-                  src="/logo.jpg"
+                  src="/logo.png"
                   alt="FLUNITEA 회사 로고"
-                  className="h-8 w-auto object-contain"
+                  className="h-11 w-auto object-contain"
                 />
               </div>
               <div>
