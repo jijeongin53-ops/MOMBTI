@@ -32,15 +32,24 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
         setErrorMsg('현재 브라우저에서 카메라를 지원하지 않습니다. 사진 업로드를 이용해주세요.');
         return;
       }
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
-        audio: false
-      });
+      let stream: MediaStream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
+          audio: false
+        });
+      } catch (constraintErr) {
+        // PC 웹캠 등 facingMode 제약 조건 미지원 시 기본 비디오 스트림으로 재시도
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+      }
       streamRef.current = stream;
+      setStreamActive(true);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
-        setStreamActive(true);
+        await videoRef.current.play().catch(() => {});
       }
     } catch (err: any) {
       console.warn('카메라 접근 에러:', err);
@@ -49,11 +58,22 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
     }
   };
 
+  // streamActive 변경 시 비디오 엘리먼트에 스트림 연결 보장
+  useEffect(() => {
+    if (streamActive && streamRef.current && videoRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [streamActive]);
+
   // 카메라 중지
   const stopCamera = () => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
     }
     setStreamActive(false);
   };
@@ -183,16 +203,20 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
 
       {/* 카메라 및 프리뷰 뷰어 */}
       <div className="relative max-w-sm mx-auto aspect-square rounded-2xl overflow-hidden bg-tea-dark/5 border-2 border-dashed border-tea-forest/30 flex items-center justify-center">
-        {/* 1. 실시간 스트림 화면 */}
+        {/* 1. 실시간 스트림 화면 (video 엘리먼트는 항상 마운트하여 ref 유실 방지) */}
+        <video
+          ref={videoRef}
+          playsInline
+          autoPlay
+          muted
+          className={
+            streamActive && !capturedImage
+              ? 'w-full h-full object-cover transform -scale-x-100'
+              : 'hidden'
+          }
+        />
         {streamActive && !capturedImage && (
           <>
-            <video
-              ref={videoRef}
-              playsInline
-              autoPlay
-              muted
-              className="w-full h-full object-cover transform -scale-x-100"
-            />
             {/* 얼굴 타원 가이드 */}
             <div className="absolute inset-0 border-4 border-white/60 rounded-full scale-75 pointer-events-none animate-pulse-glow" />
             <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none">
@@ -265,7 +289,6 @@ export default function FaceCamera({ onAnalyzed, defaultCondition }: FaceCameraP
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          capture="user"
           onChange={handleFileUpload}
           className="hidden"
         />
