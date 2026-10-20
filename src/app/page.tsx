@@ -48,9 +48,9 @@ export default function HomePage() {
         </div>
 
         {/* 메인 슬로건 */}
-        <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-tea-dark tracking-tight leading-[1.2] mb-3">
-          Discover Your Body Type,{' '}
-          <span className="text-tea-forest">Find Your Tea!</span>
+        <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-tea-dark tracking-tight leading-[1.25] mb-3">
+          Discover Your Body Type,
+          <span className="block text-tea-forest mt-1">Find Your Tea!</span>
         </h1>
 
         <p className="text-sm sm:text-lg font-serif font-semibold text-tea-dark/90 mb-3">
