@@ -20,68 +20,73 @@ import { MOM_BTI_TYPES } from '@/data/teaTypes';
 import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { MomBtiType } from '@/lib/types';
+import MomBtiTestPage from './test/page';
 
 export default function HomePage() {
   const { language, t } = useLanguage();
   const typeKeys: MomBtiType[] = ['SUN', 'FOREST', 'WIND', 'WARM'];
 
   return (
-    <div className="space-y-24 pb-20">
-      {/* 1. Hero 섹션 */}
-      <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto text-center overflow-hidden">
+    <div className="space-y-16 pb-20">
+      {/* 1. Hero 섹션 (오프닝: 회사 로고 + 슬로건 + 체질 진단 간단 설명) */}
+      <section className="relative pt-10 pb-6 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center overflow-hidden">
         {/* 은은한 배경 그라데이션 블러 */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-tea-forest/10 via-amber-200/20 to-rose-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
 
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-tea-sand shadow-sm text-xs font-semibold text-tea-forest mb-6 animate-in fade-in slide-from-top-3 duration-500">
+        {/* 회사 로고 배지 */}
+        <div className="flex justify-center mb-4">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-white border border-tea-sand shadow-sm">
+            <img
+              src="/logo.jpg"
+              alt="FLUNITEA 회사 로고"
+              className="h-10 sm:h-12 w-auto object-contain"
+            />
+          </div>
+        </div>
+
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-tea-sand shadow-sm text-xs font-semibold text-tea-forest mb-4 animate-in fade-in slide-from-top-3 duration-500">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           <span>{t('heroBadge')}</span>
         </div>
 
-        <h1 className="font-serif text-4xl sm:text-6xl font-extrabold text-tea-dark tracking-tight leading-[1.2] mb-6">
-          {t('heroTitle1')}<br />
-          <span className="text-tea-forest">{t('heroTitle2')}</span>
+        {/* 메인 슬로건 */}
+        <h1 className="font-serif text-3xl sm:text-5xl font-extrabold text-tea-dark tracking-tight leading-[1.2] mb-3">
+          Discover Your Body Type,{' '}
+          <span className="text-tea-forest">Find Your Tea!</span>
         </h1>
 
-        <p className="max-w-2xl mx-auto text-sm sm:text-base text-tea-dark/70 leading-relaxed mb-10 font-normal">
-          {t('heroSubtitle')}
+        <p className="text-sm sm:text-lg font-serif font-semibold text-tea-dark/90 mb-3">
+          {t('heroTitle1')} · {t('heroTitle2')}
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-          <Link
-            href="/test"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-tea-forest hover:bg-tea-forest/90 text-white font-bold text-sm px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95 group"
-          >
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span>{t('heroCtaTest')}</span>
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-
-          <Link
-            href="/types"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/80 hover:bg-white text-tea-dark font-semibold text-sm px-7 py-4 rounded-full border border-tea-sand shadow-sm transition-all"
-          >
-            <span>{t('heroCtaTypes')}</span>
-          </Link>
-        </div>
+        {/* 체질 진단 간단 설명 */}
+        <p className="max-w-2xl mx-auto text-xs sm:text-sm text-tea-dark/70 leading-relaxed mb-6 font-normal">
+          사상체질 기반 <strong>체질 진단(50%)</strong>, 선호하는 <strong>차 취향(30%)</strong>, 얼굴 안색을 통한 <strong>오늘의 컨디션(20%)</strong>을 분석해 각 파트별 2~3종의 맞춤 꽃차를 추천해 드립니다. 아래에서 바로 체질 진단을 시작해 보세요!
+        </p>
 
         {/* 3대 핵심 블렌딩 공식 배지 */}
-        <div className="mt-14 max-w-3xl mx-auto p-4 sm:p-5 rounded-3xl bg-white/70 backdrop-blur-md border border-tea-sand/80 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+        <div className="max-w-3xl mx-auto p-3.5 sm:p-4 rounded-3xl bg-white/80 backdrop-blur-md border border-tea-sand/80 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-left">
           <div className="p-3 rounded-2xl bg-tea-cream/60 border border-tea-sand/40">
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tea-forest text-white">50% BASE</span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-tea-forest text-white">STEP 1 · 50% BASE</span>
             <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioBase')}</h4>
             <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioBaseDesc')}</p>
           </div>
           <div className="p-3 rounded-2xl bg-pink-50/50 border border-pink-200/40">
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-pink-500 text-white">30% TASTE</span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-pink-500 text-white">STEP 2 · 30% TASTE</span>
             <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioTaste')}</h4>
             <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioTasteDesc')}</p>
           </div>
           <div className="p-3 rounded-2xl bg-amber-50/50 border border-amber-200/40">
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-600 text-white">20% TODAY</span>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-600 text-white">STEP 3 · 20% TODAY</span>
             <h4 className="font-serif font-bold text-xs sm:text-sm text-tea-dark mt-1.5">{t('ratioCondition')}</h4>
             <p className="text-[11px] text-tea-dark/60 mt-0.5">{t('ratioConditionDesc')}</p>
           </div>
         </div>
+      </section>
+
+      {/* 오프닝 페이지에서 바로 진행하는 체질 진단 섹션 */}
+      <section id="diagnosis-start" className="scroll-mt-24">
+        <MomBtiTestPage />
       </section>
 
       {/* 2. 솔루션 주요 기능 안내 3-CARD */}
@@ -218,10 +223,10 @@ export default function HomePage() {
 
                 <div>
                   <span className="text-[10px] font-bold text-tea-dark/50 block mb-1.5 uppercase">
-                    {t('mainTeasLabel')}
+                    Base 꽃차 & Blending 차
                   </span>
                   <div className="flex flex-wrap gap-1">
-                    {teas.slice(0, 2).map((tea) => {
+                    {teas.map((tea) => {
                       const teaName = typeof tea.name === 'object'
                         ? (tea.name[language] || tea.name['ko'])
                         : tea.name;
@@ -257,10 +262,10 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/test"
+              href="/types"
               className="bg-white hover:bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm px-8 py-3.5 rounded-full shadow-lg transition-all"
             >
-              {t('ctaStartTest')}
+              {t('heroCtaTypes')}
             </Link>
             <Link
               href="/auth"

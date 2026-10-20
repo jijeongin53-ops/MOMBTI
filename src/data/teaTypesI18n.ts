@@ -13,6 +13,7 @@ export interface I18nTeaInfo {
   teaColor: string;
   recommendedTeas: {
     id: string;
+    category?: 'BASE' | 'BLENDING';
     name: Record<Language, string>;
     benefits: Record<Language, string[]>;
     flavorNotes: Record<Language, string[]>;
@@ -56,12 +57,8 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
     recommendedTeas: [
       {
         id: 'cockscomb',
-        name: {
-          ko: '맨드라미꽃차',
-          en: 'Cockscomb Flower Tea',
-          zh: '鸡冠花茶',
-          ja: 'ケイトウ花茶'
-        },
+        category: 'BASE',
+        name: { ko: '맨드라미꽃차', en: 'Cockscomb Flower Tea', zh: '鸡冠花茶', ja: 'ケイトウ花茶' },
         benefits: {
           ko: ['상체 열감 해소', '눈의 피로 완화', '혈행 개선'],
           en: ['Relieves upper heat', 'Eases eye strain', 'Improves circulation'],
@@ -75,7 +72,7 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
           ja: ['ほのかな甘い花の香り', 'すっきり爽やかな後味']
         },
         steepColor: '#EF4444',
-        steepTemp: '95℃',
+        steepTemp: '90~100℃',
         steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
           ko: '강렬하고 화사한 루비빛 수색이 매력적이며, 분주했던 마음에 차분한 휴식을 선물합니다.',
@@ -85,63 +82,159 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
         }
       },
       {
-        id: 'magnolia',
-        name: {
-          ko: '목련꽃차',
-          en: 'Magnolia Flower Tea',
-          zh: '辛夷木莲花茶',
-          ja: 'モクレン花茶'
-        },
+        id: 'chamomile_sun',
+        category: 'BASE',
+        name: { ko: '캐모마일꽃차', en: 'Chamomile Flower Tea', zh: '洋甘菊花茶', ja: 'カモミール花茶' },
         benefits: {
-          ko: ['호흡기 및 비염 완화', '두통 완화', '기분 전환'],
-          en: ['Respiratory relief', 'Eases tension headaches', 'Mood refresher'],
-          zh: ['舒缓呼吸道与鼻炎', '缓解头痛', '提神醒脑'],
-          ja: ['呼吸器と鼻のケア', '頭痛の緩和', '気分転換']
+          ko: ['심신 안정 및 긴장 완화', '상체 화기 진정', '숙면 유도'],
+          en: ['Stress relief & calm', 'Soothes upper heat', 'Supports sound sleep'],
+          zh: ['平复心绪缓解紧张', '清降上身火气', '助眠安神'],
+          ja: ['リラックス・緊張緩和', '上半身の熱を鎮める', '安眠サポート']
         },
         flavorNotes: {
-          ko: ['달콤한 박하향', '알싸하면서도 산뜻한 매화향'],
-          en: ['Sweet minty note', 'Subtly spiced crisp plum aroma'],
-          zh: ['微甜薄荷香', '辛香清冽的梅花风味'],
-          ja: ['甘いミントの香り', 'ピリッと爽やかな花の香り']
+          ko: ['달콤한 사과향', '포근하고 부드러운 허브 내음'],
+          en: ['Gentle sweet apple note', 'Warm, velvety herbal aroma'],
+          zh: ['清甜苹果花香', '温润柔和的草本韵味'],
+          ja: ['やさしいリンゴの香り', 'まろやかで温かなハーブの香り']
         },
-        steepColor: '#FDE047',
-        steepTemp: '90℃',
-        steepTime: { ko: '2분 30초', en: '2.5 mins', zh: '2分30秒', ja: '2分30秒' },
+        steepColor: '#FACC15',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '봄의 시작을 알리는 백목련 꽃봉오리로 만들어 은은한 매운 향과 달콤함이 머리를 상쾌하게 비워줍니다.',
-          en: 'Crafted from early spring magnolia buds, its gentle spice and sweetness clear and refresh the head.',
-          zh: '选用初春白木莲花蕾，淡淡的辛香与甘甜让头脑顿感清爽。',
-          ja: '春を告げる白木蓮の蕾で作られ、ほのかなスパイシーさと甘みで頭をすっきりとリフレッシュします。'
+          ko: '달콤한 사과향이 머리 쪽으로 몰린 긴장과 열기를 부드럽게 가라앉혀 줍니다.',
+          en: 'Sweet apple aroma gently settles tension and heat gathered in the upper body.',
+          zh: '甘甜的苹果香气轻柔平复聚集在头部的紧张与燥热。',
+          ja: '甘いリンゴの香りが頭部に集まった緊張と熱をやさしく鎮めます。'
         }
       },
       {
-        id: 'lindera',
-        name: {
-          ko: '생강나무꽃차',
-          en: 'Lindera Flower Tea',
-          zh: '山胡椒花茶',
-          ja: 'ダンコウバイ花茶'
-        },
+        id: 'rose_sun',
+        category: 'BASE',
+        name: { ko: '장미꽃차', en: 'Rose Blossom Tea', zh: '玫瑰花茶', ja: 'バラ花茶' },
         benefits: {
-          ko: ['산후통 및 어혈 완화', '근육 이완', '생기 순환'],
-          en: ['Relieves stiffness', 'Muscle relaxation', 'Vitality booster'],
-          zh: ['活血舒经', '肌肉放松', '恢复活力'],
-          ja: ['こわばりの緩和', '筋肉の弛緩', '巡りのサポート']
+          ko: ['울체된 기운 해소', '항산화 및 피부 생기', '기분 전환'],
+          en: ['Releases stagnant energy', 'Antioxidant & skin glow', 'Mood refresher'],
+          zh: ['疏肝解郁理气', '抗氧化焕亮肌肤', '愉悦心情'],
+          ja: ['滞った気の巡りを解消', '抗酸化・美肌ケア', '気分転換']
         },
         flavorNotes: {
-          ko: ['은은한 알싸함', '깊고 청량한 숲속 흙내음'],
-          en: ['Gentle warm spice', 'Deep refreshing forest earthiness'],
-          zh: ['温和辛香', '深邃清新的森林气息'],
-          ja: ['ほのかなスパイシー感', '清々しい森林の香り']
+          ko: ['우아하고 깊은 장미향', '산뜻하고 맑은 여운'],
+          en: ['Elegant deep rose scent', 'Crisp, clean finish'],
+          zh: ['馥郁优雅的玫瑰香', '清爽纯净的余韵'],
+          ja: ['上品で芳醇なバラの香り', 'すっきり清らかな余韻']
         },
-        steepColor: '#FEF08A',
-        steepTemp: '90℃',
+        steepColor: '#FB7185',
+        steepTemp: '90~100℃',
         steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '자연의 알싸하고 따스한 활력이 긴장된 상체를 풀어주고 경직된 몸을 부드럽게 이완시켜 줍니다.',
-          en: 'Natural gentle heat and vitality soothe a tense upper body and relax stiff muscles.',
-          zh: '天然的微温活力舒缓紧绷的上身，温柔放松僵硬的身体。',
-          ja: '自然の温かな活力が緊張した上半身をほぐし、こわばった身体を心地よく緩めます。'
+          ko: '화사한 장미 아로마가 답답하게 뭉친 가슴과 상체의 기운을 시원하고 우아하게 풀어줍니다.',
+          en: 'Radiant rose aroma gracefully releases tightness in the chest and upper body.',
+          zh: '芬芳的玫瑰香气优雅疏解胸口与上身的郁结之气。',
+          ja: '華やかなバラのアロマが胸や上半身の詰まりを優雅に解きほぐします。'
+        }
+      },
+      {
+        id: 'pansy_sun',
+        category: 'BASE',
+        name: { ko: '팬지꽃차', en: 'Pansy Flower Tea', zh: '三色堇花茶', ja: 'パンジー花茶' },
+        benefits: {
+          ko: ['안토시아닌 항산화', '열감 진정', '시각적 힐링'],
+          en: ['Anthocyanin antioxidant', 'Soothes heat', 'Visual relaxation'],
+          zh: ['花青素抗氧化', '清热舒缓', '视觉疗愈'],
+          ja: ['アントシアニン抗酸化', '熱感の鎮静', '美しい色彩の癒やし']
+        },
+        flavorNotes: {
+          ko: ['산뜻하고 맑은 풀꽃향', '은은한 단맛'],
+          en: ['Crisp wild blossom scent', 'Delicate mild sweetness'],
+          zh: ['清新旷野花香', '恬淡回甘'],
+          ja: ['清々しい野花の香り', 'ほのかな甘み']
+        },
+        steepColor: '#818CF8',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '2분 30초', en: '2.5 mins', zh: '2分30秒', ja: '2分30秒' },
+        description: {
+          ko: '맑고 영롱한 수색이 시각적인 청량감을 주며, 달아오른 컨디션을 차분하게 식혀줍니다.',
+          en: 'Luminous violet infusion brings visual coolness and calms overheated energy.',
+          zh: '澄澈剔透的茶汤带来视觉清凉感，温和抚平燥热状态。',
+          ja: '透き通る美しい水色が涼やかさを届け、ほてった心身を静かに冷まします。'
+        }
+      },
+      {
+        id: 'lemongrass_sun',
+        category: 'BLENDING',
+        name: { ko: '레몬그라스차', en: 'Lemongrass Tea', zh: '柠檬草茶', ja: 'レモングラス茶' },
+        benefits: {
+          ko: ['머리를 맑게 리프레시', '소화 및 순환 보조', '집중력 향상'],
+          en: ['Clears & refreshes mind', 'Aids digestion & flow', 'Enhances focus'],
+          zh: ['清新醒脑', '辅助消化与循环', '提升专注力'],
+          ja: ['頭をすっきりリフレッシュ', '消化と巡りのサポート', '集中力アップ']
+        },
+        flavorNotes: {
+          ko: ['싱그러운 레몬 시트러스향', '청량하고 깔끔한 뒷맛'],
+          en: ['Zesty lemon citrus note', 'Crisp, clean aftertaste'],
+          zh: ['清新的柠檬柑橘香', '清爽干净的余味'],
+          ja: ['爽やかなレモンシトラスの香り', '清涼ですっきりした後味']
+        },
+        steepColor: '#FDE047',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '상쾌한 레몬 향기가 복잡한 머릿속을 맑게 비워내고 산뜻한 활력을 더해줍니다.',
+          en: 'Refreshing lemon aroma clears a crowded mind and adds crisp vitality.',
+          zh: '清爽的柠檬香气澄澈思绪，注入轻盈活力。',
+          ja: '爽快なレモンの香りが頭の中をクリアにし、軽やかな活力を与えます。'
+        }
+      },
+      {
+        id: 'lotus_leaf_sun',
+        category: 'BLENDING',
+        name: { ko: '연잎차', en: 'Lotus Leaf Tea', zh: '荷叶茶', ja: '蓮の葉茶' },
+        benefits: {
+          ko: ['체내 열독 및 갈증 해소', '마음 안정', '맑은 순환'],
+          en: ['Clears heat & thirst', 'Calms the mind', 'Pure circulation'],
+          zh: ['清热解毒生津', '宁心安神', '清畅循环'],
+          ja: ['体の熱と渇きを癒す', '心の安定', '清らかな巡り']
+        },
+        flavorNotes: {
+          ko: ['은은하고 구수한 연잎향', '담백하고 깔끔한 목넘김'],
+          en: ['Subtle roasted lotus leaf note', 'Clean, light body'],
+          zh: ['淡雅醇和的荷叶香', '清爽顺滑的口感'],
+          ja: ['ほのかで香ばしい蓮の葉の香り', '淡白ですっきりしたのど越し']
+        },
+        steepColor: '#FEF08A',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '연못의 청아한 기운을 담은 연잎이 상체의 열감을 차분하게 내려주고 갈증을 해소합니다.',
+          en: 'Pure lotus leaf essence calmly lowers upper-body heat and quenches thirst.',
+          zh: '蕴含池塘清气的荷叶温和降下上身燥热，生津止渴。',
+          ja: '清らかな蓮の葉の気が上半身の熱を静かに下げ、渇きを潤します。'
+        }
+      },
+      {
+        id: 'beet_sun',
+        category: 'BLENDING',
+        name: { ko: '비트차', en: 'Red Beet Tea', zh: '甜菜根茶', ja: 'ビーツ茶' },
+        benefits: {
+          ko: ['혈행 및 순환 개선', '항산화 베타인 풍부', '생기 충전'],
+          en: ['Improves blood flow', 'Rich in betaine antioxidants', 'Vitality boost'],
+          zh: ['促进血液循环', '富含甜菜碱抗氧化', '补充活力'],
+          ja: ['血行と巡りの改善', '抗酸化ベタイン豊富', '活力チャージ']
+        },
+        flavorNotes: {
+          ko: ['달큰하고 구수한 뿌리채소 풍미', '깔끔한 바디감'],
+          en: ['Sweet, earthy roasted note', 'Clean, smooth body'],
+          zh: ['甘甜醇厚的根茎风味', '清爽顺口'],
+          ja: ['ほんのり甘く香ばしい風味', 'すっきりとしたコク']
+        },
+        steepColor: '#E11D48',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '선명한 루비빛 비트가 맑은 혈행을 돕고 해온형의 역동적인 에너지를 건강하게 균형 잡아줍니다.',
+          en: 'Vivid ruby beet supports healthy circulation and balances dynamic energy.',
+          zh: '鲜亮红宝石色的甜菜根助益健康循环，平衡充沛能量。',
+          ja: '鮮やかなルビー色のビーツが健やかな巡りを助け、エネルギーの調和を保ちます。'
         }
       }
     ]
@@ -177,78 +270,170 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
     teaColor: '#6EE7B7',
     recommendedTeas: [
       {
-        id: 'lotus_leaf',
-        name: {
-          ko: '연잎차',
-          en: 'Lotus Leaf Tea',
-          zh: '荷叶茶',
-          ja: '蓮の葉茶'
-        },
+        id: 'magnolia_forest',
+        category: 'BASE',
+        name: { ko: '목련꽃차', en: 'Magnolia Flower Tea', zh: '辛夷木莲花茶', ja: 'モクレン花茶' },
         benefits: {
-          ko: ['체내 독소 및 붓기 배출', '마음 진정', '갈증 해소'],
-          en: ['Detoxification & debloating', 'Mind settling', 'Quenches thirst'],
-          zh: ['清热祛湿排浮肿', '宁心静神', '生津止渴'],
-          ja: ['むくみ解消・デトックス', '心の安定', '渇きを癒す']
+          ko: ['기관지 및 호흡기 케어', '비염 완화', '상쾌한 기분 전환'],
+          en: ['Respiratory & sinus care', 'Clears nasal passages', 'Refreshing mood lift'],
+          zh: ['呵护支气管与呼吸道', '舒缓鼻炎', '清爽提神'],
+          ja: ['気管支・呼吸器ケア', '鼻炎の緩和', '爽快な気分転換']
         },
         flavorNotes: {
-          ko: ['은은한 덖음향', '맑고 싱그러운 풀내음'],
-          en: ['Gentle roasted aroma', 'Crisp green earthy note'],
-          zh: ['醇和炒香', '清香自然的草本风味'],
-          ja: ['香ばしい焙煎香', '爽やかな青葉の香り']
+          ko: ['달콤한 박하향', '알싸하고 산뜻한 꽃향'],
+          en: ['Sweet minty note', 'Subtly spiced crisp floral aroma'],
+          zh: ['微甜薄荷感', '辛香清冽的花香'],
+          ja: ['甘いミント感', 'ピリッと爽やかな花の香り']
         },
-        steepColor: '#A7F3D0',
-        steepTemp: '85℃',
-        steepTime: { ko: '2분', en: '2 mins', zh: '2分钟', ja: '2分' },
+        steepColor: '#FDE047',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '진흙 속에서 피어난 연잎의 순수한 기운이 몸속 묵직함을 가볍게 털어내 줍니다.',
-          en: 'Pure essence from lotus leaves clears away sluggishness and renews bodily lightness.',
-          zh: '出水荷叶的天然纯净能量，轻柔涤荡身体的沉重与滞留。',
-          ja: '泥の中から清らかに咲く蓮の葉が、体の重だるさを軽やかに整えます。'
+          ko: '봄의 시작을 알리는 백목련 꽃봉오리의 청량한 기운이 답답한 호흡기와 몸을 가볍게 깨워줍니다.',
+          en: 'Early spring magnolia buds awaken sluggish breathing and lighten the body.',
+          zh: '初春白木莲花蕾的清冽气息，轻盈唤醒呼吸与身体。',
+          ja: '春を告げる白木蓮の蕾の清涼な気が、呼吸と身体を軽やかに目覚めさせます。'
         }
       },
       {
         id: 'chrysanthemum',
-        name: {
-          ko: '국화꽃차',
-          en: 'Chrysanthemum Tea',
-          zh: '金丝皇菊茶',
-          ja: '菊花茶'
-        },
+        category: 'BASE',
+        name: { ko: '국화차', en: 'Chrysanthemum Tea', zh: '菊花茶', ja: '菊花茶' },
         benefits: {
-          ko: ['눈의 피로 회복', '머리를 맑게 함', '간열 해소'],
-          en: ['Relieves eye fatigue', 'Clears mental fog', 'Soothes inner heat'],
-          zh: ['清肝明目', '清醒头脑', '散风解热'],
-          ja: ['目の疲れを癒す', '頭部をすっきり整える', '体の熱を鎮める']
+          ko: ['눈의 피로 회복', '두통 완화', '숙면 유도'],
+          en: ['Relieves eye fatigue', 'Eases headaches', 'Supports restful sleep'],
+          zh: ['清肝明目', '缓解头痛', '安神助眠'],
+          ja: ['目の疲れを癒す', '頭痛の緩和', '安眠サポート']
         },
         flavorNotes: {
-          ko: ['그윽한 가을 국화향', '입안 가득 번지는 청아한 단맛'],
+          ko: ['그윽하고 청아한 국화향', '은은한 단맛'],
           en: ['Deep autumn floral note', 'Clean lingering sweetness'],
           zh: ['悠远幽雅的菊香', '满口回甘的清润'],
-          ja: ['奥深い秋菊の香り', '口いっぱいに広がる清らかな甘み']
+          ja: ['奥深い秋菊の香り', '清らかな甘み']
         },
         steepColor: '#FDE68A',
-        steepTemp: '90℃',
+        steepTemp: '90~100℃',
         steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '황금빛 꽃송이가 피어오르며 침침했던 시야와 무거웠던 머리를 시원하게 열어줍니다.',
+          ko: '한 송이 활짝 피어나는 국화의 그윽한 향이 탁해진 기운을 정화하고 맑은 정신을 되찾아줍니다.',
           en: 'Golden blossoms unfurl in hot water, refreshing blurry eyes and clearing mental fog.',
           zh: '金色花瓣在茶水中缓缓绽放，瞬间澄清双眼与沉重的思绪。',
           ja: '黄金の花びらが咲き誇り、かすみがちな瞳と重い頭をすっきりと晴れやかにします。'
         }
       },
       {
-        id: 'tangerine_peel',
-        name: {
-          ko: '진피차 (말린 귤껍질)',
-          en: 'Aged Tangerine Peel Tea (Chenpi)',
-          zh: '陈皮茶',
-          ja: '陳皮茶 (みかんの皮)'
-        },
+        id: 'lindera_forest',
+        category: 'BASE',
+        name: { ko: '생강나무꽃차', en: 'Lindera Flower Tea', zh: '山胡椒花茶', ja: 'ダンコウバイ花茶' },
         benefits: {
-          ko: ['소화 촉진', '가래 및 기관지 완화', '생기 활력'],
-          en: ['Aids digestion', 'Respiratory ease', 'Energizing wellness'],
-          zh: ['理气健脾助消化', '润燥化痰', '振奋精神'],
-          ja: ['消化促進', '喉・気管支のケア', '元気チャージ']
+          ko: ['기혈 및 대사 순환', '근육 이완', '몸의 무거움 해소'],
+          en: ['Boosts metabolism & flow', 'Muscle relaxation', 'Relieves bodily heaviness'],
+          zh: ['促进气血与代谢循环', '放松肌肉', '消除身体沉重感'],
+          ja: ['代謝と巡りの促進', '筋肉の弛緩', '体の重だるさ解消']
+        },
+        flavorNotes: {
+          ko: ['은은한 알싸함', '깊고 청량한 숲속 내음'],
+          en: ['Gentle warm spice', 'Deep refreshing forest scent'],
+          zh: ['温和辛香', '深邃清新的森林气息'],
+          ja: ['ほのかなスパイシー感', '清々しい森林の香り']
+        },
+        steepColor: '#A3E635',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '숲속의 싱그러운 알싸함을 품은 생강나무꽃이 정체된 기운을 산뜻하게 순환시켜 줍니다.',
+          en: 'Forest-fresh lindera blossoms gently circulate stagnant energy for a lighter body.',
+          zh: '蕴含森林清新辛香的山胡椒花，轻快疏通滞留能量。',
+          ja: '森の爽やかな香りを持つダンコウバイの花が、滞った気を軽やかに巡らせます。'
+        }
+      },
+      {
+        id: 'gujeolcho_forest',
+        category: 'BASE',
+        name: { ko: '구절초꽃차', en: 'Korean Dendranthema Tea (Gujeolcho)', zh: '九节草花茶', ja: '九節草(クジョルチョ)花茶' },
+        benefits: {
+          ko: ['체내 노폐물 정화', '면역 밸런스', '피로 회복'],
+          en: ['Internal cleansing', 'Immune balance', 'Fatigue recovery'],
+          zh: ['净化体内浊气', '平衡免疫力', '恢复疲劳'],
+          ja: ['体内クレンズ', '免疫バランス', '疲労回復']
+        },
+        flavorNotes: {
+          ko: ['깊고 그윽한 가을 들꽃향', '담백하고 쌉싸름한 단맛'],
+          en: ['Deep autumn wildflower aroma', 'Clean bittersweet finish'],
+          zh: ['深邃幽雅的秋日野花香', '醇净微苦回甘'],
+          ja: ['奥深い秋の野花の香り', 'ほろ苦く清らかな甘み']
+        },
+        steepColor: '#CA8A04',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '가을 햇살을 머금은 구절초의 맑은 향기가 묵직해진 몸과 마음에 산뜻한 활력을 불어넣습니다.',
+          en: 'Sun-kissed autumn wildflowers breathe fresh vitality into a heavy body and mind.',
+          zh: '沐浴秋日阳光的九节草清香，为沉重的身心注入清爽活力。',
+          ja: '秋の日差しを浴びた九節草の清らかな香りが、重くなった心身に爽やかな活力を吹き込みます。'
+        }
+      },
+      {
+        id: 'bellflower_forest',
+        category: 'BLENDING',
+        name: { ko: '도라지차', en: 'Bellflower Root Tea (Doraji)', zh: '桔梗茶', ja: 'キキョウ根茶 (トラジ茶)' },
+        benefits: {
+          ko: ['폐·기관지 보호', '사포닌 순환 촉진', '목 건강 케어'],
+          en: ['Protects lungs & bronchi', 'Saponin circulation boost', 'Throat comfort'],
+          zh: ['润肺护嗓', '皂苷促进循环', '舒缓咽喉'],
+          ja: ['肺・気管支の保護', 'サポニンで巡り促進', '喉のケア']
+        },
+        flavorNotes: {
+          ko: ['구수하고 진한 덖음 풍미', '은은한 단맛과 깔끔한 뒷맛'],
+          en: ['Rich nutty roasted flavor', 'Mild sweetness & clean finish'],
+          zh: ['浓郁醇香的烘焙风味', '淡雅回甘与清爽尾韵'],
+          ja: ['香ばしく深い焙煎風味', 'ほのかな甘みとすっきりした後味']
+        },
+        steepColor: '#B45309',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분 30초', en: '3.5 mins', zh: '3分30秒', ja: '3分30秒' },
+        description: {
+          ko: '숲온형에게 특히 이로운 도라지의 사포닌 성분이 호흡기를 보호하고 답답한 속을 개운하게 풀어줍니다.',
+          en: 'Rich in saponins ideal for Forest types, protecting the respiratory system and refreshing the chest.',
+          zh: '富含对森林型尤佳的桔梗皂苷，呵护呼吸道并畅快胸臆。',
+          ja: '森林型に特に良いキキョウのサポニンが呼吸器を守り、胸元をすっきりと整えます。'
+        }
+      },
+      {
+        id: 'green_tangerine',
+        category: 'BLENDING',
+        name: { ko: '청귤차', en: 'Green Tangerine Tea', zh: '青橘茶', ja: '青みかん茶 (青橘茶)' },
+        benefits: {
+          ko: ['비타민C 활력 보충', '피로 회복', '소화 촉진'],
+          en: ['Vitamin C vitality boost', 'Fatigue relief', 'Aids digestion'],
+          zh: ['补充维C活力', '消除疲劳', '促进消化'],
+          ja: ['ビタミンC活力補給', '疲労回復', '消化促進']
+        },
+        flavorNotes: {
+          ko: ['싱그러운 시트러스 향', '톡 쏘는 상큼함'],
+          en: ['Fresh green citrus aroma', 'Bright tangy zest'],
+          zh: ['清新柑橘果香', '酸甜爽口'],
+          ja: ['爽やかなシトラスの香り', 'フレッシュな酸味']
+        },
+        steepColor: '#F59E0B',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '청정 자연에서 자란 청귤의 신선한 산미가 처진 기운을 깨우고 산뜻한 리듬을 만들어줍니다.',
+          en: 'Crisp acidity of green tangerines awakens sluggish energy and creates a lively rhythm.',
+          zh: '纯净青橘的新鲜果酸唤醒疲倦能量，带来轻快节奏。',
+          ja: '清らかな自然で育った青みかんの爽やかな酸味が、沈んだ気を呼び覚まします。'
+        }
+      },
+      {
+        id: 'tangerine_peel_forest',
+        category: 'BLENDING',
+        name: { ko: '진피차', en: 'Aged Tangerine Peel Tea (Chenpi)', zh: '陈皮茶', ja: '陳皮茶' },
+        benefits: {
+          ko: ['습담 및 붓기 완화', '소화 순환 촉진', '가벼운 바디감'],
+          en: ['Relieves bloating & heaviness', 'Aids digestion & flow', 'Lightens the body'],
+          zh: ['理气祛湿消浮肿', '健脾助消化', '令身体轻盈'],
+          ja: ['むくみ・重だるさ緩和', '消化と巡りの促進', '軽やかな身体へ']
         },
         flavorNotes: {
           ko: ['그윽한 시트러스 향', '달콤쌉싸름하고 부드러운 목넘김'],
@@ -257,13 +442,13 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
           ja: ['奥深い柑橘の香り', '甘酸っぱくまろやかなのど越し']
         },
         steepColor: '#FDBA74',
-        steepTemp: '95℃',
-        steepTime: { ko: '4분', en: '4 mins', zh: '4分钟', ja: '4分' },
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분 30초', en: '3.5 mins', zh: '3分30秒', ja: '3分30秒' },
         description: {
-          ko: '오랜 시간 숙성된 귤피의 따스한 아로마가 막힌 속을 편안하게 뚫어줍니다.',
-          en: 'Mellow aged citrus aroma gently unclogs indigestion and breathes warmth throughout.',
-          zh: '时光沉淀的陈皮陈香，温和疏解胃腹积滞，令身心通畅。',
-          ja: 'じっくり熟成された柑橘の温かなアロマが、つかえたお腹を心地よく整えます。'
+          ko: '잘 말린 귤피의 향긋한 기운이 정체된 수분과 노폐물 순환을 도와 몸을 한결 가볍게 해줍니다.',
+          en: 'Mellow aged citrus aroma gently unclogs indigestion and lightens bodily stagnation.',
+          zh: '时光沉淀的陈皮清香，温和疏解积滞，令身心轻盈通畅。',
+          ja: '熟成された柑橘の温かなアロマが巡りを助け、身体を一段と軽やかに整えます。'
         }
       }
     ]
@@ -299,45 +484,115 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
     teaColor: '#93C5FD',
     recommendedTeas: [
       {
-        id: 'chamomile',
-        name: {
-          ko: '캐모마일꽃차',
-          en: 'Chamomile Flower Tea',
-          zh: '洋甘菊花茶',
-          ja: 'カモミール花茶'
-        },
+        id: 'marigold_wind',
+        category: 'BASE',
+        name: { ko: '메리골드꽃차', en: 'Marigold Flower Tea', zh: '万寿菊花茶', ja: 'マリーゴールド花茶' },
         benefits: {
-          ko: ['심신 안정 및 불안 완화', '숙면 유도', '위장 긴장 완화'],
-          en: ['Stress relief & relaxation', 'Supports sound sleep', 'Soothes stomach cramps'],
-          zh: ['平复心绪缓解焦虑', '助眠安神', '舒缓胃肠痉挛'],
-          ja: ['リラックス・不安緩和', '安眠サポート', '胃腸の緊張緩和']
+          ko: ['루테인 눈 피로 케어', '신경 긴장 완화', '은은한 열감 진정'],
+          en: ['Lutein eye strain care', 'Soothes nervous tension', 'Calms subtle heat'],
+          zh: ['叶黄素护眼明目', '舒缓神经紧张', '温和清热'],
+          ja: ['ルテインで目の疲労ケア', '神経の緊張緩和', 'ほのかな熱を鎮める']
         },
         flavorNotes: {
-          ko: ['은은한 사과향', '포근하고 부드러운 바디감'],
-          en: ['Gentle sweet apple note', 'Warm, velvety mouthfeel'],
-          zh: ['清淡甜美的苹果香', '温润柔和的茶韵'],
-          ja: ['やさしいリンゴの香り', 'まろやかで温かな口当たり']
+          ko: ['화사하고 부드러운 풀꽃향', '담백하고 편안한 단맛'],
+          en: ['Bright, soft floral note', 'Mild, comforting sweetness'],
+          zh: ['明媚柔和的草花香', '恬淡舒适的回甘'],
+          ja: ['華やかでやさしい草花の香り', '穏やかで心地よい甘み']
         },
-        steepColor: '#FEF08A',
-        steepTemp: '90℃',
+        steepColor: '#FACC15',
+        steepTemp: '90~100℃',
         steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '달콤한 사과향이 곤두선 신경을 포근하게 감싸 안으며 평온한 밤을 선물합니다.',
-          en: 'Sweet apple aroma warmly embraces frayed nerves, delivering peaceful serenity.',
-          zh: '甘甜的苹果花香如温暖拥抱，抚慰紧绷神经，带给您宁静祥和的夜晚。',
-          ja: '甘いリンゴの香りが張り詰めた神経をやさしく包み込み、安らかな夜を贈ります。'
+          ko: '황금빛 메리골드가 빠르게 움직이며 지친 눈과 신경에 포근한 여유를 선물합니다.',
+          en: 'Golden marigold blossoms bring cozy relaxation to tired eyes and fast-paced nerves.',
+          zh: '金黄万寿菊为快节奏下疲惫的双眼与神经送上温柔闲适。',
+          ja: '黄金色のマリーゴールドが、忙しく働く目と神経に穏やかなゆとりを届けます。'
+        }
+      },
+      {
+        id: 'snapdragon',
+        category: 'BASE',
+        name: { ko: '금어초꽃차', en: 'Snapdragon Flower Tea', zh: '金鱼草花茶', ja: 'キンギョソウ花茶' },
+        benefits: {
+          ko: ['기분 전환', '체내 열감 진정', '활력 회복'],
+          en: ['Mood elevation', 'Calms internal heat', 'Restores vitality'],
+          zh: ['愉悦转换心情', '平复体内燥热', '恢复生机'],
+          ja: ['気分リフレッシュ', '体内の熱を鎮める', '活力回復']
+        },
+        flavorNotes: {
+          ko: ['화사하고 싱그러운 꽃내음', '부드러운 목넘김'],
+          en: ['Vibrant, fresh blossom aroma', 'Silky smooth finish'],
+          zh: ['明丽清新的花香', '柔滑顺口的茶感'],
+          ja: ['華やかで瑞々しい花の香り', 'なめらかなのど越し']
+        },
+        steepColor: '#F472B6',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '2분 30초', en: '2.5 mins', zh: '2分30秒', ja: '2分30秒' },
+        description: {
+          ko: '살랑이는 바람처럼 화사한 꽃망울이 마음에 밝고 평온한 쉼표를 선사합니다.',
+          en: 'Like a gentle breeze, radiant blossoms offer a bright and peaceful pause.',
+          zh: '如微风拂面般娇艳的花朵，为心灵带来明亮平和的休止符。',
+          ja: 'そよ風のように華やかな花びらが、心に明るく穏やかな休息を贈ります。'
+        }
+      },
+      {
+        id: 'cockscomb_wind',
+        category: 'BASE',
+        name: { ko: '맨드라미꽃차', en: 'Cockscomb Flower Tea', zh: '鸡冠花茶', ja: 'ケイトウ花茶' },
+        benefits: {
+          ko: ['상체 열감 완화', '안정감 부여', '맑은 컨디션 회복'],
+          en: ['Eases upper heat', 'Provides grounding calm', 'Restores clear condition'],
+          zh: ['缓解上身燥热', '赋予安定感', '恢复清爽状态'],
+          ja: ['上半身の熱を緩和', '安定感をもたらす', 'クリアな調子へ']
+        },
+        flavorNotes: {
+          ko: ['은은하고 달큰한 꽃향', '깔끔하고 맑은 뒷맛'],
+          en: ['Subtle sweet floral scent', 'Clean, crisp finish'],
+          zh: ['清雅微甜花香', '纯净清爽尾韵'],
+          ja: ['ほのかに甘い花の香り', 'すっきり清らかな後味']
+        },
+        steepColor: '#EF4444',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '투명한 루비빛 수색이 들뜬 기운을 차분하게 갈무리하고 고요한 밸런스를 찾아줍니다.',
+          en: 'Clear ruby infusion settles restless energy and restores tranquil balance.',
+          zh: '通透的红宝石茶汤平复浮躁气息，找回静谧平衡。',
+          ja: '透明なルビー色の水色が高ぶった気を静め、穏やかなバランスを取り戻します。'
+        }
+      },
+      {
+        id: 'pansy',
+        category: 'BASE',
+        name: { ko: '팬지꽃차', en: 'Pansy Flower Tea', zh: '三色堇花茶', ja: 'パンジー花茶' },
+        benefits: {
+          ko: ['항산화 안토시아닌 풍부', '피부 진정', '스트레스 해소'],
+          en: ['Rich in anthocyanins', 'Skin soothing', 'Stress relief'],
+          zh: ['富含抗氧化花青素', '舒缓肌肤', '释放压力'],
+          ja: ['抗酸化アントシアニン豊富', '肌の鎮静', 'ストレス解消']
+        },
+        flavorNotes: {
+          ko: ['달착지근한 꿀향', '매혹적인 플로럴 노트'],
+          en: ['Delicate honey sweetness', 'Enchanting floral note'],
+          zh: ['清甜蜜香', '迷人的花香层次'],
+          ja: ['ほのかな蜂蜜の香り', '魅惑的なフローラルノート']
+        },
+        steepColor: '#818CF8',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '2분 30초', en: '2.5 mins', zh: '2分30秒', ja: '2分30秒' },
+        description: {
+          ko: '신비롭고 몽환적인 수색이 눈을 즐겁게 하고, 날카로워진 신경을 유연하게 풀어줍니다.',
+          en: 'An elegant violet infusion swirls in your cup, softening sharp nerves with creative calm.',
+          zh: '优雅梦幻的紫罗兰茶汤赏心悦目，温柔抚平紧绷神经。',
+          ja: '幻想的なバイオレットの水色が目を楽しませ、過敏になった神経をやさしく解きほぐします。'
         }
       },
       {
         id: 'goji',
-        name: {
-          ko: '구기자차',
-          en: 'Goji Berry Tea',
-          zh: '枸杞茶',
-          ja: 'クコの実茶'
-        },
+        category: 'BLENDING',
+        name: { ko: '구기자차', en: 'Goji Berry Tea', zh: '枸杞茶', ja: 'クコの実茶' },
         benefits: {
-          ko: ['신장 및 진액 보충', '눈의 건조 완화', '노화 방지'],
+          ko: ['음기 보충 및 진액 생성', '눈의 피로 개선', '간 건강'],
           en: ['Replenishes vitality & fluids', 'Eases dry eyes', 'Antioxidant boost'],
           zh: ['滋补肝肾生津液', '缓解眼部干涩', '抗氧化滋养'],
           ja: ['潤いと気力の補給', '目の乾燥ケア', 'エイジングケア']
@@ -349,7 +604,7 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
           ja: ['自然な優しい甘み', '香ばしく奥深いコク']
         },
         steepColor: '#F97316',
-        steepTemp: '95℃',
+        steepTemp: '90~100℃',
         steepTime: { ko: '4분', en: '4 mins', zh: '4分钟', ja: '4分' },
         description: {
           ko: '열정적으로 소모된 몸의 진액을 달콤하게 채워 생기 있는 촉촉함을 되찾아줍니다.',
@@ -359,33 +614,55 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
         }
       },
       {
-        id: 'pansy',
-        name: {
-          ko: '팬지꽃차',
-          en: 'Pansy Flower Tea',
-          zh: '三色堇花茶',
-          ja: 'パンジー花茶'
-        },
+        id: 'lemongrass_wind',
+        category: 'BLENDING',
+        name: { ko: '레몬그라스차', en: 'Lemongrass Tea', zh: '柠檬草茶', ja: 'レモングラス茶' },
         benefits: {
-          ko: ['피부 진정', '기관지 보호', '시각적 힐링'],
-          en: ['Skin soothing', 'Throat comfort', 'Visual relaxation'],
-          zh: ['舒缓肌肤', '润护咽喉', '赏心悦目的视觉疗愈'],
-          ja: ['肌の鎮静', '喉の保護', '美しい色彩の癒やし']
+          ko: ['긴장 이완 및 리프레시', '소화 정돈', '기분 전환'],
+          en: ['Relaxes tension & refreshes', 'Soothes digestion', 'Mood reset'],
+          zh: ['放松紧绷与清新醒神', '调理消化', '愉悦心情'],
+          ja: ['緊張緩和＆リフレッシュ', '消化を整える', '気分転換']
         },
         flavorNotes: {
-          ko: ['산뜻하고 맑은 풀꽃향', '은은한 단맛'],
-          en: ['Crisp wild blossom scent', 'Delicate mild sweetness'],
-          zh: ['清新旷野花香', '恬淡回甘'],
-          ja: ['清々しい野花の香り', 'ほのかな甘み']
+          ko: ['상쾌한 레몬 허브향', '깔끔하고 맑은 피니시'],
+          en: ['Crisp lemon herbal scent', 'Clean, bright finish'],
+          zh: ['清爽柠檬草本香', '干净澄澈的回味'],
+          ja: ['爽やかなレモンハーブ香', 'すっきりクリアな後味']
         },
-        steepColor: '#818CF8',
-        steepTemp: '85℃',
-        steepTime: { ko: '2분', en: '2 mins', zh: '2分钟', ja: '2分' },
+        steepColor: '#FDE047',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '우아한 보랏빛 수색이 찻잔 속에 번지며 지친 마음에 화사한 영감을 채워줍니다.',
-          en: 'An elegant violet infusion swirls in your cup, sparking fresh creative inspiration.',
-          zh: '优雅的紫罗兰色茶汤在杯中漾开，为疲惫的心灵注入灵感。',
-          ja: '優美なバイオレットの水色が広がり、疲れた心に華やかなインスピレーションを灯します。'
+          ko: '싱그러운 레몬그라스 노트가 과열된 사고의 템포를 산뜻하고 부드럽게 정돈해 줍니다.',
+          en: 'Fresh lemongrass notes gently organize and cool a fast-spinning mind.',
+          zh: '清新的柠檬草香气温和梳理过快运转的思绪。',
+          ja: '瑞々しいレモングラスの香りが、速くなった思考のテンポを心地よく整えます。'
+        }
+      },
+      {
+        id: 'burdock_wind',
+        category: 'BLENDING',
+        name: { ko: '우엉차', en: 'Roasted Burdock Root Tea', zh: '牛蒡茶', ja: 'ごぼう茶' },
+        benefits: {
+          ko: ['하체 중심 기운 안정', '열감 완화 및 정화', '장 건강 케어'],
+          en: ['Grounds lower-body energy', 'Cools & purifies', 'Digestive wellness'],
+          zh: ['稳固下焦能量', '清热净化', '呵护肠道健康'],
+          ja: ['下半身の気を安定させる', '熱感の緩和と浄化', '腸内ケア']
+        },
+        flavorNotes: {
+          ko: ['구수하고 깊은 덖음 풍미', '은은한 대지의 단맛'],
+          en: ['Deep, nutty roasted aroma', 'Earthy natural sweetness'],
+          zh: ['醇厚浓郁的烘焙香气', '大地般的自然甘甜'],
+          ja: ['香ばしく深い焙煎の風味', '大地のほのかな甘み']
+        },
+        steepColor: '#B45309',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '4분', en: '4 mins', zh: '4分钟', ja: '4分' },
+        description: {
+          ko: '대지의 기운을 품은 구수한 우엉차가 바람형의 가벼워지기 쉬운 에너지를 차분하게 잡아줍니다.',
+          en: 'Earthy roasted burdock anchors the swift, airy energy of Wind types.',
+          zh: '蕴含大地能量的醇香牛蒡茶，稳稳涵养清风型易浮动的气机。',
+          ja: '大地の恵みを宿した香ばしいごぼう茶が、風型の浮きやすいエネルギーを落ち着かせます。'
         }
       }
     ]
@@ -421,43 +698,113 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
     teaColor: '#FBBF24',
     recommendedTeas: [
       {
-        id: 'rose',
-        name: {
-          ko: '장미꽃차',
-          en: 'Rose Blossom Tea',
-          zh: '玫瑰花茶',
-          ja: 'バラ花茶'
-        },
+        id: 'gujeolcho_warm',
+        category: 'BASE',
+        name: { ko: '구절초꽃차', en: 'Korean Dendranthema Tea (Gujeolcho)', zh: '九节草花茶', ja: '九節草(クジョルチョ)花茶' },
         benefits: {
-          ko: ['기혈 순환 촉진', '여성 호르몬 밸런스', '피부 생기'],
-          en: ['Boosts energy & blood flow', 'Hormonal balance', 'Radiant skin complexion'],
-          zh: ['疏肝理气活血', '调节女性内分泌', '润泽红润气色'],
-          ja: ['巡りの促進', '女性のリズムサポート', '素肌の透明感']
+          ko: ['손발 및 아랫배 온기 보충', '소화기 안정', '피로 회복'],
+          en: ['Warms hands, feet & abdomen', 'Comforts digestion', 'Fatigue recovery'],
+          zh: ['温暖手足与下腹', '温和护胃', '恢复疲劳'],
+          ja: ['手足とお腹の温活', '胃腸の安定', '疲労回復']
         },
         flavorNotes: {
-          ko: ['고혹적이고 풍성한 장미향', '우아하고 부드러운 산미'],
-          en: ['Enchanting full rose scent', 'Elegant delicate tang'],
-          zh: ['馥郁高贵的玫瑰花香', '优雅柔和的微酸回甘'],
-          ja: ['魅惑的で芳醇なバラの香り', '上品でほのかな酸味']
+          ko: ['쌉쌀하면서도 깊은 가을 들꽃향', '따스하고 달큰한 여운'],
+          en: ['Deep bittersweet wildflower aroma', 'Warm, sweet lingering finish'],
+          zh: ['微苦深邃的秋日野花香', '温润甘甜的余韵'],
+          ja: ['ほろ苦く奥深い秋の野花の香り', '温かく甘い余韻']
         },
-        steepColor: '#FB7185',
-        steepTemp: '90℃',
+        steepColor: '#CA8A04',
+        steepTemp: '90~100℃',
         steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
         description: {
-          ko: '붉은 꽃잎이 전하는 따스한 에너지가 굳어있던 몸을 녹이고 화사한 생기를 불어넣습니다.',
-          en: 'Warm energy radiating from red petals gently melts chilliness and restores a youthful glow.',
-          zh: '红艳花瓣传递的温润能量，融化体内寒气，绽放迷人好气色。',
-          ja: '紅の花びらがもたらす温かなエナジーが、冷えた体を芯から温め華やかな元気を呼び覚まします。'
+          ko: '가을 들녘의 햇살을 머금은 구절초가 차가워지기 쉬운 아랫배를 편안하고 따스하게 품어줍니다.',
+          en: 'Autumn sun-soaked blossoms warmly embrace a chilly abdomen and soothe the body.',
+          zh: '饱含秋日暖阳的九节草，温柔呵护易凉的小腹。',
+          ja: '秋の日差しを宿した九節草が、冷えやすいお腹を心地よく温めます。'
+        }
+      },
+      {
+        id: 'magnolia_warm',
+        category: 'BASE',
+        name: { ko: '목련꽃차', en: 'Magnolia Flower Tea', zh: '辛夷木莲花茶', ja: 'モクレン花茶' },
+        benefits: {
+          ko: ['따뜻한 기운 순환', '코와 호흡기 보호', '냉기 완화'],
+          en: ['Warm energy circulation', 'Nasal & respiratory care', 'Eases chilliness'],
+          zh: ['温和疏通气血', '呵护鼻腔与呼吸道', '驱散寒意'],
+          ja: ['温かな気の巡り', '鼻と呼吸器の保護', '冷えの緩和']
+        },
+        flavorNotes: {
+          ko: ['은은한 알싸함과 단맛', '포근한 꽃내음'],
+          en: ['Subtle warm spice & sweetness', 'Cozy floral aroma'],
+          zh: ['淡淡辛香与回甘', '温柔馥郁的花香'],
+          ja: ['ほのかな辛みと甘み', '包み込むような花の香り']
+        },
+        steepColor: '#FDE047',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '따스한 성질의 백목련 꽃봉오리가 움츠러든 몸에 은은한 온기와 활력을 불어넣습니다.',
+          en: 'Warm-natured white magnolia buds breathe gentle heat and vitality into a chilled body.',
+          zh: '温性的白木莲花蕾为畏寒的身体注入融融暖意与生机。',
+          ja: '温かい性質を持つ白木蓮の蕾が、縮こまった身体に穏やかな温もりと活力を与えます。'
+        }
+      },
+      {
+        id: 'chamomile_warm',
+        category: 'BASE',
+        name: { ko: '캐모마일꽃차', en: 'Chamomile Flower Tea', zh: '洋甘菊花茶', ja: 'カモミール花茶' },
+        benefits: {
+          ko: ['예민한 위장 보호', '심신 이완 및 숙면', '포근한 안정감'],
+          en: ['Soothes sensitive stomach', 'Deep relaxation & sleep', 'Cozy emotional calm'],
+          zh: ['呵护敏感肠胃', '放松身心助眠', '带来温暖安心感'],
+          ja: ['デリケートな胃腸をケア', '心身の緩和と安眠', 'ほっとする安心感']
+        },
+        flavorNotes: {
+          ko: ['달콤한 사과향', '부드럽고 따뜻한 바디감'],
+          en: ['Sweet apple aroma', 'Soft, comforting warm body'],
+          zh: ['香甜苹果风味', '柔和温暖的茶汤质感'],
+          ja: ['甘いリンゴの香り', 'やわらかく温かい口当たり']
+        },
+        steepColor: '#FACC15',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '부드러운 사과향의 캐모마일이 섬세하고 예민한 소화기와 마음을 따뜻하게 다독여줍니다.',
+          en: 'Gentle apple-scented chamomile warmly comforts delicate digestion and a sensitive heart.',
+          zh: '散发柔和苹果香的洋甘菊，温暖抚慰细腻敏感的肠胃与心灵。',
+          ja: 'やさしいリンゴ香るカモミールが、繊細な胃腸と心を温かくいたわります。'
+        }
+      },
+      {
+        id: 'plum_blossom_warm',
+        category: 'BASE',
+        name: { ko: '매화차', en: 'Plum Blossom Tea (Maehwa)', zh: '梅花茶', ja: '梅花茶 (ウメの花茶)' },
+        benefits: {
+          ko: ['체기 및 소화 불량 완화', '기분 정화', '맑은 생기 충전'],
+          en: ['Relieves indigestion', 'Refreshes mood', 'Restores clear vitality'],
+          zh: ['舒缓积食与消化不良', '澄净心绪', '焕发清新活力'],
+          ja: ['消化不良の緩和', '気分の浄化', '清らかな生気チャージ']
+        },
+        flavorNotes: {
+          ko: ['고결하고 은은한 매화향', '산뜻하고 부드러운 단맛'],
+          en: ['Noble, delicate plum blossom scent', 'Crisp, smooth sweetness'],
+          zh: ['清雅高洁的梅花幽香', '清爽柔润的甘甜'],
+          ja: ['気高くほのかな梅花の香り', '爽やかでやさしい甘み']
+        },
+        steepColor: '#FEF08A',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        description: {
+          ko: '추위를 이기고 피어난 매화의 향기로운 기운이 막힌 속을 부드럽게 풀어주고 생기를 채워줍니다.',
+          en: 'Blossoming through winter chill, fragrant plum flowers gently ease digestion and awaken vitality.',
+          zh: '傲雪绽放的梅花芬芳，温柔疏解肠胃郁结，充盈生机。',
+          ja: '寒さを乗り越えて咲く梅の芳しい気が、つかえたお腹をやさしく解きほぐします。'
         }
       },
       {
         id: 'ginger',
-        name: {
-          ko: '생강꽃차 / 생각차',
-          en: 'Ginger Flower & Root Tea',
-          zh: '姜花暖身茶',
-          ja: '生姜花茶 / ジンジャーティー'
-        },
+        category: 'BLENDING',
+        name: { ko: '생강차', en: 'Ginger Tea', zh: '生姜茶', ja: '生姜茶 (ジンジャーティー)' },
         benefits: {
           ko: ['체온 상승', '소화 기능 강화', '면역력 증진'],
           en: ['Elevates body temperature', 'Fortifies digestive fire', 'Immune defense'],
@@ -471,7 +818,7 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
           ja: ['ピリリと心地よい生姜の刺激', '甘く温かい余韻']
         },
         steepColor: '#FDE047',
-        steepTemp: '95℃',
+        steepTemp: '90~100℃',
         steepTime: { ko: '4분', en: '4 mins', zh: '4分钟', ja: '4分' },
         description: {
           ko: '한 모금 머금는 순간 가슴속부터 아랫배까지 따스한 온도가 차오르며 속이 편안해집니다.',
@@ -482,12 +829,8 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
       },
       {
         id: 'mugwort',
-        name: {
-          ko: '강화 쑥차',
-          en: 'Korean Mugwort Tea (Ssuk)',
-          zh: '江华艾草茶',
-          ja: '江華よもぎ茶'
-        },
+        category: 'BLENDING',
+        name: { ko: '쑥차', en: 'Korean Mugwort Tea (Ssuk)', zh: '艾草茶', ja: 'よもぎ茶' },
         benefits: {
           ko: ['하복부 냉증 개선', '여성 건강 케어', '체내 정화'],
           en: ['Relieves cold lower abdomen', 'Female wellness care', 'Gentle internal detox'],
@@ -501,13 +844,39 @@ export const I18N_MOM_BTI_TYPES: Record<MomBtiType, I18nTeaInfo> = {
           ja: ['香ばしくほろ苦い野草の香り', '奥深い大地のコク']
         },
         steepColor: '#86EFAC',
-        steepTemp: '90℃',
-        steepTime: { ko: '3분', en: '3 mins', zh: '3分钟', ja: '3分' },
+        steepTemp: '90~100℃',
+        steepTime: { ko: '3분 30초', en: '3.5 mins', zh: '3分30秒', ja: '3分30秒' },
         description: {
           ko: '해풍을 맞고 자란 토종 쑥의 깊은 온기가 손발 끝까지 따스한 혈색을 돌게 해줍니다.',
           en: 'Nurtured by sea breezes, wild mugwort radiates deep thermal vitality to the fingertips and toes.',
           zh: '沐浴海风生长的道地艾草，将醇厚暖意送至指尖足底，带来健康红润。',
           ja: '潮風に育まれたよもぎの深い温もりが、指先や足先まで温かな血色を巡らせます。'
+        }
+      },
+      {
+        id: 'mistletoe_warm',
+        category: 'BLENDING',
+        name: { ko: '겨우살이차', en: 'Mistletoe Tea', zh: '槲寄生茶', ja: 'ヤドリギ茶' },
+        benefits: {
+          ko: ['기력 회복 및 면역 강화', '근골격 및 혈행 보강', '심신 안정'],
+          en: ['Restores stamina & immunity', 'Supports circulation & joints', 'Calms mind & body'],
+          zh: ['恢复元气增强免疫', '强筋健骨活血', '安神定志'],
+          ja: ['気力回復・免疫力強化', '巡りと身体のサポート', '心身の安定']
+        },
+        flavorNotes: {
+          ko: ['구수하고 은은한 나무 내음', '부드럽고 깊은 감칠맛'],
+          en: ['Subtle roasted woody aroma', 'Smooth, deep savory finish'],
+          zh: ['醇和淡雅的木质清香', '柔顺深邃的回甘'],
+          ja: ['香ばしくほのかな木の香り', 'まろやかで深い旨み']
+        },
+        steepColor: '#B45309',
+        steepTemp: '90~100℃',
+        steepTime: { ko: '4분', en: '4 mins', zh: '4分钟', ja: '4分' },
+        description: {
+          ko: '한겨울에도 푸르름을 잃지 않는 겨우살이의 강인한 생명력이 쉽게 지치는 온담형의 기력을 든든하게 채워줍니다.',
+          en: 'Evergreen mistletoe vitalizes easily fatigued Warm types with enduring winter resilience.',
+          zh: '严冬亦常青的槲寄生蕴含充沛生命力，稳稳补充暖蕴型易消耗的元气。',
+          ja: '真冬でも緑を保つヤドリギの力強い生命力が、疲れやすい温胆型の気力をしっかりと満たします。'
         }
       }
     ]

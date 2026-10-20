@@ -14,7 +14,9 @@ import {
   Droplets,
   HeartHandshake,
   ShieldCheck,
-  FileText
+  FileText,
+  MessageSquare,
+  MessageCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
@@ -31,6 +33,7 @@ export default function ResultPage() {
   const [bodyType, setBodyType] = useState<MomBtiType>('WIND');
   const [isReservationOpen, setIsReservationOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [shareNotice, setShareNotice] = useState<string | null>(null);
 
   useEffect(() => {
     // 폭죽 효과 연출
@@ -56,19 +59,22 @@ export default function ResultPage() {
           userName: '이지우',
           createdAt: new Date().toISOString(),
           baseType: 'WIND',
-          baseTea: '캐모마일꽃차 & 구기자열매차',
+          baseTea: '메리골드꽃차 (Base), 금어초꽃차 (Base), 구기자차 (Blending)',
+          baseTeas: ['메리골드꽃차 (Base)', '금어초꽃차 (Base)', '구기자차 (Blending)'],
           baseRatio: 50,
           tasteScent: 'FLORAL',
           tasteFlavor: 'CLEAR',
-          tasteTea: '만개한 팬지꽃차 & 금어초 플로럴 블렌드',
+          tasteTea: '팬지꽃차, 금어초꽃차, 장미꽃차',
+          tasteTeas: ['팬지꽃차', '금어초꽃차', '장미꽃차'],
           tasteRatio: 30,
           conditionKeyword: 'REFRESH',
-          conditionTea: '맑고 청량한 페퍼민트 & 청귤 포인트',
+          conditionTea: '레몬그라스차, 청귤차, 목련꽃차',
+          conditionTeas: ['레몬그라스차', '청귤차', '목련꽃차'],
           conditionRatio: 20,
           finalTeaName: '플루니티 [바람형] 플로럴 REFRESH 시그니처 티',
           finalColor: '#F472B6',
           finalDescription:
-            '이지우 님의 WIND (소양인) 체질 기운(50%)을 든든하게 받치고, 선호하시는 꽃향(30%)과 오늘 얼굴 분석으로 도출된 REFRESH 상쾌함 에너지(20%)를 조화롭게 완성한 세상에 단 하나뿐인 블렌딩입니다.'
+            '이지우 님의 WIND (소양인) 체질 기운(50%)을 든든하게 받치고, 선호하시는 꽃향(30%)과 오늘 얼굴 분석으로 도출된 REFRESH 상쾌함 에너지(20%)를 각 파트별 3종씩 조화롭게 완성한 세상에 단 하나뿐인 블렌딩입니다.'
         });
       }
 
@@ -92,17 +98,77 @@ export default function ResultPage() {
   const typeDesc = i18nType?.description[language] || currentTypeInfo.description;
   const typeTeas = i18nType?.recommendedTeas || currentTypeInfo.recommendedTeas;
 
+  // 문자(SMS) 및 카카오톡 공유용 요약 텍스트 생성
+  const buildShareText = () => {
+    const shareUrl = typeof window !== 'undefined' ? window.location.origin : '';
+    return [
+      `🌿 [FLUNITEA 몸BTI 진단 결과]`,
+      `Discover Your Body Type, Find Your Tea!`,
+      ``,
+      `👤 ${blend.userName || '회원'}님의 시그니처 티:`,
+      `✨ ${blend.finalTeaName}`,
+      ``,
+      `1️⃣ 체질 추천차 (50% - ${typeName}):`,
+      `• ${blend.baseTea}`,
+      `2️⃣ 취향 추천차 (30% - ${blend.tasteScent}):`,
+      `• ${blend.tasteTea}`,
+      `3️⃣ 컨디션 추천차 (20% - ${blend.conditionKeyword}):`,
+      `• ${blend.conditionTea}`,
+      ``,
+      `🌡️ 권장 우림 온도: 90~100℃ (3분)`,
+      `🔗 나만의 꽃차 진단하기: ${shareUrl}`
+    ].join('\n');
+  };
+
+  // 문자(SMS)로 결과 공유
+  const handleShareSms = () => {
+    const text = buildShareText();
+    try {
+      navigator.clipboard.writeText(text);
+    } catch (e) {}
+    const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const separator = isIOS ? '&' : '?';
+    window.location.href = `sms:${separator}body=${encodeURIComponent(text)}`;
+    setShareNotice('문자(SMS) 앱을 실행하고 진단 결과 텍스트를 복사했습니다.');
+    setTimeout(() => setShareNotice(null), 4000);
+  };
+
+  // 카카오톡으로 결과 공유 (모바일 Web Share 연동 + 클립보드 자동 복사)
+  const handleShareKakao = async () => {
+    const text = buildShareText();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {}
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: `[FLUNITEA 몸BTI] ${blend.finalTeaName}`,
+          text,
+          url: window.location.origin
+        });
+        return;
+      } catch (e) {
+        // 사용자가 공유 창을 닫은 경우 클립보드 안내로 폴백
+      }
+    }
+
+    setShareNotice('카카오톡 공유용 진단 결과가 복사되었습니다! 카카오톡 채팅방에 붙여넣기(Ctrl+V) 해주세요.');
+    setTimeout(() => setShareNotice(null), 5000);
+  };
+
   const handleShare = () => {
+    const text = buildShareText();
     if (navigator.share) {
       navigator
         .share({
           title: `FLUNITEA [MomBTI] ${blend.finalTeaName}`,
-          text: `Flunitea Bespoke Signature Blend`,
+          text,
           url: window.location.href
         })
         .catch(() => {});
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -116,16 +182,46 @@ export default function ResultPage() {
     <div className="min-h-screen py-12 px-4 sm:px-6 max-w-5xl mx-auto space-y-12">
       {/* 1. 상단 인트로 & 축하 헤더 */}
       <div className="text-center max-w-2xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tea-forest/10 text-tea-forest text-xs font-bold mb-4">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-tea-forest/10 text-tea-forest text-xs font-bold mb-3">
           <Sparkles className="w-4 h-4 text-tea-forest" />
           {t('resultReportBadge')}
         </div>
+        <p className="text-xs font-serif font-bold tracking-wider text-tea-forest uppercase mb-2">
+          Discover Your Body Type, Find Your Tea!
+        </p>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-tea-dark mb-3">
           {blend.userName || 'Member'} {t('resultTitleSuffix')}
         </h1>
         <p className="text-xs sm:text-sm text-tea-dark/70 leading-relaxed">
           {blend.finalDescription}
         </p>
+
+        {/* 상단 빠른 문자 & 카카오톡 공유 버튼 바 */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+          <button
+            type="button"
+            onClick={handleShareKakao}
+            className="inline-flex items-center gap-2 bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-bold text-xs px-5 py-3 rounded-full shadow-sm transition-all active:scale-95"
+          >
+            <MessageCircle className="w-4 h-4 fill-current" />
+            카카오톡으로 결과 공유
+          </button>
+          <button
+            type="button"
+            onClick={handleShareSms}
+            className="inline-flex items-center gap-2 bg-tea-forest hover:bg-tea-forest/90 text-white font-bold text-xs px-5 py-3 rounded-full shadow-sm transition-all active:scale-95"
+          >
+            <MessageSquare className="w-4 h-4" />
+            문자(SMS)로 결과 전송
+          </button>
+        </div>
+
+        {shareNotice && (
+          <div className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-medium animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <span>{shareNotice}</span>
+          </div>
+        )}
       </div>
 
       {/* 2. 핵심 블렌딩 시각화 (50:30:20 Blending Visualizer) */}
@@ -176,22 +272,44 @@ export default function ResultPage() {
           {typeDesc}
         </p>
 
-        {/* 체질 맞춤 추천 꽃차 도감 그리드 */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h4 className="font-serif text-base sm:text-lg font-bold text-tea-dark flex items-center gap-2">
-              <Droplets className="w-4 h-4 text-tea-forest" />
-              {typeName} {t('resultLineupTitle')}
-            </h4>
-            <span className="text-xs text-tea-dark/50">
-              {typeTeas.length} items
-            </span>
+        {/* 체질 맞춤 추천 꽃차 도감 그리드 (Base 꽃차 4종 & Blending 차 3종) */}
+        <div className="space-y-8">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-serif text-base sm:text-lg font-bold text-tea-dark flex items-center gap-2">
+                <Droplets className="w-4 h-4 text-tea-forest" />
+                {typeName} Base 꽃차 (중심 베이스 꽃차)
+              </h4>
+              <span className="text-xs font-semibold text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full">
+                우림 온도 90~100℃
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {typeTeas
+                .filter((tea: any) => !tea.category || tea.category === 'BASE')
+                .map((tea: any, idx: number) => (
+                  <TeaCard key={tea.id} tea={tea} isPrimary={idx < 2} />
+                ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {typeTeas.map((tea, idx) => (
-              <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
-            ))}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="font-serif text-base sm:text-lg font-bold text-tea-dark flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+                {typeName} Blending 차 (밸런스 블렌딩 차)
+              </h4>
+              <span className="text-xs font-semibold text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full">
+                우림 온도 90~100℃
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {typeTeas
+                .filter((tea: any) => tea.category === 'BLENDING')
+                .map((tea: any, idx: number) => (
+                  <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
+                ))}
+            </div>
           </div>
         </div>
       </div>
@@ -265,14 +383,30 @@ export default function ResultPage() {
 
       {/* 5. 하단 공유, 출력 및 재검사 조작 바 */}
       <div className="bg-tea-cream/80 border border-tea-sand p-6 rounded-3xl flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={handleShareKakao}
+            className="inline-flex items-center gap-1.5 bg-[#FEE500] hover:bg-[#FDD800] text-[#191919] font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
+          >
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            카카오톡 공유
+          </button>
+          <button
+            type="button"
+            onClick={handleShareSms}
+            className="inline-flex items-center gap-1.5 bg-tea-forest hover:bg-tea-forest/90 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
+          >
+            <MessageSquare className="w-3.5 h-3.5" />
+            문자(SMS) 공유
+          </button>
           <button
             type="button"
             onClick={handleShare}
             className="inline-flex items-center gap-1.5 bg-white border border-tea-sand hover:bg-tea-sand/50 text-tea-dark font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
           >
             <Share2 className="w-3.5 h-3.5 text-tea-forest" />
-            {copied ? 'Copied!' : t('shareResult')}
+            {copied ? '복사 완료!' : t('shareResult')}
           </button>
           <button
             type="button"

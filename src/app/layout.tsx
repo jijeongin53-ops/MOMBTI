@@ -5,9 +5,9 @@ import Footer from '@/components/Footer';
 import SnsBar from '@/components/SnsBar';
 
 export const metadata: Metadata = {
-  title: '플루니티 (Flunitea) | 몸BTI 사상체질 맞춤 꽃차 솔루션',
+  title: '플루니티 (Flunitea) | Discover Your Body Type, Find Your Tea!',
   description:
-    '사상체질의 전통적 관점과 개인 취향, 얼굴 분석 웰니스 포인트를 결합하여 세상에 단 하나뿐인 개인 시그니처 티를 블렌딩해 드립니다.',
+    'Discover Your Body Type, Find Your Tea! 사상체질의 전통적 관점과 개인 취향, 얼굴 분석 웰니스 포인트를 결합하여 세상에 단 하나뿐인 개인 시그니처 티를 블렌딩해 드립니다.',
   keywords: [
     '플루니티',
     'Flunitea',

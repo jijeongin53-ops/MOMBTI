@@ -48,6 +48,7 @@ export function calculateMomBtiScore(answers: Record<number, MomBtiType>): MomBt
 
 /**
  * 3가지 요소(체질 50% + 취향 30% + 컨디션 20%)를 융합하여 시그니처 티 블렌딩을 생성합니다.
+ * 각 파트별로 2~3개의 맞춤 추천차를 구성합니다.
  */
 export function createSignatureBlend(
   bodyType: MomBtiType,
@@ -57,51 +58,60 @@ export function createSignatureBlend(
 ): SignatureTeaBlend {
   const bodyInfo = MOM_BTI_TYPES[bodyType];
 
-  // 1. Base (50%) - 체질에 따른 기본 중심 재료
-  let baseTea = '캐모마일꽃차';
+  // 1. Base (50%) - 체질에 따른 기본 중심 재료 (각 체질별 Base 꽃차 2종 + Blending 차 1종, 총 3개 추천)
+  let baseTeas: string[] = ['캐모마일꽃차', '맨드라미꽃차', '레몬그라스차'];
   switch (bodyType) {
     case 'SUN':
-      baseTea = '맨드라미꽃차 & 목련꽃차';
+      baseTeas = ['맨드라미꽃차 (Base)', '캐모마일꽃차 (Base)', '레몬그라스차 (Blending)'];
       break;
     case 'FOREST':
-      baseTea = '유기농 연잎차 & 국화꽃차';
+      baseTeas = ['목련꽃차 (Base)', '국화차 (Base)', '도라지차 (Blending)'];
       break;
     case 'WIND':
-      baseTea = '캐모마일꽃차 & 구기자열매차';
+      baseTeas = ['메리골드꽃차 (Base)', '금어초꽃차 (Base)', '구기자차 (Blending)'];
       break;
     case 'WARM':
-      baseTea = '붉은 장미꽃차 & 레몬그라스';
+      baseTeas = ['구절초꽃차 (Base)', '목련꽃차 (Base)', '생강차 (Blending)'];
       break;
   }
+  const baseTea = baseTeas.join(', ');
 
-  // 2. Taste (30%) - 취향 향/맛에 따른 덖음 보조 재료
-  let tasteTea = '팬지꽃차 & 금어초';
+  // 2. Taste (30%) - 취향 향/맛에 따른 덖음 보조 재료 (2~3개 추천)
+  let tasteTeas: string[] = ['팬지꽃차', '금어초꽃차', '장미꽃차'];
   if (taste.scent === 'FLORAL') {
-    tasteTea = '만개한 팬지꽃차 & 금어초 플로럴 블렌드';
+    tasteTeas =
+      taste.flavor === 'SWEET'
+        ? ['장미꽃차', '팬지꽃차', '매화차']
+        : ['팬지꽃차', '금어초꽃차', '장미꽃차'];
   } else if (taste.scent === 'HERBAL') {
-    tasteTea = '청량한 제주 청귤잎 & 페퍼민트 허브 블렌드';
+    tasteTeas =
+      taste.flavor === 'SPICY'
+        ? ['생강나무꽃차', '레몬그라스차', '목련꽃차']
+        : ['캐모마일꽃차', '레몬그라스차', '연잎차'];
   } else if (taste.scent === 'CITRUS') {
-    tasteTea = '햇살 머금은 청귤 & 진피 시트러스 블렌드';
+    tasteTeas = ['청귤차', '진피차', '매화차'];
   } else {
-    tasteTea = '덖은 우엉 & 둥굴레 구수한 우디 블렌드';
+    tasteTeas = ['우엉차', '도라지차', '겨우살이차'];
   }
+  const tasteTea = tasteTeas.join(', ');
 
-  // 3. Condition (20%) - 얼굴 분석 및 오늘의 컨디션 웰니스 포인트 재료
-  let conditionTea = '싱그러운 페퍼민트 & 청귤 포인트';
+  // 3. Condition (20%) - 얼굴 분석 및 오늘의 컨디션 웰니스 포인트 재료 (2~3개 추천)
+  let conditionTeas: string[] = ['레몬그라스차', '청귤차', '목련꽃차'];
   let keywordName = 'REFRESH';
   if (condition.keyword === 'CALM') {
-    conditionTea = '마음을 비워주는 백목련 & 라벤더 포인트';
+    conditionTeas = ['캐모마일꽃차', '팬지꽃차', '연잎차'];
     keywordName = 'CALM';
   } else if (condition.keyword === 'WARM') {
-    conditionTea = '훈훈한 생강나무꽃 & 계피 포인트';
+    conditionTeas = ['생강차', '쑥차', '구절초꽃차'];
     keywordName = 'WARM';
   } else if (condition.keyword === 'BALANCE') {
-    conditionTea = '생기를 정돈하는 비트 & 도라지 포인트';
+    conditionTeas = ['구기자차', '비트차', '도라지차'];
     keywordName = 'BALANCE';
   } else {
-    conditionTea = '맑고 청량한 페퍼민트 & 청귤 포인트';
+    conditionTeas = ['레몬그라스차', '청귤차', '목련꽃차'];
     keywordName = 'REFRESH';
   }
+  const conditionTea = conditionTeas.join(', ');
 
   // 시그니처 티의 상징적 명칭 조합
   const tasteLabel = taste.scent === 'FLORAL' ? '플로럴' : taste.scent === 'CITRUS' ? '시트러스' : taste.scent === 'HERBAL' ? '포레스트' : '클래식';
@@ -119,20 +129,23 @@ export function createSignatureBlend(
     finalColor = '#F59E0B';
   }
 
-  const finalDescription = `${userName} 님의 ${bodyInfo.title} 체질 기운(50%)을 든든하게 받치고, 선호하시는 ${taste.scent === 'FLORAL' ? '꽃향' : '싱그러운 아로마'}(30%)와 오늘 얼굴 분석으로 도출된 ${keywordName} 에너지(20%)를 조화롭게 완성한 세상에 단 하나뿐인 블렌딩입니다.`;
+  const finalDescription = `${userName} 님의 ${bodyInfo.title} 체질 기운(50%: ${baseTea})을 든든하게 받치고, 선호하시는 ${taste.scent === 'FLORAL' ? '꽃향' : '싱그러운 아로마'} 취향(30%: ${tasteTea})과 오늘 얼굴 분석으로 도출된 ${keywordName} 에너지(20%: ${conditionTea})를 각 파트별 3종씩 조화롭게 완성한 세상에 단 하나뿐인 블렌딩입니다.`;
 
   return {
     userName,
     createdAt: new Date().toISOString(),
     baseType: bodyType,
     baseTea,
+    baseTeas,
     baseRatio: 50,
     tasteScent: taste.scent,
     tasteFlavor: taste.flavor,
     tasteTea,
+    tasteTeas,
     tasteRatio: 30,
     conditionKeyword: keywordName,
     conditionTea,
+    conditionTeas,
     conditionRatio: 20,
     finalTeaName,
     finalColor,

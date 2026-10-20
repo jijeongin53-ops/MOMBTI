@@ -42,15 +42,19 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* 브랜드 로고 */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-full bg-tea-forest/10 flex items-center justify-center text-tea-forest group-hover:bg-tea-forest group-hover:text-white transition-all shadow-sm">
-            <Flower2 className="w-5 h-5 transition-transform group-hover:rotate-45" />
+          <div className="h-11 px-2.5 rounded-xl bg-white border border-tea-sand/80 flex items-center justify-center shadow-sm overflow-hidden">
+            <img
+              src="/logo.jpg"
+              alt="FLUNITEA 회사 로고"
+              className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
+            />
           </div>
-          <div>
-            <span className="font-serif text-2xl font-bold tracking-wider text-tea-dark block leading-none">
+          <div className="hidden sm:block">
+            <span className="font-serif text-lg font-bold tracking-wider text-tea-dark block leading-none">
               FLUNITEA
             </span>
-            <span className="text-[11px] font-medium tracking-widest text-tea-forest uppercase">
-              {t('brandTagline')}
+            <span className="text-[10px] font-semibold tracking-wider text-tea-forest">
+              Discover Your Body Type, Find Your Tea!
             </span>
           </div>
         </Link>

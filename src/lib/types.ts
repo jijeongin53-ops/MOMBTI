@@ -19,11 +19,12 @@ export interface MomBtiInfo {
 export interface RecommendedTea {
   id: string;
   name: string;          // 예: 캐모마일꽃차
+  category?: 'BASE' | 'BLENDING'; // Base 꽃차 또는 Blending 차 구분
   botanicalName?: string;
   benefits: string[];    // 효능 (예: 심신 안정, 숙면 유도, 소화 촉진)
   flavorNotes: string[]; // 향과 맛 (예: 달콤한 사과향, 부드러운 목넘김)
   steepColor: string;    // 수색 헥스코드/그라데이션
-  steepTemp: string;     // 우리는 온도 (예: 90℃)
+  steepTemp: string;     // 우리는 온도 (예: 90~100℃)
   steepTime: string;     // 우리는 시간 (예: 3분)
   description: string;
   imageUrl?: string;
@@ -71,15 +72,18 @@ export interface SignatureTeaBlend {
   // 1. Base (50%)
   baseType: MomBtiType;
   baseTea: string;
+  baseTeas?: string[]; // 체질별 추천차 2~3개
   baseRatio: number; // 50%
   // 2. Taste (30%)
   tasteScent: string;
   tasteFlavor: string;
   tasteTea: string;
+  tasteTeas?: string[]; // 취향별 추천차 2~3개
   tasteRatio: number; // 30%
   // 3. Condition (20%)
   conditionKeyword: string;
   conditionTea: string;
+  conditionTeas?: string[]; // 컨디션별 추천차 2~3개
   conditionRatio: number; // 20%
   // 종합 브루잉 가이드 및 수색
   finalTeaName: string;

@@ -13,12 +13,21 @@ export default function Footer() {
           {/* 브랜드 소개 */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-tea-forest/20 text-tea-forest flex items-center justify-center">
-                <Flower2 className="w-5 h-5 text-emerald-400" />
+              <div className="h-11 px-3 rounded-xl bg-white flex items-center justify-center shadow-sm">
+                <img
+                  src="/logo.jpg"
+                  alt="FLUNITEA 회사 로고"
+                  className="h-8 w-auto object-contain"
+                />
               </div>
-              <span className="font-serif text-2xl font-bold tracking-wider text-white">
-                FLUNITEA
-              </span>
+              <div>
+                <span className="font-serif text-xl font-bold tracking-wider text-white block leading-none">
+                  FLUNITEA
+                </span>
+                <span className="text-[11px] text-emerald-400 font-medium tracking-wide">
+                  Discover Your Body Type, Find Your Tea!
+                </span>
+              </div>
             </div>
             <p className="text-tea-sand/70 max-w-md leading-relaxed text-xs sm:text-sm">
               {t('footerDesc')}
@@ -105,7 +114,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 text-center text-xs text-tea-sand/40">
-          © {new Date().getFullYear()} FLUNITEA Inc. All rights reserved. Designed for your inner wellness.
+          © {new Date().getFullYear()} FLUNITEA Inc. All rights reserved. Discover Your Body Type, Find Your Tea!
         </div>
       </div>
     </footer>

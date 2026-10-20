@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sparkles, Droplets, Flame, Clock, Heart, Award } from 'lucide-react';
+import { Sparkles, Droplets, Flame, Clock, Heart, Award, Flower2 } from 'lucide-react';
 import { SignatureTeaBlend } from '@/lib/types';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
 import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
@@ -18,6 +18,17 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
   const currentBodyName = i18nBody?.name[language] || bodyInfo.name;
   const currentBodyTitle = i18nBody?.title[language] || bodyInfo.title;
   const currentBodyDesc = i18nBody?.description[language] || bodyInfo.description;
+
+  // 각 파트별 2~3개 추천차 목록 추출 (기존 저장 데이터 하위 호환 포함)
+  const baseTeaList = blend.baseTeas && blend.baseTeas.length > 0
+    ? blend.baseTeas
+    : blend.baseTea.split(/[,&]/).map((s) => s.trim()).filter(Boolean);
+  const tasteTeaList = blend.tasteTeas && blend.tasteTeas.length > 0
+    ? blend.tasteTeas
+    : blend.tasteTea.split(/[,&]/).map((s) => s.trim()).filter(Boolean);
+  const conditionTeaList = blend.conditionTeas && blend.conditionTeas.length > 0
+    ? blend.conditionTeas
+    : blend.conditionTea.split(/[,&]/).map((s) => s.trim()).filter(Boolean);
 
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-lg border border-tea-sand/80 relative overflow-hidden">
@@ -104,7 +115,7 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
           </p>
         </div>
 
-        {/* 우측: 3요소 비율 카드 및 설명 */}
+        {/* 우측: 3요소 비율 카드 및 설명 (각 파트별 2~3개 추천차 표시) */}
         <div className="lg:col-span-7 space-y-4">
           {/* 1. Base 50% */}
           <div className="p-4 rounded-2xl border-2 border-tea-forest/20 bg-tea-cream/60 flex items-start gap-4">
@@ -122,10 +133,21 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 </h4>
                 <span className="text-[11px] font-semibold text-tea-forest">{t('visualizerBaseLabel')}</span>
               </div>
-              <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                {t('ratioBaseDesc')}: <strong className="text-tea-dark">{blend.baseTea}</strong>
+              <p className="text-[11px] text-tea-dark/70 mt-1">
+                체질 맞춤 추천차 (2~3종):
               </p>
-              <p className="text-[11px] text-tea-dark/60 mt-0.5">
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {baseTeaList.map((teaName, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-tea-forest/30 text-tea-dark text-xs font-bold shadow-sm"
+                  >
+                    <Flower2 className="w-3 h-3 text-tea-forest" />
+                    {teaName}
+                  </span>
+                ))}
+              </div>
+              <p className="text-[11px] text-tea-dark/60 mt-1.5">
                 {currentBodyDesc.slice(0, 75)}...
               </p>
             </div>
@@ -144,9 +166,20 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 </h4>
                 <span className="text-[11px] font-semibold text-rose-600">{t('visualizerTasteLabel')}</span>
               </div>
-              <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                {t('ratioTasteDesc')}: <strong className="text-tea-dark">{blend.tasteTea}</strong>
+              <p className="text-[11px] text-tea-dark/70 mt-1">
+                취향 맞춤 추천차 (2~3종):
               </p>
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {tasteTeaList.map((teaName, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-pink-300 text-tea-dark text-xs font-bold shadow-sm"
+                  >
+                    <Sparkles className="w-3 h-3 text-pink-500" />
+                    {teaName}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -163,9 +196,20 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
                 </h4>
                 <span className="text-[11px] font-semibold text-amber-700">{t('visualizerConditionLabel')}</span>
               </div>
-              <p className="text-xs text-tea-dark/80 mt-1 font-medium">
-                {t('ratioConditionDesc')}: <strong className="text-tea-dark">{blend.conditionTea}</strong>
+              <p className="text-[11px] text-tea-dark/70 mt-1">
+                컨디션 맞춤 추천차 (2~3종):
               </p>
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {conditionTeaList.map((teaName, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-amber-300 text-tea-dark text-xs font-bold shadow-sm"
+                  >
+                    <Droplets className="w-3 h-3 text-amber-600" />
+                    {teaName}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -176,7 +220,7 @@ export default function BlendingVisualizer({ blend }: BlendingVisualizerProps) {
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Flame className="w-4 h-4 text-amber-600 mx-auto mb-1" />
           <span className="text-[11px] text-tea-dark/60 block">{t('visualizerBrewTemp')}</span>
-          <span className="text-xs font-bold text-tea-dark">90℃ ~ 95℃</span>
+          <span className="text-xs font-bold text-tea-dark">90~100℃</span>
         </div>
         <div className="p-3 bg-tea-sand/30 rounded-2xl">
           <Clock className="w-4 h-4 text-blue-600 mx-auto mb-1" />

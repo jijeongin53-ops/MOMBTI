@@ -32,16 +32,29 @@ export default function TeaCard({ tea, isPrimary = false }: TeaCardProps) {
       }`}
     >
       {/* 대표 추천 뱃지 */}
-      {isPrimary && (
-        <div className="absolute top-4 right-4 inline-flex items-center gap-1 bg-tea-forest text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-          <Sparkles className="w-3 h-3" />
-          PRIMARY
-        </div>
-      )}
+      <div className="absolute top-4 right-4 flex items-center gap-1.5">
+        {tea.category && (
+          <span
+            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${
+              tea.category === 'BASE'
+                ? 'bg-amber-500/15 text-amber-800 border border-amber-500/30'
+                : 'bg-emerald-500/15 text-emerald-800 border border-emerald-500/30'
+            }`}
+          >
+            {tea.category === 'BASE' ? 'Base 꽃차' : 'Blending 차'}
+          </span>
+        )}
+        {isPrimary && (
+          <div className="inline-flex items-center gap-1 bg-tea-forest text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
+            <Sparkles className="w-3 h-3" />
+            PRIMARY
+          </div>
+        )}
+      </div>
 
       <div>
         {/* 상단: 수색 표시 및 차 타이틀 */}
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-3 mb-3 pr-20">
           <div
             className="w-10 h-10 rounded-2xl shadow-inner border border-white/60 flex items-center justify-center flex-shrink-0"
             style={{ backgroundColor: tea.steepColor }}

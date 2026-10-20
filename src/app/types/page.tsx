@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Sparkles, Flower2, ArrowRight } from 'lucide-react';
+import { Sparkles, Flower2, ArrowRight, Droplets } from 'lucide-react';
 import { MOM_BTI_TYPES } from '@/data/teaTypes';
 import { I18N_MOM_BTI_TYPES } from '@/data/teaTypesI18n';
 import { MomBtiType } from '@/lib/types';
@@ -22,6 +22,9 @@ export default function TypesGuidePage() {
   const currentTagline = i18nInfo?.tagline[language] || baseInfo.tagline;
   const currentDesc = i18nInfo?.description[language] || baseInfo.description;
   const currentTeas = i18nInfo?.recommendedTeas || baseInfo.recommendedTeas;
+
+  const baseTeas = currentTeas.filter((tea: any) => !tea.category || tea.category === 'BASE');
+  const blendingTeas = currentTeas.filter((tea: any) => tea.category === 'BLENDING');
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 max-w-6xl mx-auto space-y-12">
@@ -109,17 +112,42 @@ export default function TypesGuidePage() {
           </p>
         </div>
 
-        {/* 추천 꽃차 리스트 */}
-        <div className="pt-4">
-          <h3 className="font-serif text-lg font-bold text-tea-dark mb-4 flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            {currentName} {t('recommendedTeasTitle')}
-          </h3>
+        {/* 추천 꽃차 리스트 (Base 꽃차 & Blending 차 구분) */}
+        <div className="pt-4 space-y-8">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-serif text-lg font-bold text-tea-dark flex items-center gap-2">
+                <Droplets className="w-4 h-4 text-tea-forest" />
+                {currentName} Base 꽃차 (4종)
+              </h3>
+              <span className="text-xs font-semibold text-amber-800 bg-amber-100/80 px-3 py-1 rounded-full">
+                권장 우림 온도: 90~100℃
+              </span>
+            </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {currentTeas.map((tea: any, idx: number) => (
-              <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {baseTeas.map((tea: any, idx: number) => (
+                <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-serif text-lg font-bold text-tea-dark flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-500" />
+                {currentName} Blending 차 (3종)
+              </h3>
+              <span className="text-xs font-semibold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full">
+                권장 우림 온도: 90~100℃
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              {blendingTeas.map((tea: any, idx: number) => (
+                <TeaCard key={tea.id} tea={tea} isPrimary={idx === 0} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
